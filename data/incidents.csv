@@ -1,0 +1,91 @@
+incident_id,voyage_id,type,status,severity,reported_utc,source,attributed_delay_hours
+INC-201,VG-1042,Engine cooling fault,Confirmed,Medium,2026-10-06T06:00Z,Master's report,12
+INC-202,VG-1042,Adverse weather / rerouting,Reported,Unknown,2026-10-13T09:00Z,Crew message,
+INC-203,VG-1042,Customs documentation query,Under review,Low,2026-10-25T16:00Z,Agent email,
+INC-118,VG-0981,Engine cooling fault,Confirmed,Medium,2026-08-02T04:00Z,Master's report,9
+INC-119,VG-0981,Bunkering delay,Confirmed,Low,2026-07-27T10:00Z,Port agent,3
+INC-077,VG-0866,Engine cooling fault,Confirmed,Medium,2026-05-09T13:00Z,Master's report,10
+INC-041,VG-0712,Engine cooling fault,Dismissed,Low,2026-03-05T08:00Z,Crew message,
+INC-094,VG-0844,Engine cooling fault,Confirmed,Low,2026-06-03T02:00Z,Technical manager,7
+INC-160,VG-1011,Engine cooling fault,Confirmed,Medium,2026-09-10T05:00Z,Master's report,14
+INC-221,VG-1088,Hull fouling / speed loss,Confirmed,Medium,2026-10-18T07:00Z,Technical manager,33
+INC-224,VG-1091,Auxiliary engine fault,Reported,Medium,2026-10-24T22:00Z,Crew message,
+INC-219,VG-1102,Main engine fuel pump fault,Reported,Medium,2026-10-19T15:00Z,Master's report,
+INC-300,VG-2095,Hull fouling / speed loss,Confirmed,Low,2026-06-30T08:00Z,Master's report,0
+INC-301,VG-2042,Mooring line failure,Confirmed,Low,2026-06-24T15:00Z,Crew message,2
+INC-302,VG-2078,Hull fouling / speed loss,Confirmed,High,2026-06-27T00:00Z,Port agent,4
+INC-303,VG-2033,Hull fouling / speed loss,Confirmed,Low,2026-06-15T13:00Z,Technical manager,3
+INC-304,VG-2004,Crew change delay,Reported,Low,2026-07-23T00:00Z,Agent email,
+INC-305,VG-2012,Medical evacuation,Confirmed,Medium,2026-09-10T01:00Z,Crew message,0
+INC-306,VG-2030,Auxiliary engine fault,Reported,High,2026-05-31T17:00Z,Agent email,
+INC-307,VG-2087,Fog / restricted visibility,Confirmed,Medium,2026-07-23T22:00Z,Technical manager,0
+INC-308,VG-2074,Port labour action,Confirmed,Low,2026-05-19T07:00Z,Agent email,4
+INC-309,VG-2076,Pilot boarding delay,Confirmed,Medium,2026-07-12T20:00Z,Agent email,6
+INC-310,VG-2003,Hull fouling / speed loss,Reported,High,2026-07-07T05:00Z,Port agent,
+INC-311,VG-2035,Crew change delay,Confirmed,Medium,2026-07-26T23:00Z,Agent email,2
+INC-312,VG-2089,Pilot boarding delay,Confirmed,Low,2026-05-20T03:00Z,Port agent,6
+INC-313,VG-2006,Crane breakdown,Confirmed,Medium,2026-07-11T02:00Z,Agent email,0
+INC-314,VG-2023,Fog / restricted visibility,Reported,High,2026-05-07T18:00Z,Agent email,
+INC-315,VG-2061,Pilot boarding delay,Under review,Low,2026-05-27T15:00Z,Crew message,
+INC-316,VG-2067,Adverse weather / rerouting,Dismissed,Low,2026-06-27T13:00Z,Master's report,
+INC-317,VG-2057,Adverse weather / rerouting,Reported,Low,2026-08-13T02:00Z,Port agent,
+INC-318,VG-2036,Pilot boarding delay,Reported,Low,2026-05-27T01:00Z,Master's report,
+INC-319,VG-2024,Fog / restricted visibility,Confirmed,High,2026-05-21T03:00Z,Port agent,0
+INC-320,VG-2075,Auxiliary engine fault,Confirmed,Low,2026-06-16T02:00Z,Port agent,0
+INC-321,VG-2056,Auxiliary engine fault,Confirmed,Low,2026-07-15T11:00Z,Technical manager,4
+INC-322,VG-2063,Mooring line failure,Confirmed,Medium,2026-07-13T14:00Z,Crew message,6
+INC-323,VG-2092,Documentation query,Reported,Medium,2026-05-22T05:00Z,Technical manager,
+INC-324,VG-2082,Fog / restricted visibility,Confirmed,Medium,2026-08-08T23:00Z,Agent email,2
+INC-325,VG-2045,Documentation query,Reported,Medium,2026-07-15T11:00Z,Agent email,
+INC-326,VG-2053,Bunkering delay,Under review,Low,2026-07-30T09:00Z,Technical manager,
+INC-327,VG-2043,Adverse weather / rerouting,Confirmed,Medium,2026-07-14T11:00Z,Agent email,4
+INC-328,VG-2096,Mooring line failure,Confirmed,Low,2026-07-19T04:00Z,Agent email,8
+INC-329,VG-2014,Crane breakdown,Under review,Low,2026-06-27T09:00Z,Crew message,
+INC-330,VG-2021,Port labour action,Confirmed,Medium,2026-05-23T16:00Z,Port agent,0
+INC-331,VG-2070,Mooring line failure,Reported,Low,2026-07-04T23:00Z,Agent email,
+INC-332,VG-2071,Adverse weather / rerouting,Confirmed,Low,2026-07-30T15:00Z,Crew message,2
+INC-333,VG-2064,Crew change delay,Confirmed,Low,2026-08-09T14:00Z,Technical manager,6
+INC-334,VG-2019,Fog / restricted visibility,Under review,Medium,2026-07-20T12:00Z,Crew message,
+INC-335,VG-2066,Documentation query,Dismissed,Medium,2026-06-19T13:00Z,Crew message,
+INC-336,VG-2073,Documentation query,Under review,Low,2026-05-03T13:00Z,Port agent,
+INC-337,VG-2026,Adverse weather / rerouting,Under review,High,2026-05-08T19:00Z,Crew message,
+INC-338,VG-2065,Pilot boarding delay,Confirmed,Medium,2026-05-30T10:00Z,Master's report,6
+INC-339,VG-2049,Auxiliary engine fault,Confirmed,High,2026-07-16T07:00Z,Crew message,4
+INC-340,VG-2079,Documentation query,Confirmed,Low,2026-07-10T20:00Z,Technical manager,3
+INC-341,VG-2090,Port labour action,Confirmed,Low,2026-06-18T16:00Z,Agent email,8
+INC-342,VG-2091,Crane breakdown,Dismissed,High,2026-07-02T03:00Z,Port agent,
+INC-343,VG-2084,Pilot boarding delay,Confirmed,Medium,2026-06-05T15:00Z,Master's report,0
+INC-344,VG-2081,Crew change delay,Confirmed,High,2026-07-03T05:00Z,Crew message,6
+INC-345,VG-2017,Adverse weather / rerouting,Reported,High,2026-06-09T00:00Z,Port agent,
+INC-346,VG-2059,Mooring line failure,Under review,Low,2026-06-02T17:00Z,Technical manager,
+INC-347,VG-2008,Pilot boarding delay,Confirmed,Medium,2026-08-05T01:00Z,Agent email,4
+INC-348,VG-2060,Fog / restricted visibility,Confirmed,Low,2026-06-23T11:00Z,Crew message,3
+INC-349,VG-2094,Pilot boarding delay,Confirmed,High,2026-06-21T09:00Z,Port agent,2
+INC-350,VG-2001,Documentation query,Dismissed,Low,2026-05-11T06:00Z,Port agent,
+INC-351,VG-2062,Auxiliary engine fault,Reported,Low,2026-06-16T00:00Z,Crew message,
+INC-352,VG-2086,Auxiliary engine fault,Confirmed,Low,2026-06-26T00:00Z,Technical manager,3
+INC-353,VG-2055,Port labour action,Confirmed,Medium,2026-06-18T13:00Z,Technical manager,3
+INC-354,VG-2027,Crew change delay,Confirmed,Low,2026-06-11T11:00Z,Crew message,0
+INC-355,VG-2093,Bunkering delay,Reported,Low,2026-06-03T09:00Z,Master's report,
+INC-356,VG-2013,Port labour action,Confirmed,Medium,2026-06-08T17:00Z,Port agent,0
+INC-357,VG-2034,Adverse weather / rerouting,Confirmed,High,2026-06-28T20:00Z,Master's report,3
+INC-358,VG-2097,Documentation query,Reported,High,2026-08-11T05:00Z,Technical manager,
+INC-359,VG-2032,Medical evacuation,Confirmed,Low,2026-07-20T21:00Z,Master's report,4
+INC-360,VG-2029,Mooring line failure,Reported,Medium,2026-07-22T17:00Z,Master's report,
+INC-361,VG-2069,Hull fouling / speed loss,Confirmed,High,2026-06-20T08:00Z,Master's report,6
+INC-362,VG-2068,Documentation query,Confirmed,Low,2026-07-22T01:00Z,Crew message,0
+INC-363,VG-2018,Bunkering delay,Reported,Low,2026-07-08T23:00Z,Technical manager,
+INC-364,VG-2009,Medical evacuation,Reported,Medium,2026-06-30T09:00Z,Technical manager,
+INC-365,VG-2077,Medical evacuation,Confirmed,High,2026-06-02T06:00Z,Master's report,4
+INC-366,VG-2015,Mooring line failure,Under review,Low,2026-07-19T19:00Z,Agent email,
+INC-367,VG-2037,Hull fouling / speed loss,Under review,Medium,2026-06-17T11:00Z,Agent email,
+INC-368,VG-2083,Fog / restricted visibility,Confirmed,High,2026-05-16T06:00Z,Crew message,2
+INC-369,VG-2016,Mooring line failure,Confirmed,High,2026-05-14T03:00Z,Master's report,3
+INC-370,VG-2080,Bunkering delay,Under review,High,2026-05-27T22:00Z,Crew message,
+INC-371,VG-2047,Medical evacuation,Under review,Low,2026-09-14T08:00Z,Technical manager,
+INC-372,VG-2051,Mooring line failure,Confirmed,Low,2026-06-26T07:00Z,Crew message,0
+INC-373,VG-2020,Hull fouling / speed loss,Under review,Low,2026-05-07T20:00Z,Technical manager,
+INC-374,VG-2050,Bunkering delay,Confirmed,Low,2026-08-12T01:00Z,Agent email,0
+INC-375,VG-2054,Bunkering delay,Confirmed,Medium,2026-06-04T01:00Z,Crew message,0
+INC-376,VG-2010,Crane breakdown,Confirmed,Low,2026-07-16T12:00Z,Technical manager,0
+INC-377,VG-2040,Auxiliary engine fault,Dismissed,Low,2026-05-28T09:00Z,Crew message,

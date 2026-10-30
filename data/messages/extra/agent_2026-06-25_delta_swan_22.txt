@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-06-25 12:00 UTC
+Subject: Unlogged event - MV Delta Swan
+
+Please note for MV Delta Swan (voyage 2078): pilot boarding delay on 25 Jun, approx 2 h lost. Not yet logged in incident system.

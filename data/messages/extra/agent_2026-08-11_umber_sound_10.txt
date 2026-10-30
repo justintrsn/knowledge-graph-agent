@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-08-11 10:00 UTC
+Subject: Status Umber Sound
+
+Umber Sound voyage 2050: cargo operations proceeding normally. ETA Port of Colombo unchanged.

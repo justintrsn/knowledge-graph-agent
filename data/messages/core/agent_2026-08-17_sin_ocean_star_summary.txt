@@ -1,0 +1,7 @@
+From: Lion City Agencies, Singapore
+To: operations@ops-desk.example
+Date: 2026-08-17 08:00 UTC
+Subject: Voyage summary VG-0981 Ocean Star
+
+Ocean Star completed voyage 0981 Rotterdam-Singapore, berthed 14 Aug 16:00 UTC. 9 h lost to a seawater cooling pump failure on 2 Aug,
+plus 3 h bunkering delay at Port Said. All cargo discharged.

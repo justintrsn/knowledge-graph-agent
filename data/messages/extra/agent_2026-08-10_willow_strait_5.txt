@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-08-10 12:00 UTC
+Subject: Unlogged event - MV Willow Strait
+
+Please note for MV Willow Strait (voyage 2057): mooring line failure on 10 Aug, approx 4 h lost. Not yet logged in incident system.

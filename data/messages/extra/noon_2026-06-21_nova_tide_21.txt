@@ -1,0 +1,6 @@
+From: Master, Nova Tide
+To: operations@ops-desk.example
+Date: 2026-06-21 06:00 UTC
+Subject: Noon report Nova Tide
+
+Position 01-00N 086-05E. Avg speed 13.9 kn. Nothing to report.

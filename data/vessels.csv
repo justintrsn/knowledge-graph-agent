@@ -1,0 +1,41 @@
+vessel_id,name,imo,type,vessel_class,technical_manager
+V001,MV Ocean Star,9876543,Container ship,Meridian 8500,Harbourline Ship Management
+V002,MV Blue Horizon,9123456,Container ship,Atlas 6000,Nordwave Marine
+V003,MV Ocean Starlight,9654321,Container ship,Atlas 6000,Nordwave Marine
+V004,MV Ocean Pearl,9876551,Container ship,Meridian 8500,Harbourline Ship Management
+V005,MV Coral Crest,9876569,Container ship,Meridian 8500,Eastpoint Technical Services
+V006,MV Silver Tern,9512340,Container ship,Kestrel 4000,Harbourline Ship Management
+V007,MV Arctic Fern,9488120,Container ship,Atlas 6000,Nordwave Marine
+V008,MV Kestrel Bay,9512358,Container ship,Kestrel 4000,Eastpoint Technical Services
+V009,MV Rio Verde,9433017,Container ship,Atlas 6000,Sulamar Gestão Naval
+V010,MV Northern Lark,9512366,Container ship,Kestrel 4000,Nordwave Marine
+V011,MV Amber Coast,9488138,Container ship,Atlas 6000,Eastpoint Technical Services
+V012,MV Celtic Dawn,9876577,Container ship,Meridian 8500,Nordwave Marine
+V013,MV Golden Wake,9416739,Container ship,Atlas 6000,Sulamar Gestão Naval
+V014,MV Harbor Lynx,9556787,Container ship,Kestrel 4000,Eastpoint Technical Services
+V015,MV Iron Gull,9407473,Feeder,Coastal 1700,Nordwave Marine
+V016,MV Jade Current,9742417,Container ship,Atlas 6000,Nordwave Marine
+V017,MV Lunar Bay,9398246,Container ship,Kestrel 4000,Eastpoint Technical Services
+V018,MV Misty Fjord,9829903,Feeder,Coastal 1700,Nordwave Marine
+V019,MV Nova Tide,9888508,Container ship,Kestrel 4000,Harbourline Ship Management
+V020,MV Orca Point,9739898,Container ship,Kestrel 4000,Bluefin Fleet Services
+V021,MV Pacific Reed,9591704,Container ship,Atlas 6000,Eastpoint Technical Services
+V022,MV Quiet Cove,9743143,Container ship,Meridian 8500,Sulamar Gestão Naval
+V023,MV Red Lantern,9463032,Container ship,Kestrel 4000,Sulamar Gestão Naval
+V024,MV Sable Reef,9407175,Container ship,Atlas 6000,Bluefin Fleet Services
+V025,MV Tidal Ember,9401414,Container ship,Meridian 8500,Sulamar Gestão Naval
+V026,MV Umber Sound,9577370,Container ship,Atlas 6000,Bluefin Fleet Services
+V027,MV Vesta Dune,9862275,Container ship,Atlas 6000,Bluefin Fleet Services
+V028,MV Willow Strait,9382627,Feeder,Coastal 1700,Sulamar Gestão Naval
+V029,MV Yellow Cape,9679201,Feeder,Coastal 1700,Eastpoint Technical Services
+V030,MV Zephyr Isle,9372933,Container ship,Atlas 6000,Eastpoint Technical Services
+V031,MV Amber Quay,9603445,Container ship,Atlas 6000,Eastpoint Technical Services
+V032,MV Breeze Haven,9405907,Bulk carrier,Titan Bulk 82,Sulamar Gestão Naval
+V033,MV Cobalt Ridge,9775435,Container ship,Meridian 8500,Eastpoint Technical Services
+V034,MV Delta Swan,9688162,Container ship,Meridian 8500,Eastpoint Technical Services
+V035,MV Eastern Kite,9579946,Container ship,Atlas 6000,Harbourline Ship Management
+V036,MV Frost Harbour,9479451,Feeder,Coastal 1700,Eastpoint Technical Services
+V037,MV Granite Wave,9471339,Bulk carrier,Titan Bulk 82,Bluefin Fleet Services
+V038,MV Horizon Mist,9583060,Feeder,Coastal 1700,Eastpoint Technical Services
+V039,MV Indigo Shoal,9640035,Container ship,Atlas 6000,Eastpoint Technical Services
+V040,MV Juniper Sea,9333659,Container ship,Meridian 8500,Bluefin Fleet Services

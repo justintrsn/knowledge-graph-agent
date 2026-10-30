@@ -1,0 +1,6 @@
+From: Chief Engineer, Kestrel Bay (crew relay)
+To: operations@ops-desk.example
+Date: 2026-10-24 22:15 UTC
+Subject: aux engine
+
+no.2 aux engine tripped twice today, running on no.1 and no.3. investigating, may need parts in Rotterdam. no speed loss so far.

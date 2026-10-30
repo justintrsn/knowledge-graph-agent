@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-07-07 10:00 UTC
+Subject: Status MV Lunar Bay
+
+MV Lunar Bay voyage 2018: cargo operations proceeding normally. ETA Port Klang unchanged.

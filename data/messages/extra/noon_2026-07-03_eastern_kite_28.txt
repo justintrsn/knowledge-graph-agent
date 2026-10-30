@@ -1,0 +1,6 @@
+From: Master, M/V EASTERN KITE
+To: operations@ops-desk.example
+Date: 2026-07-03 06:00 UTC
+Subject: Noon report M/V EASTERN KITE
+
+Position 09-44N 093-03E. Avg speed 19.2 kn. Nothing to report.

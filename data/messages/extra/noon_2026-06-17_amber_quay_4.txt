@@ -1,0 +1,6 @@
+From: Master, MV Amber Quay
+To: operations@ops-desk.example
+Date: 2026-06-17 06:00 UTC
+Subject: Noon report MV Amber Quay
+
+Position 40-27N 082-27E. Avg speed 16.6 kn. Nothing to report.

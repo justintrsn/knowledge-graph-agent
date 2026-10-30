@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-05-29 10:00 UTC
+Subject: Status MV Eastern Kite
+
+MV Eastern Kite voyage 2080: cargo operations proceeding normally. ETA Port of Shanghai unchanged.

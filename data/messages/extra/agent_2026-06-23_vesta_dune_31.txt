@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-06-23 10:00 UTC
+Subject: Status Vesta Dune
+
+Vesta Dune voyage 2051: cargo operations proceeding normally. ETA Port of Felixstowe unchanged.

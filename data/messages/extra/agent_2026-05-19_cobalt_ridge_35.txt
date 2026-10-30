@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-05-19 10:00 UTC
+Subject: Status IMO 9775435
+
+IMO 9775435 voyage 2074: cargo operations proceeding normally. ETA Port Said unchanged.

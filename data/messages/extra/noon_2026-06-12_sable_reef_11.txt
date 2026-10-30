@@ -1,0 +1,6 @@
+From: Master, IMO 9407175
+To: operations@ops-desk.example
+Date: 2026-06-12 06:00 UTC
+Subject: Noon report IMO 9407175
+
+Position 15-14N 094-08E. Avg speed 14.0 kn. Nothing to report.

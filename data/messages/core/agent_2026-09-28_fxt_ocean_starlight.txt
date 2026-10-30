@@ -1,0 +1,7 @@
+From: Harwich Port Services, Felixstowe
+To: operations@ops-desk.example
+Date: 2026-09-28 09:00 UTC
+Subject: Ocean Starlight berthed - delay summary
+
+Ocean Starlight (IMO 9654321) berthed 27 Sep 22:00 UTC, 16 h behind original ETA. Delay due to engine cooling fault mid-voyage
+(confirmed by master) and late pilot. Sailing for New York on 2 Oct as planned.

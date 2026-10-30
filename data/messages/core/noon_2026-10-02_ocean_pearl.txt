@@ -1,0 +1,8 @@
+From: Master, M/V OCEAN PEARL
+To: operations@ops-desk.example
+Date: 2026-10-02 06:00 UTC
+Subject: NOON REPORT - OCEAN PEARL - VOY 1050
+
+Position 23-10N 060-02E. HT cooling water outlet temperature high alarm on ME at 0340 LT; load reduced for 6 hours while engineers inspected
+seawater cooling pump. Pump seal leaking, temporary repair made, permanent repair at next port. Approx 6 h lost.
+Master

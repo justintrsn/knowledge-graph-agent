@@ -1,0 +1,10 @@
+From: Van Dijk Shipping Agency, Rotterdam
+To: operations@ops-desk.example
+Date: 2026-10-25 16:20 UTC
+Subject: IMO 9876543 - customs query on cargo manifest
+
+Dear Ops,
+Dutch Customs have raised a query on 3 lines of the cargo manifest for IMO 9876543 (bill of lading references to follow). Status: under review.
+This affects release of the containers concerned only. It has no effect on berth allocation, which follows the terminal queue.
+Vessel anchored at Maas anchorage since 25 Oct 14:00 UTC. Berth currently scheduled 27 Oct 01:00 UTC.
+Regards, P. van Dijk

@@ -1,0 +1,8 @@
+From: Technical Dept, Harbourline Ship Management
+To: Masters and Chief Engineers, Harbourline fleet
+Date: 2026-10-09 10:00 UTC
+Subject: Fleet bulletin TB-26-14: seawater cooling pump seals, Meridian 8500 class
+
+Following repeated seawater cooling pump mechanical seal failures on Meridian 8500 class vessels this year (Ocean Star, Ocean Pearl),
+all Meridian 8500 vessels under our management must carry two spare seal kits and inspect seals at every port call.
+Root-cause investigation with the pump maker is ongoing. Not yet confirmed whether the Kestrel 4000 class pumps are affected.

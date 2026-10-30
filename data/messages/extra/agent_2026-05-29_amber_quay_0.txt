@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-05-29 12:00 UTC
+Subject: Unlogged event - M/V AMBER QUAY
+
+Please note for M/V AMBER QUAY (voyage 2065): pilot boarding delay on 29 May, approx 5 h lost. Not yet logged in incident system.

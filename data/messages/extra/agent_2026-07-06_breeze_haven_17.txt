@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-07-06 12:00 UTC
+Subject: Unlogged event - MV Breeze Haven
+
+Please note for MV Breeze Haven (voyage 2070): pilot boarding delay on 06 Jul, approx 4 h lost. Not yet logged in incident system.

@@ -1,0 +1,32 @@
+[project]
+name = "knowledge-graph-agent"
+version = "0.1.0"
+description = "Operations assistant that explains ship delays from a knowledge graph, citing its evidence"
+readme = "README.md"
+authors = [
+    { name = "jstntrsn", email = "justin.trisno@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.3,<3",
+    "neo4j>=6.4,<7",
+    "pydantic>=2,<3",
+    "python-dotenv",
+    "pyyaml",
+    "typer",
+    "tzdata",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[project.scripts]
+kg = "knowledge_graph_agent.cli:app"
+knowledge-graph-agent = "knowledge_graph_agent.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+# Standalone project: stops uv from joining a workspace in a parent folder.
+[tool.uv.workspace]

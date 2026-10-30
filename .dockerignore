@@ -1,0 +1,9 @@
+.git
+.venv
+.claude
+.specify
+specs
+outputs
+cache
+.env
+*.pdf

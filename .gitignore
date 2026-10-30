@@ -1,0 +1,8 @@
+.claude/
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+AI Engineer Assessment KG & LLM Agent.pdf
+.specify/
+specs/

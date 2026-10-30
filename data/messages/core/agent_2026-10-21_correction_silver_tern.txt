@@ -1,0 +1,7 @@
+From: Technical Dept, Harbourline Ship Management
+To: operations@ops-desk.example
+Date: 2026-10-21 14:00 UTC
+Subject: Correction: Silver Tern June cooling incident
+
+Correction to our earlier report on MV Silver Tern (voyage 0844, June): the cooling fault was in the auxiliary engine fresh water cooler,
+not the main engine seawater pump. It is not related to bulletin TB-26-14. Delay attribution of 7 h unchanged.

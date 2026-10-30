@@ -1,0 +1,16 @@
+port_code,name,country,timezone
+SGSIN,Port of Singapore,Singapore,Asia/Singapore
+NLRTM,Port of Rotterdam,Netherlands,Europe/Amsterdam
+DEHAM,Port of Hamburg,Germany,Europe/Berlin
+BEANR,Port of Antwerp-Bruges,Belgium,Europe/Brussels
+GBFXT,Port of Felixstowe,United Kingdom,Europe/London
+CNSHA,Port of Shanghai,China,Asia/Shanghai
+KRPUS,Port of Busan,South Korea,Asia/Seoul
+AEJEA,Jebel Ali,United Arab Emirates,Asia/Dubai
+LKCMB,Port of Colombo,Sri Lanka,Asia/Colombo
+BRSSZ,Port of Santos,Brazil,America/Sao_Paulo
+USNYC,Port of New York and New Jersey,United States,America/New_York
+ESALG,Port of Algeciras,Spain,Europe/Madrid
+EGPSD,Port Said,Egypt,Africa/Cairo
+MYPKG,Port Klang,Malaysia,Asia/Kuala_Lumpur
+INNSA,Nhava Sheva,India,Asia/Kolkata

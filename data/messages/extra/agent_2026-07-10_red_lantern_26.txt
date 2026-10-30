@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-07-10 10:00 UTC
+Subject: Status MV. Red Lantern
+
+MV. Red Lantern voyage 2038: cargo operations proceeding normally. ETA Port of Busan unchanged.

@@ -1,0 +1,15 @@
+snapshot_now: "2026-10-26T12:00:00Z"
+models:
+  extraction: claude-haiku-5-5
+  agent: claude-sonnet-5-5
+  judge: claude-sonnet-5-5
+agent:
+  effort: medium
+  fallbacks: true
+  step_budget: { soft: 5, hard: 10 }
+cypher:
+  max_rows: 200
+  timeout_seconds: 10
+  max_path_length: 6
+messages:
+  include_extra: false

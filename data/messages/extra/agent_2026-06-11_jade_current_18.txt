@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-06-11 12:00 UTC
+Subject: Unlogged event - M/V JADE CURRENT
+
+Please note for M/V JADE CURRENT (voyage 2013): mooring line failure on 11 Jun, approx 4 h lost. Not yet logged in incident system.

@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-06-26 12:00 UTC
+Subject: Unlogged event - MV Orca Point
+
+Please note for MV Orca Point (voyage 2028): mooring line failure on 26 Jun, approx 6 h lost. Not yet logged in incident system.

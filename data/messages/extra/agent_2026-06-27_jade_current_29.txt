@@ -1,0 +1,6 @@
+From: Port agent
+To: operations@ops-desk.example
+Date: 2026-06-27 12:00 UTC
+Subject: Unlogged event - IMO 9742417
+
+Please note for IMO 9742417 (voyage 2014): crane breakdown on 27 Jun, approx 3 h lost. Not yet logged in incident system.

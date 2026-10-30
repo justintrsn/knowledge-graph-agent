@@ -1,0 +1,9 @@
+From: Master, M/V OCEAN STAR
+To: operations@ops-desk.example
+Date: 2026-10-06 06:00 UTC
+Subject: NOON REPORT - M/V OCEAN STAR - VOY 1042
+
+Position 07-12N 078-40E. Course 285. Avg speed last 24h 9.8 kn (planned 17.5).
+Main engine stopped 0130-1330 LT due to seawater cooling pump mechanical seal failure. Spare seal fitted, ME restarted and tested OK.
+Time lost: 12 hours. Engineers monitoring cooling water temperatures.
+Master

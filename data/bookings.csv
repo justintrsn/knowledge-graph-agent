@@ -1,0 +1,401 @@
+booking_id,customer,voyage_id,containers,status,promised_delivery_date
+BK-50001,Halden Retail,VG-1042,40,Confirmed,2026-10-28
+BK-50002,Kaimon Electronics,VG-1042,60,Confirmed,2026-10-28
+BK-50003,Verdant Foods,VG-1042,22,Confirmed,2026-10-28
+BK-50004,Halden Retail,VG-1042,25,Confirmed,2026-10-28
+BK-50005,Lumio Home,VG-1042,18,Confirmed,2026-10-28
+BK-50006,Petra Chemicals,VG-1042,45,Confirmed,2026-10-28
+BK-50007,Kaimon Electronics,VG-1042,30,Confirmed,2026-10-28
+BK-50008,Northgate Auto,VG-1042,50,Rolled to VG-1107,2026-10-28
+BK-50009,Halden Retail,VG-1042,15,Confirmed,2026-10-28
+BK-50010,Lumio Home,VG-1042,12,Confirmed,2026-10-28
+BK-50011,Brightline Apparel,VG-1042,20,Cancelled,2026-10-28
+BK-50012,Halden Retail,VG-0981,35,Confirmed,2026-08-18
+BK-50013,Kaimon Electronics,VG-0981,44,Confirmed,2026-08-18
+BK-50014,Verdant Foods,VG-0981,16,Confirmed,2026-08-18
+BK-50015,Rivera Coffee,VG-0981,28,Confirmed,2026-08-18
+BK-50016,Orbit Solar,VG-0981,31,Confirmed,2026-08-18
+BK-50017,Tamura Optics,VG-2077,45,Cancelled,2026-06-18
+BK-50018,Granada Tiles,VG-2061,28,Confirmed,2026-06-14
+BK-50019,Hexa Components,VG-2096,9,Confirmed,2026-08-07
+BK-50020,Petra Chemicals,VG-2063,45,Rolled to next sailing,2026-08-03
+BK-50021,Mariner Sports,VG-1095,29,Confirmed,2026-11-10
+BK-50022,Valen Steel,VG-2072,4,Confirmed,2026-09-21
+BK-50023,Quanta Tools,VG-2017,50,Confirmed,2026-07-04
+BK-50024,Valen Steel,VG-2047,18,Confirmed,2026-10-02
+BK-50025,Delmar Furniture,VG-2023,16,Rolled to next sailing,2026-05-14
+BK-50026,Kaimon Electronics,VG-2071,55,Confirmed,2026-08-24
+BK-50027,Coastal Pharma,VG-2057,17,Confirmed,2026-09-05
+BK-50028,Jansen Machinery,VG-2055,42,Confirmed,2026-07-08
+BK-50029,Coastal Pharma,VG-2090,51,Confirmed,2026-06-29
+BK-50030,Mariner Sports,VG-2035,17,Confirmed,2026-08-04
+BK-50031,Petra Chemicals,VG-2078,36,Cancelled,2026-07-02
+BK-50032,Fjordline Seafood,VG-2008,40,Confirmed,2026-08-30
+BK-50033,Coastal Pharma,VG-2065,23,Rolled to next sailing,2026-06-14
+BK-50034,Coastal Pharma,VG-2063,30,Confirmed,2026-08-03
+BK-50035,Nimbus Toys,VG-0866,60,Confirmed,2026-05-21
+BK-50036,Mariner Sports,VG-2001,35,Confirmed,2026-06-06
+BK-50037,Unity Medical,VG-2023,37,Confirmed,2026-05-16
+BK-50038,Petra Chemicals,VG-2032,23,Confirmed,2026-08-05
+BK-50039,Korin Textiles,VG-2075,19,Confirmed,2026-07-05
+BK-50040,Unity Medical,VG-2017,33,Rolled to next sailing,2026-07-02
+BK-50041,Isola Beverages,VG-2050,39,Confirmed,2026-09-05
+BK-50042,Delmar Furniture,VG-2028,17,Confirmed,2026-07-16
+BK-50043,Westbrook Books,VG-1033,27,Confirmed,2026-10-20
+BK-50044,Kaimon Electronics,VG-2071,21,Confirmed,2026-08-25
+BK-50045,Kaimon Electronics,VG-2056,59,Confirmed,2026-08-07
+BK-50046,Solenne Cosmetics,VG-2081,46,Confirmed,2026-08-03
+BK-50047,Westbrook Books,VG-2040,25,Confirmed,2026-06-07
+BK-50048,Brightline Apparel,VG-2095,16,Cancelled,2026-07-07
+BK-50049,Zenith Bikes,VG-1095,19,Confirmed,2026-11-12
+BK-50050,Hexa Components,VG-2069,19,Confirmed,2026-06-28
+BK-50051,Hexa Components,VG-2078,33,Confirmed,2026-07-04
+BK-50052,Delmar Furniture,VG-2024,27,Confirmed,2026-06-13
+BK-50053,Lumio Home,VG-2042,55,Cancelled,2026-07-08
+BK-50054,Zenith Bikes,VG-2039,17,Confirmed,2026-08-16
+BK-50055,Nimbus Toys,VG-2031,59,Confirmed,2026-07-13
+BK-50056,Delmar Furniture,VG-1102,39,Rolled to next sailing,2026-11-08
+BK-50057,Everfield Agro,VG-2053,13,Confirmed,2026-08-10
+BK-50058,Nimbus Toys,VG-2008,57,Confirmed,2026-08-29
+BK-50059,Delmar Furniture,VG-2049,52,Confirmed,2026-08-08
+BK-50060,Jansen Machinery,VG-2071,14,Confirmed,2026-08-27
+BK-50061,Petra Chemicals,VG-2024,50,Confirmed,2026-06-12
+BK-50062,Pinecrest Timber,VG-2002,7,Confirmed,2026-06-28
+BK-50063,Valen Steel,VG-2086,46,Confirmed,2026-07-17
+BK-50064,Petra Chemicals,VG-1107,57,Confirmed,2026-11-05
+BK-50065,Halden Retail,VG-1050,17,Confirmed,2026-10-19
+BK-50066,Orbit Solar,VG-2026,44,Confirmed,2026-06-01
+BK-50067,Quanta Tools,VG-2057,35,Confirmed,2026-09-08
+BK-50068,Isola Beverages,VG-2047,4,Confirmed,2026-10-03
+BK-50069,Mariner Sports,VG-2071,22,Confirmed,2026-08-26
+BK-50070,Unity Medical,VG-2083,15,Confirmed,2026-06-01
+BK-50071,Petra Chemicals,VG-1058,19,Confirmed,2026-10-22
+BK-50072,Valen Steel,VG-2046,26,Confirmed,2026-09-06
+BK-50073,Granada Tiles,VG-2029,29,Confirmed,2026-08-02
+BK-50074,Everfield Agro,VG-2010,47,Confirmed,2026-08-07
+BK-50075,Verdant Foods,VG-1033,29,Confirmed,2026-10-17
+BK-50076,Kaimon Electronics,VG-2049,44,Confirmed,2026-08-09
+BK-50077,Korin Textiles,VG-0991,58,Confirmed,2026-10-06
+BK-50078,Nimbus Toys,VG-2079,58,Cancelled,2026-07-30
+BK-50079,Zenith Bikes,VG-2093,6,Confirmed,2026-06-20
+BK-50080,Korin Textiles,VG-2094,21,Confirmed,2026-07-20
+BK-50081,Yarrow Organics,VG-0712,38,Confirmed,2026-03-13
+BK-50082,Zenith Bikes,VG-1121,58,Confirmed,2026-12-03
+BK-50083,Petra Chemicals,VG-2005,52,Confirmed,2026-07-06
+BK-50084,Zenith Bikes,VG-2084,8,Confirmed,2026-06-19
+BK-50085,Nimbus Toys,VG-2051,57,Confirmed,2026-07-07
+BK-50086,Fjordline Seafood,VG-2065,28,Confirmed,2026-06-16
+BK-50087,Lotus Paper,VG-1099,51,Cancelled,2026-11-07
+BK-50088,Isola Beverages,VG-1079,18,Confirmed,2026-10-15
+BK-50089,Tamura Optics,VG-2022,43,Cancelled,2026-07-04
+BK-50090,Halden Retail,VG-2029,44,Confirmed,2026-08-04
+BK-50091,Coastal Pharma,VG-2036,26,Confirmed,2026-06-10
+BK-50092,Northgate Auto,VG-2027,47,Confirmed,2026-06-25
+BK-50093,Tamura Optics,VG-2027,43,Confirmed,2026-06-22
+BK-50094,Verdant Foods,VG-2010,21,Confirmed,2026-08-06
+BK-50095,Solenne Cosmetics,VG-2070,28,Confirmed,2026-07-28
+BK-50096,Halden Retail,VG-1088,23,Confirmed,2026-11-05
+BK-50097,Lumio Home,VG-2076,12,Confirmed,2026-08-04
+BK-50098,Mariner Sports,VG-2034,39,Confirmed,2026-07-26
+BK-50099,Verdant Foods,VG-1088,26,Confirmed,2026-11-05
+BK-50100,Unity Medical,VG-2055,24,Rolled to next sailing,2026-07-12
+BK-50101,Isola Beverages,VG-0904,28,Confirmed,2026-08-10
+BK-50102,Yarrow Organics,VG-2071,19,Confirmed,2026-08-28
+BK-50103,Northgate Auto,VG-0991,12,Confirmed,2026-10-09
+BK-50104,Petra Chemicals,VG-2013,8,Confirmed,2026-06-24
+BK-50105,Everfield Agro,VG-2014,34,Confirmed,2026-07-12
+BK-50106,Coastal Pharma,VG-2025,50,Confirmed,2026-07-18
+BK-50107,Brightline Apparel,VG-2055,33,Confirmed,2026-07-12
+BK-50108,Hexa Components,VG-2017,25,Confirmed,2026-07-01
+BK-50109,Jansen Machinery,VG-2027,25,Confirmed,2026-06-24
+BK-50110,Petra Chemicals,VG-2084,23,Confirmed,2026-06-20
+BK-50111,Korin Textiles,VG-2067,24,Confirmed,2026-07-21
+BK-50112,Everfield Agro,VG-2029,51,Confirmed,2026-08-04
+BK-50113,Unity Medical,VG-2041,19,Confirmed,2026-06-23
+BK-50114,Granada Tiles,VG-2014,11,Rolled to next sailing,2026-07-12
+BK-50115,Mariner Sports,VG-2004,15,Confirmed,2026-08-03
+BK-50116,Solenne Cosmetics,VG-2049,33,Rolled to next sailing,2026-08-06
+BK-50117,Unity Medical,VG-2005,22,Confirmed,2026-07-05
+BK-50118,Quanta Tools,VG-1050,35,Confirmed,2026-10-21
+BK-50119,Delmar Furniture,VG-2017,46,Confirmed,2026-07-02
+BK-50120,Verdant Foods,VG-2033,32,Cancelled,2026-06-21
+BK-50121,Hexa Components,VG-2040,38,Confirmed,2026-06-10
+BK-50122,Mariner Sports,VG-2096,6,Confirmed,2026-08-07
+BK-50123,Orbit Solar,VG-2025,44,Rolled to next sailing,2026-07-20
+BK-50124,Quanta Tools,VG-1088,46,Confirmed,2026-11-06
+BK-50125,Kaimon Electronics,VG-2061,40,Cancelled,2026-06-15
+BK-50126,Tamura Optics,VG-2065,25,Cancelled,2026-06-15
+BK-50127,Halden Retail,VG-2034,10,Confirmed,2026-07-23
+BK-50128,Mariner Sports,VG-2044,41,Confirmed,2026-07-11
+BK-50129,Granada Tiles,VG-2007,29,Confirmed,2026-08-03
+BK-50130,Rivera Coffee,VG-2065,36,Confirmed,2026-06-16
+BK-50131,Lumio Home,VG-1063,22,Confirmed,2026-10-23
+BK-50132,Valen Steel,VG-1033,50,Confirmed,2026-10-17
+BK-50133,Jansen Machinery,VG-2018,54,Confirmed,2026-07-18
+BK-50134,Korin Textiles,VG-2040,10,Confirmed,2026-06-08
+BK-50135,Fjordline Seafood,VG-2068,8,Confirmed,2026-08-04
+BK-50136,Halden Retail,VG-2082,58,Confirmed,2026-08-17
+BK-50137,Zenith Bikes,VG-1088,51,Confirmed,2026-11-06
+BK-50138,Northgate Auto,VG-2001,25,Confirmed,2026-06-07
+BK-50139,Unity Medical,VG-2038,29,Confirmed,2026-07-14
+BK-50140,Hexa Components,VG-2002,5,Confirmed,2026-06-27
+BK-50141,Jansen Machinery,VG-2092,41,Confirmed,2026-05-29
+BK-50142,Brightline Apparel,VG-1107,21,Confirmed,2026-11-03
+BK-50143,Nimbus Toys,VG-2082,10,Confirmed,2026-08-17
+BK-50144,Granada Tiles,VG-2047,24,Confirmed,2026-09-30
+BK-50145,Quanta Tools,VG-1091,59,Confirmed,2026-11-08
+BK-50146,Orbit Solar,VG-2060,28,Confirmed,2026-06-28
+BK-50147,Granada Tiles,VG-2054,26,Confirmed,2026-06-09
+BK-50148,Valen Steel,VG-2058,47,Confirmed,2026-05-28
+BK-50149,Nimbus Toys,VG-2017,9,Confirmed,2026-07-05
+BK-50150,Coastal Pharma,VG-2019,23,Confirmed,2026-07-31
+BK-50151,Lotus Paper,VG-2026,28,Confirmed,2026-06-02
+BK-50152,Hexa Components,VG-1099,31,Confirmed,2026-11-11
+BK-50153,Rivera Coffee,VG-2060,45,Rolled to next sailing,2026-06-30
+BK-50154,Northgate Auto,VG-2001,35,Confirmed,2026-06-07
+BK-50155,Valen Steel,VG-2002,32,Confirmed,2026-06-26
+BK-50156,Halden Retail,VG-2089,35,Confirmed,2026-06-08
+BK-50157,Mariner Sports,VG-2083,36,Confirmed,2026-06-01
+BK-50158,Isola Beverages,VG-2031,49,Confirmed,2026-07-16
+BK-50159,Verdant Foods,VG-2041,40,Confirmed,2026-06-20
+BK-50160,Everfield Agro,VG-2076,6,Confirmed,2026-08-03
+BK-50161,Northgate Auto,VG-2047,53,Confirmed,2026-10-01
+BK-50162,Mariner Sports,VG-2074,36,Confirmed,2026-06-10
+BK-50163,Tamura Optics,VG-1091,38,Confirmed,2026-11-08
+BK-50164,Valen Steel,VG-2025,52,Confirmed,2026-07-20
+BK-50165,Mariner Sports,VG-2071,17,Cancelled,2026-08-27
+BK-50166,Everfield Agro,VG-1088,59,Cancelled,2026-11-06
+BK-50167,Granada Tiles,VG-2036,59,Confirmed,2026-06-09
+BK-50168,Tamura Optics,VG-2035,55,Confirmed,2026-08-03
+BK-50169,Rivera Coffee,VG-2082,26,Rolled to next sailing,2026-08-21
+BK-50170,Northgate Auto,VG-2057,43,Confirmed,2026-09-08
+BK-50171,Unity Medical,VG-2005,7,Confirmed,2026-07-03
+BK-50172,Orbit Solar,VG-2047,38,Confirmed,2026-10-01
+BK-50173,Everfield Agro,VG-2069,40,Confirmed,2026-06-29
+BK-50174,Yarrow Organics,VG-2088,47,Confirmed,2026-09-17
+BK-50175,Zenith Bikes,VG-1099,7,Cancelled,2026-11-10
+BK-50176,Rivera Coffee,VG-2089,59,Confirmed,2026-06-07
+BK-50177,Valen Steel,VG-1102,19,Confirmed,2026-11-10
+BK-50178,Korin Textiles,VG-2065,13,Confirmed,2026-06-15
+BK-50179,Hexa Components,VG-2013,32,Confirmed,2026-06-24
+BK-50180,Hexa Components,VG-2080,36,Confirmed,2026-06-25
+BK-50181,Jansen Machinery,VG-2067,35,Confirmed,2026-07-22
+BK-50182,Solenne Cosmetics,VG-1107,33,Confirmed,2026-11-02
+BK-50183,Westbrook Books,VG-2068,8,Confirmed,2026-08-03
+BK-50184,Isola Beverages,VG-2029,56,Confirmed,2026-08-03
+BK-50185,Valen Steel,VG-2013,22,Confirmed,2026-06-23
+BK-50186,Nimbus Toys,VG-2052,58,Confirmed,2026-07-22
+BK-50187,Kaimon Electronics,VG-2022,10,Confirmed,2026-06-30
+BK-50188,Halden Retail,VG-2086,11,Rolled to next sailing,2026-07-20
+BK-50189,Jansen Machinery,VG-0988,4,Cancelled,2026-10-08
+BK-50190,Rivera Coffee,VG-2033,12,Rolled to next sailing,2026-06-19
+BK-50191,Westbrook Books,VG-2017,60,Confirmed,2026-07-02
+BK-50192,Delmar Furniture,VG-2062,9,Confirmed,2026-07-09
+BK-50193,Kaimon Electronics,VG-2094,29,Confirmed,2026-07-17
+BK-50194,Isola Beverages,VG-2071,45,Confirmed,2026-08-25
+BK-50195,Brightline Apparel,VG-1058,34,Confirmed,2026-10-18
+BK-50196,Lotus Paper,VG-2054,47,Confirmed,2026-06-10
+BK-50197,Valen Steel,VG-0904,11,Cancelled,2026-08-10
+BK-50198,Korin Textiles,VG-2033,8,Confirmed,2026-06-19
+BK-50199,Lumio Home,VG-0844,24,Confirmed,2026-06-07
+BK-50200,Hexa Components,VG-2017,53,Confirmed,2026-07-02
+BK-50201,Pinecrest Timber,VG-2090,47,Confirmed,2026-06-30
+BK-50202,Halden Retail,VG-2046,43,Confirmed,2026-09-08
+BK-50203,Solenne Cosmetics,VG-2035,17,Confirmed,2026-08-05
+BK-50204,Orbit Solar,VG-0973,47,Confirmed,2026-09-24
+BK-50205,Yarrow Organics,VG-2006,10,Confirmed,2026-07-18
+BK-50206,Solenne Cosmetics,VG-1095,28,Confirmed,2026-11-13
+BK-50207,Unity Medical,VG-2033,12,Confirmed,2026-06-20
+BK-50208,Coastal Pharma,VG-2061,39,Confirmed,2026-06-11
+BK-50209,Everfield Agro,VG-2071,53,Rolled to next sailing,2026-08-28
+BK-50210,Brightline Apparel,VG-1063,37,Confirmed,2026-10-22
+BK-50211,Everfield Agro,VG-2003,45,Confirmed,2026-07-22
+BK-50212,Korin Textiles,VG-2093,28,Confirmed,2026-06-17
+BK-50213,Verdant Foods,VG-2042,37,Rolled to next sailing,2026-07-09
+BK-50214,Zenith Bikes,VG-0904,24,Confirmed,2026-08-10
+BK-50215,Isola Beverages,VG-2089,27,Confirmed,2026-06-10
+BK-50216,Tamura Optics,VG-2001,8,Confirmed,2026-06-06
+BK-50217,Delmar Furniture,VG-1050,17,Confirmed,2026-10-18
+BK-50218,Lotus Paper,VG-0866,22,Confirmed,2026-05-20
+BK-50219,Isola Beverages,VG-2043,48,Confirmed,2026-08-04
+BK-50220,Mariner Sports,VG-2060,43,Confirmed,2026-06-30
+BK-50221,Verdant Foods,VG-1033,36,Rolled to next sailing,2026-10-19
+BK-50222,Mariner Sports,VG-2082,24,Confirmed,2026-08-18
+BK-50223,Everfield Agro,VG-2060,48,Confirmed,2026-06-26
+BK-50224,Kaimon Electronics,VG-2087,19,Confirmed,2026-08-11
+BK-50225,Jansen Machinery,VG-2034,43,Confirmed,2026-07-23
+BK-50226,Lumio Home,VG-2018,4,Confirmed,2026-07-17
+BK-50227,Northgate Auto,VG-2068,35,Cancelled,2026-08-01
+BK-50228,Unity Medical,VG-2045,56,Confirmed,2026-08-17
+BK-50229,Petra Chemicals,VG-0991,51,Confirmed,2026-10-08
+BK-50230,Tamura Optics,VG-2013,5,Confirmed,2026-06-21
+BK-50231,Lotus Paper,VG-2033,8,Confirmed,2026-06-20
+BK-50232,Korin Textiles,VG-2052,33,Confirmed,2026-07-21
+BK-50233,Westbrook Books,VG-0866,40,Confirmed,2026-05-20
+BK-50234,Tamura Optics,VG-0988,10,Rolled to next sailing,2026-10-07
+BK-50235,Coastal Pharma,VG-2065,51,Confirmed,2026-06-12
+BK-50236,Coastal Pharma,VG-1011,6,Confirmed,2026-09-29
+BK-50237,Northgate Auto,VG-2028,58,Confirmed,2026-07-16
+BK-50238,Coastal Pharma,VG-2081,24,Confirmed,2026-08-02
+BK-50239,Delmar Furniture,VG-2096,56,Confirmed,2026-08-06
+BK-50240,Lotus Paper,VG-2026,47,Rolled to next sailing,2026-06-01
+BK-50241,Unity Medical,VG-2001,37,Cancelled,2026-06-04
+BK-50242,Yarrow Organics,VG-2030,33,Rolled to next sailing,2026-06-25
+BK-50243,Fjordline Seafood,VG-2078,9,Confirmed,2026-07-04
+BK-50244,Brightline Apparel,VG-0904,22,Confirmed,2026-08-10
+BK-50245,Coastal Pharma,VG-2017,33,Confirmed,2026-07-05
+BK-50246,Solenne Cosmetics,VG-2042,38,Confirmed,2026-07-06
+BK-50247,Halden Retail,VG-2010,30,Confirmed,2026-08-07
+BK-50248,Pinecrest Timber,VG-2048,57,Confirmed,2026-07-05
+BK-50249,Halden Retail,VG-0904,52,Confirmed,2026-08-10
+BK-50250,Lumio Home,VG-2087,17,Confirmed,2026-08-12
+BK-50251,Korin Textiles,VG-2009,7,Cancelled,2026-07-14
+BK-50252,Verdant Foods,VG-1102,6,Rolled to next sailing,2026-11-10
+BK-50253,Isola Beverages,VG-2093,48,Rolled to next sailing,2026-06-20
+BK-50254,Nimbus Toys,VG-2037,10,Confirmed,2026-07-04
+BK-50255,Verdant Foods,VG-2060,41,Confirmed,2026-06-29
+BK-50256,Coastal Pharma,VG-2034,22,Confirmed,2026-07-24
+BK-50257,Rivera Coffee,VG-2019,57,Confirmed,2026-08-03
+BK-50258,Delmar Furniture,VG-2019,18,Confirmed,2026-08-03
+BK-50259,Tamura Optics,VG-2004,53,Confirmed,2026-07-31
+BK-50260,Northgate Auto,VG-0973,32,Confirmed,2026-09-21
+BK-50261,Mariner Sports,VG-2031,26,Cancelled,2026-07-13
+BK-50262,Everfield Agro,VG-2005,33,Confirmed,2026-07-05
+BK-50263,Northgate Auto,VG-1095,55,Confirmed,2026-11-09
+BK-50264,Kaimon Electronics,VG-2084,17,Confirmed,2026-06-20
+BK-50265,Verdant Foods,VG-2020,49,Confirmed,2026-05-13
+BK-50266,Lotus Paper,VG-2024,7,Confirmed,2026-06-14
+BK-50267,Halden Retail,VG-2012,29,Rolled to next sailing,2026-10-03
+BK-50268,Coastal Pharma,VG-2050,10,Confirmed,2026-09-06
+BK-50269,Lumio Home,VG-2081,4,Confirmed,2026-07-31
+BK-50270,Petra Chemicals,VG-2078,16,Confirmed,2026-07-03
+BK-50271,Nimbus Toys,VG-2026,41,Confirmed,2026-06-01
+BK-50272,Halden Retail,VG-2083,8,Confirmed,2026-05-29
+BK-50273,Unity Medical,VG-2061,12,Confirmed,2026-06-14
+BK-50274,Lumio Home,VG-2087,6,Rolled to next sailing,2026-08-12
+BK-50275,Zenith Bikes,VG-1079,40,Confirmed,2026-10-16
+BK-50276,Korin Textiles,VG-2071,5,Confirmed,2026-08-27
+BK-50277,Granada Tiles,VG-2033,17,Rolled to next sailing,2026-06-19
+BK-50278,Jansen Machinery,VG-2014,60,Confirmed,2026-07-11
+BK-50279,Orbit Solar,VG-2057,19,Confirmed,2026-09-09
+BK-50280,Yarrow Organics,VG-2042,39,Confirmed,2026-07-08
+BK-50281,Hexa Components,VG-0844,12,Confirmed,2026-06-09
+BK-50282,Coastal Pharma,VG-2061,44,Cancelled,2026-06-15
+BK-50283,Hexa Components,VG-2048,54,Confirmed,2026-07-03
+BK-50284,Unity Medical,VG-2040,35,Confirmed,2026-06-10
+BK-50285,Fjordline Seafood,VG-2051,28,Confirmed,2026-07-10
+BK-50286,Orbit Solar,VG-1063,18,Confirmed,2026-10-22
+BK-50287,Kaimon Electronics,VG-2082,55,Cancelled,2026-08-19
+BK-50288,Tamura Optics,VG-2046,41,Cancelled,2026-09-06
+BK-50289,Coastal Pharma,VG-0988,46,Confirmed,2026-10-05
+BK-50290,Tamura Optics,VG-2047,18,Confirmed,2026-09-29
+BK-50291,Granada Tiles,VG-2081,57,Cancelled,2026-08-02
+BK-50292,Coastal Pharma,VG-2001,41,Confirmed,2026-06-04
+BK-50293,Zenith Bikes,VG-2073,41,Confirmed,2026-05-14
+BK-50294,Nimbus Toys,VG-2068,40,Confirmed,2026-08-03
+BK-50295,Mariner Sports,VG-2003,23,Confirmed,2026-07-22
+BK-50296,Kaimon Electronics,VG-1121,18,Confirmed,2026-12-02
+BK-50297,Korin Textiles,VG-0997,4,Confirmed,2026-09-22
+BK-50298,Unity Medical,VG-2057,12,Confirmed,2026-09-06
+BK-50299,Kaimon Electronics,VG-2001,5,Confirmed,2026-06-05
+BK-50300,Tamura Optics,VG-2069,11,Confirmed,2026-06-28
+BK-50301,Verdant Foods,VG-2089,27,Confirmed,2026-06-08
+BK-50302,Nimbus Toys,VG-2063,10,Confirmed,2026-08-02
+BK-50303,Northgate Auto,VG-2020,50,Rolled to next sailing,2026-05-13
+BK-50304,Pinecrest Timber,VG-2080,24,Confirmed,2026-06-28
+BK-50305,Unity Medical,VG-2050,26,Confirmed,2026-09-06
+BK-50306,Hexa Components,VG-2054,23,Confirmed,2026-06-10
+BK-50307,Northgate Auto,VG-2016,50,Confirmed,2026-06-03
+BK-50308,Hexa Components,VG-2068,58,Cancelled,2026-08-05
+BK-50309,Northgate Auto,VG-2051,42,Confirmed,2026-07-06
+BK-50310,Coastal Pharma,VG-2082,44,Confirmed,2026-08-21
+BK-50311,Fjordline Seafood,VG-2042,51,Confirmed,2026-07-06
+BK-50312,Northgate Auto,VG-2023,44,Rolled to next sailing,2026-05-15
+BK-50313,Jansen Machinery,VG-0844,4,Confirmed,2026-06-09
+BK-50314,Granada Tiles,VG-2010,20,Confirmed,2026-08-06
+BK-50315,Kaimon Electronics,VG-2071,28,Confirmed,2026-08-24
+BK-50316,Yarrow Organics,VG-2032,30,Confirmed,2026-08-03
+BK-50317,Mariner Sports,VG-2027,28,Confirmed,2026-06-24
+BK-50318,Pinecrest Timber,VG-2040,52,Confirmed,2026-06-10
+BK-50319,Verdant Foods,VG-0988,55,Confirmed,2026-10-08
+BK-50320,Fjordline Seafood,VG-2016,20,Cancelled,2026-06-02
+BK-50321,Northgate Auto,VG-0712,60,Confirmed,2026-03-13
+BK-50322,Mariner Sports,VG-2072,9,Confirmed,2026-09-20
+BK-50323,Rivera Coffee,VG-2057,5,Confirmed,2026-09-08
+BK-50324,Orbit Solar,VG-2062,60,Confirmed,2026-07-08
+BK-50325,Fjordline Seafood,VG-1079,17,Cancelled,2026-10-15
+BK-50326,Solenne Cosmetics,VG-2031,50,Confirmed,2026-07-17
+BK-50327,Everfield Agro,VG-2063,19,Confirmed,2026-08-01
+BK-50328,Mariner Sports,VG-2029,57,Confirmed,2026-08-06
+BK-50329,Halden Retail,VG-1079,31,Confirmed,2026-10-17
+BK-50330,Korin Textiles,VG-2084,16,Confirmed,2026-06-20
+BK-50331,Pinecrest Timber,VG-2005,22,Cancelled,2026-07-03
+BK-50332,Everfield Agro,VG-2039,54,Confirmed,2026-08-14
+BK-50333,Verdant Foods,VG-2041,45,Confirmed,2026-06-21
+BK-50334,Yarrow Organics,VG-2002,28,Confirmed,2026-06-26
+BK-50335,Delmar Furniture,VG-2036,32,Confirmed,2026-06-07
+BK-50336,Nimbus Toys,VG-2007,7,Confirmed,2026-08-02
+BK-50337,Verdant Foods,VG-2068,46,Confirmed,2026-08-01
+BK-50338,Tamura Optics,VG-2048,41,Confirmed,2026-07-06
+BK-50339,Valen Steel,VG-0866,37,Confirmed,2026-05-20
+BK-50340,Nimbus Toys,VG-2047,60,Confirmed,2026-10-02
+BK-50341,Hexa Components,VG-2017,58,Confirmed,2026-07-01
+BK-50342,Yarrow Organics,VG-2043,37,Confirmed,2026-08-05
+BK-50343,Petra Chemicals,VG-2065,11,Rolled to next sailing,2026-06-16
+BK-50344,Northgate Auto,VG-2036,17,Confirmed,2026-06-08
+BK-50345,Isola Beverages,VG-1097,9,Cancelled,2026-11-04
+BK-50346,Valen Steel,VG-2034,44,Confirmed,2026-07-24
+BK-50347,Fjordline Seafood,VG-2055,50,Rolled to next sailing,2026-07-10
+BK-50348,Hexa Components,VG-1050,39,Confirmed,2026-10-18
+BK-50349,Lotus Paper,VG-2020,33,Rolled to next sailing,2026-05-14
+BK-50350,Nimbus Toys,VG-0904,37,Confirmed,2026-08-12
+BK-50351,Petra Chemicals,VG-1091,13,Confirmed,2026-11-09
+BK-50352,Zenith Bikes,VG-2053,10,Confirmed,2026-08-07
+BK-50353,Westbrook Books,VG-1058,38,Rolled to next sailing,2026-10-20
+BK-50354,Delmar Furniture,VG-2091,28,Confirmed,2026-08-03
+BK-50355,Korin Textiles,VG-2052,6,Confirmed,2026-07-25
+BK-50356,Orbit Solar,VG-2030,42,Confirmed,2026-06-26
+BK-50357,Hexa Components,VG-2030,60,Rolled to next sailing,2026-06-25
+BK-50358,Kaimon Electronics,VG-2067,51,Confirmed,2026-07-21
+BK-50359,Halden Retail,VG-2013,25,Confirmed,2026-06-23
+BK-50360,Delmar Furniture,VG-2017,57,Confirmed,2026-07-03
+BK-50361,Westbrook Books,VG-2068,18,Confirmed,2026-08-01
+BK-50362,Tamura Optics,VG-2074,56,Confirmed,2026-06-10
+BK-50363,Orbit Solar,VG-2072,45,Confirmed,2026-09-23
+BK-50364,Zenith Bikes,VG-2035,56,Confirmed,2026-08-04
+BK-50365,Westbrook Books,VG-2041,27,Confirmed,2026-06-23
+BK-50366,Verdant Foods,VG-2044,23,Confirmed,2026-07-08
+BK-50367,Tamura Optics,VG-2030,58,Confirmed,2026-06-26
+BK-50368,Northgate Auto,VG-2051,16,Rolled to next sailing,2026-07-06
+BK-50369,Coastal Pharma,VG-2004,6,Confirmed,2026-07-30
+BK-50370,Rivera Coffee,VG-2096,16,Confirmed,2026-08-06
+BK-50371,Lotus Paper,VG-2084,29,Confirmed,2026-06-19
+BK-50372,Coastal Pharma,VG-1095,27,Confirmed,2026-11-09
+BK-50373,Westbrook Books,VG-2036,34,Confirmed,2026-06-08
+BK-50374,Northgate Auto,VG-2023,57,Rolled to next sailing,2026-05-15
+BK-50375,Everfield Agro,VG-2074,5,Confirmed,2026-06-07
+BK-50376,Tamura Optics,VG-0988,17,Rolled to next sailing,2026-10-09
+BK-50377,Quanta Tools,VG-2061,17,Confirmed,2026-06-12
+BK-50378,Halden Retail,VG-2031,59,Confirmed,2026-07-17
+BK-50379,Korin Textiles,VG-2077,12,Confirmed,2026-06-17
+BK-50380,Coastal Pharma,VG-2055,20,Confirmed,2026-07-08
+BK-50381,Isola Beverages,VG-2018,28,Rolled to next sailing,2026-07-18
+BK-50382,Brightline Apparel,VG-2037,33,Confirmed,2026-07-06
+BK-50383,Hexa Components,VG-2045,41,Confirmed,2026-08-17
+BK-50384,Mariner Sports,VG-2044,45,Confirmed,2026-07-09
+BK-50385,Quanta Tools,VG-2015,10,Confirmed,2026-08-11
+BK-50386,Pinecrest Timber,VG-2022,24,Rolled to next sailing,2026-07-02
+BK-50387,Brightline Apparel,VG-2012,13,Confirmed,2026-10-04
+BK-50388,Unity Medical,VG-2009,58,Confirmed,2026-07-11
+BK-50389,Quanta Tools,VG-2055,24,Confirmed,2026-07-11
+BK-50390,Pinecrest Timber,VG-2071,35,Cancelled,2026-08-24
+BK-50391,Hexa Components,VG-2012,28,Confirmed,2026-10-05
+BK-50392,Valen Steel,VG-2053,16,Confirmed,2026-08-11
+BK-50393,Quanta Tools,VG-2070,38,Confirmed,2026-07-28
+BK-50394,Lotus Paper,VG-2039,23,Confirmed,2026-08-16
+BK-50395,Northgate Auto,VG-2086,22,Confirmed,2026-07-21
+BK-50396,Solenne Cosmetics,VG-1097,55,Confirmed,2026-11-06
+BK-50397,Quanta Tools,VG-2095,25,Confirmed,2026-07-08
+BK-50398,Coastal Pharma,VG-2007,51,Rolled to next sailing,2026-08-02
+BK-50399,Granada Tiles,VG-2032,20,Confirmed,2026-08-04
+BK-50400,Korin Textiles,VG-2038,7,Rolled to next sailing,2026-07-13
