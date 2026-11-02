@@ -182,6 +182,3 @@ tests/                    unit/ (no services) and graph/ (needs Neo4j)
 config.yaml               snapshot time, models, limits
 ```
 
-## Further reading
-
-The full design is in `specs/001-delay-ops-assistant/`, mainly `data-model.md` and `research.md`. That folder is kept out of git, so this README summarizes it.
