@@ -1,4 +1,4 @@
-"""Graph tests need a running Neo4j, for example `docker compose up -d neo4j`.
+"""Tests in tests/graph and tests/live need a running Neo4j, for example `docker compose up -d neo4j`.
 
 They are skipped, not failed, when Neo4j can't be reached.
 """

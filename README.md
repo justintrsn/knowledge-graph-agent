@@ -27,10 +27,12 @@ Then open the Neo4j browser at <http://localhost:7474> (user `neo4j`, password `
 | `uv run kg extract` | Sends messages with no valid cached extraction to Claude Haiku and caches the result. Does nothing if the cache is complete. | API key, for any message not cached |
 | `uv run kg extract --refresh` | Redoes every message, even if cached. | API key |
 | `uv run kg extract --include-extra` | Also processes the 45 messages in `messages/extra`. | API key |
-| `uv run pytest` | Runs all tests. Tests that need Neo4j are skipped if it isn't running. **Graph tests wipe and reload the graph.** | Neo4j, for `tests/graph` |
+| `uv run kg ask "<question>"` | Answers one question from the graph with Claude Sonnet, citing evidence, and saves a transcript to `outputs/runs/`. Add `--json` for the raw answer. **Costs money** (a few cents per question). | Neo4j, API key |
+| `uv run pytest` | Runs all tests. Tests that need Neo4j are skipped if it isn't running. **Graph tests wipe and reload the graph.** Never calls Claude. | Neo4j, for `tests/graph` |
+| `KG_LIVE_TESTS=1 uv run pytest tests/live` | One real question through the agent, to check the live API. Skipped unless you set `KG_LIVE_TESTS=1`. **Costs money.** | Neo4j, API key |
 | `uv run jupyter lab notebooks/data_profile.ipynb` | Opens the data profile. | Nothing |
 
-`kg` exit codes: `0` success, `1` a check failed or an extraction is missing with no key, `2` a database or Claude API failure.
+`kg` exit codes: `0` success, `1` a check failed, an extraction is missing, or there is no key, `2` a database or Claude API failure (for `kg ask`: no answer came back), `3` `kg ask` printed an answer but it failed validation, so don't rely on it.
 
 `kg load` never calls Claude: it only reads the cache. `kg extract` can, but not while `use_cache: true` is set under `messages` in `config.yaml` (the default). With it, no command calls Claude for extraction, and a missing cache entry is reported instead. Set it to `false` only when you want to pay for a new extraction.
 
@@ -66,8 +68,10 @@ MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.v
 | Extracting facts from messages, and loading them | Built (15 core messages, 62 facts) |
 | `kg load`, `kg extract`, `kg verify` | Built |
 | Data profile notebook | Built |
-| Question-answering agent and evaluation | Designed, not built |
-| `kg ask`, `kg run`, and one-command `docker compose up` | Not built |
+| Agent machinery: answer format, validator, tool framework, loop, transcripts, `kg ask` | Built; unit-tested, and the live smoke test passes |
+| Agent tools | Only `find_vessel`, `find_port` and `source_coverage` so far |
+| Question tools (voyages, delays, incidents, bookings, congestion) | Not built |
+| Evaluation, `kg run`, and one-command `docker compose up` | Not built |
 
 The sections below describe the full design. Parts not built yet are described as planned.
 
@@ -86,8 +90,19 @@ The sections below describe the full design. Parts not built yet are described a
 3. **Check:** load-time checks confirm the graph matches the files. Any failure stops the run.
 4. **Answer:** an agent queries the graph (read-only) and answers, labelling each claim as confirmed, reported or inferred, with the evidence IDs behind it.
 
+## How answering works
+
+`kg ask` runs a loop in [`agent/loop.py`](src/knowledge_graph_agent/agent/loop.py):
+
+1. Claude Sonnet gets the question, a system prompt ([`agent/prompts.py`](src/knowledge_graph_agent/agent/prompts.py)) with the graph schema and the rules, and a list of tools.
+2. It calls tools ([`agent/tools.py`](src/knowledge_graph_agent/agent/tools.py)). Each tool runs a fixed, read-only Cypher query and returns rows, each with its `evidence_id` and `source_ref`, plus what was searched and whether the result was cut short. Claude never writes Cypher itself.
+3. It repeats until it has enough. After 5 tool steps it is reminded to wrap up. At 10 it must answer with what it has, and the answer is marked incomplete.
+4. It returns a structured answer ([`agent/answer.py`](src/knowledge_graph_agent/agent/answer.py)): a headline, then confirmed facts, unverified reports, inferences, exclusions, data gaps, suspicious content and recommended checks. Every claim lists the evidence IDs behind it.
+5. Code checks the answer ([`agent/validate.py`](src/knowledge_graph_agent/agent/validate.py), checks V1 to V10). For example: every cited ID exists and was actually returned by a tool in this run, every cited value matches the graph, nothing unverified is presented as confirmed, and nothing from a suspicious message is repeated as fact. A failed check doesn't hide the answer, but it is flagged in red and `kg ask` exits with code 3.
+6. Everything is saved to `outputs/runs/<time>-<id>/` ([`agent/transcript.py`](src/knowledge_graph_agent/agent/transcript.py)): a manifest (git commit, models, config, what was loaded), and per question a JSON and a readable Markdown transcript with each step's thinking summary, tool calls, tokens, the answer and the validation results.
+
 ## Data
-v
+
 All input is in `data/`. The data is a snapshot taken **26 Oct 2026, 12:00 UTC**. That moment is "now" for every question, whatever today's date is.
 
 - **Seven tables (CSV), 1,475 rows in total:** vessels (40), ports (15), voyages (121), port calls (231), incidents (90), daily port congestion (578) and bookings (400). Every column is described in [`data/DATA_README.md`](data/DATA_README.md).
@@ -241,6 +256,8 @@ Tests:
 
 - `tests/unit` needs nothing running. It covers time conversion, name matching (`OS bridge`, `M/V OCEAN STAR`, Ocean Star vs Ocean Starlight), the rules (the Kaimon injection, the weather conflict, the Silver Tern correction, unknown origins) and the cached extractions.
 - `tests/graph` needs Neo4j. It loads the real graph and checks specific cases, such as VG-1042's times, that `Sulamar Gestão Naval` keeps its accented letters, and that INC-203 is linked to both its table row and the customs message.
+- `tests/unit/test_validate.py` and `test_loop.py` test the validator and the agent loop with a fake graph and a scripted fake Claude, so they cost nothing.
+- `tests/live` sends one real question to Claude. It only runs with `KG_LIVE_TESTS=1`.
 
 ## Repository layout
 
@@ -259,9 +276,15 @@ src/knowledge_graph_agent/
     llm.py                the Claude call and the cache
     resolve.py            match names to vessels, voyages, ports
     rules.py              quotes, injection, times, reports, corrections, verification
-  agent/                  question answering (planned)
+  agent/
+    answer.py             the answer format, and printing it
+    tools.py              the tools Claude can call (read-only queries)
+    prompts.py            the system prompt
+    loop.py               the Claude tool-use loop and step limits
+    validate.py           checks V1 to V10 on every answer
+    transcript.py         saves each run to outputs/runs/
   evaluate/               evaluation (planned)
-tests/                    unit/ (no services) and graph/ (needs Neo4j)
+tests/                    unit/ (no services), graph/ (needs Neo4j), live/ (calls Claude, opt-in)
 config.yaml               snapshot time, models, limits
 ```
 
