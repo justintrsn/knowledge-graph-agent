@@ -1,0 +1,8 @@
+{
+  "message_id": "MSG:agent_2026-10-25_rtm_anchorage",
+  "body_sha256": "fe44bceddf5cf4cea07e2ba3e31d1238a807ac6c7bf12ddd2f866216a6c407d0",
+  "model": "claude-haiku-5-5",
+  "prompt_version": "1",
+  "attempts": 1,
+  "raw_output": "{\"facts\":[{\"kind\":\"status\",\"statement\":\"Ocean Star anchored at Maas anchorage at 14:00 UTC.\",\"quote\":\"Ocean Star anchored Maas anchorage 14:00 UTC.\",\"vessel_refs\":[\"Ocean Star\"],\"voyage_refs\":[],\"port_refs\":[\"Maas anchorage\"],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"14:00 UTC\",\"correction_field\":null},{\"kind\":\"delay_estimate\",\"statement\":\"The terminal queue is currently estimated at 30-40 hours.\",\"quote\":\"Terminal queue currently 30-40 h.\",\"vessel_refs\":[],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":\"30-40 h\",\"hours_low\":30,\"hours_high\":40,\"event_time_raw\":\"currently\",\"correction_field\":null},{\"kind\":\"other\",\"statement\":\"The agency will advise the berthing time once it is confirmed.\",\"quote\":\"We will advise berthing time once confirmed.\",\"vessel_refs\":[],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":null,\"correction_field\":null}],\"suspicious_instructions\":[]}"
+}

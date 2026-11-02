@@ -1,0 +1,8 @@
+{
+  "message_id": "MSG:agent_2026-09-16_anr_blue_horizon",
+  "body_sha256": "c42c2ee1a1f98cd42a8d1ab297a8fc5cb97c4dabeb47dad45f849ca0e024f575",
+  "model": "claude-haiku-5-5",
+  "prompt_version": "1",
+  "attempts": 1,
+  "raw_output": "{\"facts\":[{\"kind\":\"status\",\"statement\":\"MV Blue Horizon arrived and berthed at Deurganck dock on schedule.\",\"quote\":\"MV Blue Horizon arrived and berthed on schedule at 08:00 UTC 16 Sep, Deurganck dock.\",\"vessel_refs\":[\"MV Blue Horizon\"],\"voyage_refs\":[],\"port_refs\":[\"Deurganck dock\"],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"08:00 UTC 16 Sep\",\"correction_field\":null},{\"kind\":\"other\",\"statement\":\"The sender reports no delays for the vessel's arrival.\",\"quote\":\"No delays to report.\",\"vessel_refs\":[\"MV Blue Horizon\"],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":null,\"correction_field\":null},{\"kind\":\"status\",\"statement\":\"Cargo operations on MV Blue Horizon started.\",\"quote\":\"Cargo operations started 08:45.\",\"vessel_refs\":[\"MV Blue Horizon\"],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"08:45\",\"correction_field\":null}],\"suspicious_instructions\":[]}"
+}

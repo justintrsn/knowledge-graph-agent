@@ -1,0 +1,8 @@
+{
+  "message_id": "MSG:agent_2026-10-23_crew_change_vesta_dune",
+  "body_sha256": "97c63e73cdfbb1624b04996ee267dec0fcaa2c6c937d6648bc756940a2ff9693",
+  "model": "claude-haiku-5-5",
+  "prompt_version": "1",
+  "attempts": 1,
+  "raw_output": "{\"facts\":[{\"kind\":\"status\",\"statement\":\"The crew change for MV VESTA DUNE was completed on 22 Oct.\",\"quote\":\"Crew change for MV VESTA DUNE completed 22 Oct.\",\"vessel_refs\":[\"MV VESTA DUNE\"],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"22 Oct\",\"correction_field\":null},{\"kind\":\"incident_report\",\"statement\":\"Two ratings signed on late for MV VESTA DUNE because of visa processing.\",\"quote\":\"Two ratings signed on late due to visa processing\",\"vessel_refs\":[\"MV VESTA DUNE\"],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":\"Crew change delay\",\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"22 Oct\",\"correction_field\":null},{\"kind\":\"delay_estimate\",\"statement\":\"MV VESTA DUNE sailed 2 hours late.\",\"quote\":\"vessel sailed 2 h late.\",\"vessel_refs\":[\"MV VESTA DUNE\"],\"voyage_refs\":[],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":\"Crew change delay\",\"hours_raw\":\"2 h\",\"hours_low\":2,\"hours_high\":2,\"event_time_raw\":\"22 Oct\",\"correction_field\":null}],\"suspicious_instructions\":[]}"
+}

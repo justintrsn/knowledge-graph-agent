@@ -1,0 +1,8 @@
+{
+  "message_id": "MSG:agent_2026-10-21_correction_silver_tern",
+  "body_sha256": "2ed93fd89c591c58cbd086e54fd9c5bc98b8583e36838aafefbf159a59b61191",
+  "model": "claude-haiku-5-5",
+  "prompt_version": "1",
+  "attempts": 1,
+  "raw_output": "{\"facts\":[{\"kind\":\"correction\",\"statement\":\"The sender corrects the June cooling fault on MV Silver Tern to the auxiliary engine fresh water cooler, not the main engine seawater pump.\",\"quote\":\"the cooling fault was in the auxiliary engine fresh water cooler,\",\"vessel_refs\":[\"MV Silver Tern\"],\"voyage_refs\":[\"voyage 0844\"],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":\"Engine cooling fault\",\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":\"June\",\"correction_field\":\"component\"},{\"kind\":\"correction\",\"statement\":\"The sender states that the MV Silver Tern cooling fault is not related to bulletin TB-26-14.\",\"quote\":\"It is not related to bulletin TB-26-14.\",\"vessel_refs\":[\"MV Silver Tern\"],\"voyage_refs\":[\"voyage 0844\"],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":null,\"hours_raw\":null,\"hours_low\":null,\"hours_high\":null,\"event_time_raw\":null,\"correction_field\":\"cause\"},{\"kind\":\"delay_estimate\",\"statement\":\"The delay attribution for the MV Silver Tern cooling fault remains 7 hours.\",\"quote\":\"Delay attribution of 7 h unchanged.\",\"vessel_refs\":[\"MV Silver Tern\"],\"voyage_refs\":[\"voyage 0844\"],\"port_refs\":[],\"vessel_class_ref\":null,\"incident_category\":\"Engine cooling fault\",\"hours_raw\":\"7 h\",\"hours_low\":7,\"hours_high\":7,\"event_time_raw\":null,\"correction_field\":null}],\"suspicious_instructions\":[]}"
+}
