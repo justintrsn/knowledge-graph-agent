@@ -3,12 +3,19 @@
 0  the steps ran
 1  a verify failure, or a cache miss with no key
 2  an LLM or database failure
+3  kg ask only: the answer was printed but failed validation
 """
 
 import anthropic
 import typer
 from neo4j.exceptions import Neo4jError, ServiceUnavailable
 
+from knowledge_graph_agent.agent.answer import render
+from knowledge_graph_agent.agent.loop import run_agent
+from knowledge_graph_agent.agent.prompts import system_prompt
+from knowledge_graph_agent.agent.tools import ToolContext, source_coverage
+from knowledge_graph_agent.agent.transcript import new_run_dir, save_transcript
+from knowledge_graph_agent.agent.validate import Neo4jLookup, validate
 from knowledge_graph_agent.config import has_api_key, load_config, load_env, neo4j_settings
 from knowledge_graph_agent.extract.llm import ExtractionError, MissingExtractionsError, extract_messages
 from knowledge_graph_agent.extract.messages import load_messages
@@ -22,6 +29,7 @@ app = typer.Typer(no_args_is_help=True, add_completion=False, help="Ship delay o
 
 EXIT_VERIFY_OR_CACHE = 1
 EXIT_SERVICE = 2
+EXIT_ANSWER_INVALID = 3
 
 
 def _fail(message: str, code: int) -> typer.Exit:
@@ -86,6 +94,49 @@ def extract(
         raise _fail(f"Extraction failed: {e}", EXIT_SERVICE)
     facts = sum(len(x.facts) for x in extractions.values())
     typer.echo(f"{len(extractions)} messages cached, {facts} facts.")
+
+
+@app.command()
+def ask(
+    question: str = typer.Argument(..., help="The question, in quotes."),
+    as_json: bool = typer.Option(False, "--json", help="Print the answer as JSON instead of text."),
+) -> None:
+    """Answer one question from the graph, citing evidence. Calls Claude, so needs ANTHROPIC_API_KEY.
+
+    Saves a transcript under outputs/runs/. Exit code 3 means the answer was
+    printed but failed validation.
+    """
+    if not has_api_key():
+        raise _fail("kg ask needs ANTHROPIC_API_KEY (in .env or the environment).", EXIT_VERIFY_OR_CACHE)
+    config = load_config()
+    driver = _driver()
+    try:
+        ctx = ToolContext(driver, ReferenceData.from_data(), config)
+        coverage = source_coverage(ctx).rows
+        run_dir = new_run_dir(config, coverage)
+        run = run_agent(question, anthropic.Anthropic(), ctx, config, system_prompt(config))
+        validation = []
+        if run.answer:
+            vessel_names = [v.name for v in ctx.ref.vessels.values()]
+            validation = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), vessel_names)
+        status = save_transcript(run_dir, "ask", run, validation, config)
+    except Neo4jError as e:
+        raise _fail(f"Database error: {e}", EXIT_SERVICE)
+    finally:
+        driver.close()
+
+    if run.answer is None:
+        raise _fail(f"No answer: {run.error}\nTranscript: {run_dir / 'ask.md'}", EXIT_SERVICE)
+    if status == "failed_validation":
+        typer.secho("WARNING: this answer FAILED validation; do not rely on it.\n", fg=typer.colors.RED, bold=True)
+    typer.echo(run.raw_answer if as_json else render(run.answer))
+    for r in validation:
+        if r.status != "pass":
+            typer.secho(f"{r.status.upper()} {r.check}: {r.detail}", fg=typer.colors.RED if r.status == "fail" else typer.colors.YELLOW, err=True)
+    tokens = sum(s.usage.get("input_tokens", 0) + s.usage.get("output_tokens", 0) for s in run.steps)
+    typer.echo(f"\n[{status}] {run.tool_steps} tool steps, {tokens} tokens. Transcript: {run_dir / 'ask.md'}", err=True)
+    if status == "failed_validation":
+        raise typer.Exit(EXIT_ANSWER_INVALID)
 
 
 @app.command("verify")
