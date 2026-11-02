@@ -10,26 +10,64 @@ Prerequisites:
 - [uv](https://docs.astral.sh/uv/), for running tests and the notebook outside containers
 
 ```bash
-uv sync                                          # install dependencies
-uv run jupyter lab notebooks/data_profile.ipynb  # explore the raw data
-docker compose up -d neo4j                       # start the graph database
-uv run pytest                                    # run all tests
+uv sync                      # install dependencies
+docker compose up -d neo4j   # start the graph database
+uv run kg load               # build the graph from the CSVs and cached message facts
+uv run kg verify             # check the graph
 ```
 
-- **Tests without Neo4j:** the tests that need the database are skipped, not failed.
-- **Graph tests wipe the graph.** They clear it and reload it from the CSVs.
-- **The Neo4j browser** is at <http://localhost:7474> (user `neo4j`, password `localdevpassword`).
-- **Settings:** `.env` is optional. Copy `.env.example` to set an API key or password.
+Then open the Neo4j browser at <http://localhost:7474> (user `neo4j`, password `localdevpassword`) to look at the graph. No API key is needed: the message extractions are already cached in `cache/extractions/`.
+
+## Commands
+
+| Command | What it does | Needs |
+|---|---|---|
+| `uv run kg load` | Clears the graph, loads the 7 tables, then the message facts from the cache. Prints what it loaded. | Neo4j |
+| `uv run kg verify` | Runs the load-time checks and prints pass or fail for each. | Neo4j |
+| `uv run kg extract` | Sends messages with no valid cached extraction to Claude Haiku and caches the result. Does nothing if the cache is complete. | API key, for any message not cached |
+| `uv run kg extract --refresh` | Redoes every message, even if cached. | API key |
+| `uv run kg extract --include-extra` | Also processes the 45 messages in `messages/extra`. | API key |
+| `uv run pytest` | Runs all tests. Tests that need Neo4j are skipped if it isn't running. **Graph tests wipe and reload the graph.** | Neo4j, for `tests/graph` |
+| `uv run jupyter lab notebooks/data_profile.ipynb` | Opens the data profile. | Nothing |
+
+`kg` exit codes: `0` success, `1` a check failed or an extraction is missing with no key, `2` a database or Claude API failure.
+
+`kg load` never calls Claude: it only reads the cache. `kg extract` can, but not while `use_cache: true` is set under `messages` in `config.yaml` (the default). With it, no command calls Claude for extraction, and a missing cache entry is reported instead. Set it to `false` only when you want to pay for a new extraction.
+
+Settings are in `config.yaml` (snapshot time, models, which message collections to load, `use_cache`). `.env` is optional: copy `.env.example` to set `ANTHROPIC_API_KEY` or a different Neo4j password.
+
+### Seeing the graph
+
+Some queries to paste into the Neo4j browser:
+
+```cypher
+// How many of each node type
+MATCH (n) RETURN labels(n)[1] AS type, count(*) ORDER BY type;
+
+// One voyage and everything linked to it
+MATCH (v:Voyage {evidence_id: 'VG-1042'})-[r]-(x) RETURN v, r, x;
+
+// Each message, the facts it states, and what they are about
+MATCH (m:Message)-[:STATES]->(f:Fact)-[r]->(x) RETURN m, f, r, x;
+
+// The correction to INC-094, with the original row beside it
+MATCH (f:Fact)-[c:CORRECTS]->(i:Incident {evidence_id: 'INC-094'})
+RETURN f.statement, c.supersedes, c.rule, i.type, i.status;
+
+// Facts that disagree with each other
+MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.values;
+```
 
 ## Status
 
 | Part | State |
 |---|---|
 | Loading the tables into the graph, and its checks | Built |
+| Extracting facts from messages, and loading them | Built (15 core messages, 62 facts) |
+| `kg load`, `kg extract`, `kg verify` | Built |
 | Data profile notebook | Built |
-| Extracting facts from messages | Designed, not built |
 | Question-answering agent and evaluation | Designed, not built |
-| `kg` command line and one-command `docker compose up` | Not built |
+| `kg ask`, `kg run`, and one-command `docker compose up` | Not built |
 
 The sections below describe the full design. Parts not built yet are described as planned.
 
@@ -49,7 +87,7 @@ The sections below describe the full design. Parts not built yet are described a
 4. **Answer:** an agent queries the graph (read-only) and answers, labelling each claim as confirmed, reported or inferred, with the evidence IDs behind it.
 
 ## Data
-
+v
 All input is in `data/`. The data is a snapshot taken **26 Oct 2026, 12:00 UTC**. That moment is "now" for every question, whatever today's date is.
 
 - **Seven tables (CSV), 1,475 rows in total:** vessels (40), ports (15), voyages (121), port calls (231), incidents (90), daily port congestion (578) and bookings (400). Every column is described in [`data/DATA_README.md`](data/DATA_README.md).
@@ -92,6 +130,44 @@ Booking  -ROLLED_TO->   Voyage   (only when the status names the voyage)
 ```
 
 The rule for what becomes a node is **something with its own identity that sources refer to**. Vessels, voyages and incidents are nodes. A vessel's class and technical manager are just properties of the vessel, because questions only compare them ("same class?").
+
+From the messages, each message becomes a `Message` node, and each fact extracted from it becomes a `Fact` node. Facts link to the table nodes they are about:
+
+```text
+Message -STATES->         Fact
+Fact    -ABOUT_VESSEL->   Vessel      (how it was matched: IMO, voyage number, name, ...)
+Fact    -ABOUT_VOYAGE->   Voyage
+Fact    -ABOUT_PORT->     Port
+Fact    -REPORTS->        Incident    (same voyage and same incident type)
+Fact    -CORRECTS->       Incident    (supersedes: true when the incident's own source corrects it)
+Fact    -CONFLICTS_WITH-> Fact        (both report the same incident, with different hours)
+```
+
+What the main nodes hold:
+
+| Node | Holds |
+|---|---|
+| `Message` | `from_raw`, `subject`, `body`, `sent_utc`, `sender_role` (master, crew, agent, …), `origin` (which source it counts as), `suspicious` and the flagged text |
+| `Fact` | `kind`, `statement`, the exact `quote`, `incident_category`, hours (`hours_raw`, `hours_low`, `hours_high`), event time (raw and UTC, with its precision), `verification` and the reason for it, `voyage_match`, `unresolved_refs` |
+| `SourceFile` | One per CSV and per message folder: row or file count, sha256 fingerprint, and whether it was loaded |
+
+### IDs: `evidence_id` and the `Evidence` label
+
+Every node has an **`evidence_id`**: its own stable, readable ID, taken from the data. Answers cite it, so it stays the same every time the graph is rebuilt (Neo4j's internal IDs don't).
+
+| Node | `evidence_id` | Example |
+|---|---|---|
+| Vessel, Voyage, Incident, PortCall, Booking | the table's ID column | `V001`, `VG-1042`, `INC-201` |
+| Port | port code | `NLRTM` |
+| CongestionSnapshot | port and date | `CONG-SGSIN-2026-09-17` |
+| Customer | customer name | `CUST-halden-retail` |
+| Message | file name | `MSG:noon_2026-10-06_ocean_star` |
+| Fact | message plus fact number | `MSG:noon_2026-10-06_ocean_star#2` |
+| SourceFile | file or folder path | `FILE:incidents.csv` |
+
+Every node also carries the label **`Evidence`** next to its type (for example `:Incident:Evidence`). It holds no value. It lets one database rule guarantee that no two nodes anywhere share an `evidence_id`, and lets any cited ID be looked up with one query: `MATCH (n:Evidence {evidence_id: 'INC-201'})`. A side effect is that the Neo4j browser colours every node the same.
+
+To see the loaded schema yourself, run `CALL db.schema.visualization()` in the Neo4j browser.
 
 ### Design choices
 
@@ -150,32 +226,39 @@ Messages are untrusted text, and one of them contains instructions addressed to 
 
 ## Checks and tests
 
-After loading, [`graph/verify.py`](src/knowledge_graph_agent/graph/verify.py) checks the graph and returns a pass or fail for each named check. Any failure stops the run. It will run as `kg verify` once the command line is built. It checks that:
+`kg verify` ([`graph/verify.py`](src/knowledge_graph_agent/graph/verify.py)) checks the graph and returns a pass or fail for each named check. Any failure stops the run. It checks that:
 
 - there is one node per table row
 - every node has an `evidence_id` and a `source_ref`
-- there are no broken links
-- each file's fingerprint (sha256) still matches what was loaded
+- there are no broken links, and every fact belongs to a message
+- each file's fingerprint (sha256) still matches what was loaded, for the tables and the message folder
 - every recorded delay equals the real elapsed hours in UTC
-- look-alike vessels stay separate
-
-Message checks (exact quotes, all 15 core messages loaded) are reported as skipped until message extraction is built.
+- look-alike vessels stay separate, and no vessel name as written links to two vessels
+- every fact's quote appears word for word in its message
+- all 15 core messages are loaded
 
 Tests:
 
-- `tests/unit` needs nothing running.
-- `tests/graph` needs Neo4j, and checks specific cases such as VG-1042's times and that `Sulamar Gestão Naval` keeps its accented letters.
+- `tests/unit` needs nothing running. It covers time conversion, name matching (`OS bridge`, `M/V OCEAN STAR`, Ocean Star vs Ocean Starlight), the rules (the Kaimon injection, the weather conflict, the Silver Tern correction, unknown origins) and the cached extractions.
+- `tests/graph` needs Neo4j. It loads the real graph and checks specific cases, such as VG-1042's times, that `Sulamar Gestão Naval` keeps its accented letters, and that INC-203 is linked to both its table row and the customs message.
 
 ## Repository layout
 
 ```text
 data/                     input tables and messages (see DATA_README.md)
 notebooks/                data profile
+cache/extractions/        cached Claude output, one file per message (committed)
 src/knowledge_graph_agent/
+  cli.py                  the kg command
   config.py               settings from config.yaml and .env
   timeutil.py             local time to UTC
-  graph/                  database connection, table loading, checks
-  extract/                message extraction (planned)
+  graph/                  database connection, loading tables and facts, checks
+  extract/
+    messages.py           read messages; who sent each one
+    schema.py             what the extraction model must return
+    llm.py                the Claude call and the cache
+    resolve.py            match names to vessels, voyages, ports
+    rules.py              quotes, injection, times, reports, corrections, verification
   agent/                  question answering (planned)
   evaluate/               evaluation (planned)
 tests/                    unit/ (no services) and graph/ (needs Neo4j)

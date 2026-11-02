@@ -34,6 +34,7 @@ def test_committed_config_loads():
     assert config.agent.step_budget.soft == 5
     assert config.agent.step_budget.hard == 10
     assert config.messages.include_extra is False
+    assert config.messages.use_cache is True
 
 
 def test_unknown_key_is_rejected(tmp_path):

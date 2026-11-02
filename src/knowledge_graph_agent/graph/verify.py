@@ -14,6 +14,7 @@ from typing import Literal
 
 from neo4j import Driver, Session
 
+from knowledge_graph_agent.extract.messages import directory_sha256
 from knowledge_graph_agent.graph.db import read_session
 from knowledge_graph_agent.graph.load_tables import DEFAULT_DATA_DIR, TABLE_FILES, sha256_of
 
@@ -210,14 +211,16 @@ def check_distinct_vessels(session: Session, facts: bool) -> CheckResult:
         if n != 1:
             problems.append(f"{n} vessels named {name}")
     if facts:
+        # One fact may name two vessels (a fleet bulletin does), but one name
+        # as written must never match two vessels.
         n = _scalar(
             session,
             "MATCH (f:Fact)-[r:ABOUT_VESSEL {method: $method}]->(:Vessel) "
-            "WITH f, count(r) AS links WHERE links > 1 RETURN count(f)",
+            "WITH f, r.surface AS surface, count(r) AS links WHERE links > 1 RETURN count(*)",
             method=NAME_MATCH_METHOD,
         )
         if n:
-            problems.append(f"{n} facts linked to more than one vessel by name alone")
+            problems.append(f"{n} vessel names each linked to more than one vessel")
     return _result("distinct_vessels", problems)
 
 
@@ -241,13 +244,17 @@ def check_core_messages(session: Session, data_dir: Path) -> CheckResult:
         problems.append(f"{n} core messages loaded, expected {CORE_MESSAGE_COUNT}")
     record = session.run(
         "MATCH (f:SourceFile {path: 'messages/core'}) "
-        "RETURN f.row_or_file_count AS count, f.loaded AS loaded"
+        "RETURN f.row_or_file_count AS count, f.loaded AS loaded, f.sha256 AS sha256"
     ).single()
+    directory = data_dir / "messages" / "core"
     if record is None:
         problems.append("no SourceFile for messages/core")
-    elif record["loaded"] is not True or record["count"] != CORE_MESSAGE_COUNT:
-        problems.append(f"messages/core SourceFile: count {record['count']}, loaded {record['loaded']}")
-    on_disk = len(list((data_dir / "messages" / "core").glob("*.txt")))
+    else:
+        if record["loaded"] is not True or record["count"] != CORE_MESSAGE_COUNT:
+            problems.append(f"messages/core SourceFile: count {record['count']}, loaded {record['loaded']}")
+        if record["sha256"] != directory_sha256(directory):
+            problems.append("messages/core changed since it was loaded")
+    on_disk = len(list(directory.glob("*.txt")))
     if on_disk != CORE_MESSAGE_COUNT:
         problems.append(f"{on_disk} core message files on disk")
     return _result("core_messages", problems)
