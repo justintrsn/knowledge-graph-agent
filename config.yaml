@@ -13,3 +13,4 @@ cypher:
   max_path_length: 6
 messages:
   include_extra: false
+  use_cache: true  # never call Claude for extraction; set false to allow `kg extract` to call it

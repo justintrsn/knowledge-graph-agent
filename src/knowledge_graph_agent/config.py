@@ -46,6 +46,8 @@ class CypherSettings(_Settings):
 
 class MessageSettings(_Settings):
     include_extra: bool
+    # True: never call the API for extraction, only use cache/extractions/.
+    use_cache: bool = True
 
 
 class Config(_Settings):
