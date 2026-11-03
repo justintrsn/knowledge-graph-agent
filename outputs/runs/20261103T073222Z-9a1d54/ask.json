@@ -1,0 +1,214 @@
+{
+  "question": "What is the IMO number and technical manager of MV Ocean Star?",
+  "status": "failed_validation",
+  "error": null,
+  "steps": [
+    {
+      "index": 1,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_011drTfVq67KjEsfyQz4DYFL",
+          "name": "find_vessel",
+          "input": {
+            "query": "MV Ocean Star"
+          },
+          "output": {
+            "rows": [
+              {
+                "technical_manager": "Harbourline Ship Management",
+                "name": "MV Ocean Star",
+                "vessel_id": "V001",
+                "source_ref": "vessels.csv:2",
+                "imo": "9876543",
+                "name_normalized": "ocean star",
+                "evidence_id": "V001",
+                "type": "Container ship",
+                "vessel_class": "Meridian 8500",
+                "match_method": "name",
+                "match_confidence": 0.95
+              }
+            ],
+            "evidence_ids": [
+              "V001"
+            ],
+            "searched": [
+              "FILE:vessels.csv"
+            ],
+            "truncated": false,
+            "note": null
+          },
+          "is_error": false,
+          "duration_ms": 293
+        }
+      ],
+      "usage": {
+        "input_tokens": 97,
+        "output_tokens": 56,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 4137
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 2,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "end_turn",
+      "thinking": [],
+      "text": [
+        "{\"question_status\":\"answerable\",\"headline\":{\"text\":\"MV Ocean Star has IMO number 9876543. Its technical manager is Harbourline Ship Management.\",\"evidence_ids\":[\"V001\"],\"cited_values\":[{\"evidence_id\":\"V001\",\"field\":\"imo\",\"value\":\"9876543\"},{\"evidence_id\":\"V001\",\"field\":\"technical_manager\",\"value\":\"Harbourline Ship Management\"}]},\"interpretation\":[],\"confirmed_facts\":[{\"text\":\"The vessel table lists MV Ocean Star (V001) with IMO 9876543 and technical manager Harbourline Ship Management. The name match confidence was 0.95.\",\"evidence_ids\":[\"V001\"],\"cited_values\":[{\"evidence_id\":\"V001\",\"field\":\"imo\",\"value\":\"9876543\"},{\"evidence_id\":\"V001\",\"field\":\"technical_manager\",\"value\":\"Harbourline Ship Management\"},{\"evidence_id\":\"V001\",\"field\":\"match_confidence\",\"value\":0.95}]}],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[],\"suspicious_content\":[],\"recommended_checks\":[],\"incomplete\":false,\"not_checked\":[]}"
+      ],
+      "tool_calls": [],
+      "usage": {
+        "input_tokens": 347,
+        "output_tokens": 403,
+        "cache_read_input_tokens": 4137,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    }
+  ],
+  "answer": {
+    "question_status": "answerable",
+    "headline": {
+      "text": "MV Ocean Star has IMO number 9876543. Its technical manager is Harbourline Ship Management.",
+      "evidence_ids": [
+        "V001"
+      ],
+      "cited_values": [
+        {
+          "evidence_id": "V001",
+          "field": "imo",
+          "value": "9876543"
+        },
+        {
+          "evidence_id": "V001",
+          "field": "technical_manager",
+          "value": "Harbourline Ship Management"
+        }
+      ]
+    },
+    "interpretation": [],
+    "confirmed_facts": [
+      {
+        "text": "The vessel table lists MV Ocean Star (V001) with IMO 9876543 and technical manager Harbourline Ship Management. The name match confidence was 0.95.",
+        "evidence_ids": [
+          "V001"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "V001",
+            "field": "imo",
+            "value": "9876543"
+          },
+          {
+            "evidence_id": "V001",
+            "field": "technical_manager",
+            "value": "Harbourline Ship Management"
+          },
+          {
+            "evidence_id": "V001",
+            "field": "match_confidence",
+            "value": 0.95
+          }
+        ]
+      }
+    ],
+    "unverified_reports": [],
+    "inferences": [],
+    "exclusions": [],
+    "data_gaps": [],
+    "suspicious_content": [],
+    "recommended_checks": [],
+    "incomplete": false,
+    "not_checked": []
+  },
+  "raw_answer": "{\"question_status\":\"answerable\",\"headline\":{\"text\":\"MV Ocean Star has IMO number 9876543. Its technical manager is Harbourline Ship Management.\",\"evidence_ids\":[\"V001\"],\"cited_values\":[{\"evidence_id\":\"V001\",\"field\":\"imo\",\"value\":\"9876543\"},{\"evidence_id\":\"V001\",\"field\":\"technical_manager\",\"value\":\"Harbourline Ship Management\"}]},\"interpretation\":[],\"confirmed_facts\":[{\"text\":\"The vessel table lists MV Ocean Star (V001) with IMO 9876543 and technical manager Harbourline Ship Management. The name match confidence was 0.95.\",\"evidence_ids\":[\"V001\"],\"cited_values\":[{\"evidence_id\":\"V001\",\"field\":\"imo\",\"value\":\"9876543\"},{\"evidence_id\":\"V001\",\"field\":\"technical_manager\",\"value\":\"Harbourline Ship Management\"},{\"evidence_id\":\"V001\",\"field\":\"match_confidence\",\"value\":0.95}]}],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[],\"suspicious_content\":[],\"recommended_checks\":[],\"incomplete\":false,\"not_checked\":[]}",
+  "retrieved_ids": [
+    "FILE:vessels.csv",
+    "V001"
+  ],
+  "question_id": "ask",
+  "config": {
+    "snapshot_now": "2026-10-26T12:00:00Z",
+    "models": {
+      "extraction": "claude-haiku-5-5",
+      "agent": "claude-sonnet-5-5",
+      "judge": "claude-sonnet-5-5"
+    },
+    "agent": {
+      "effort": "medium",
+      "fallbacks": true,
+      "step_budget": {
+        "soft": 5,
+        "hard": 10
+      }
+    },
+    "cypher": {
+      "max_rows": 200,
+      "timeout_seconds": 10,
+      "max_path_length": 6
+    },
+    "messages": {
+      "include_extra": false,
+      "use_cache": true
+    }
+  },
+  "validation": [
+    {
+      "check": "V1_every_claim_has_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V2_cited_ids_exist",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V3_cited_ids_were_retrieved",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V4_cited_values_match",
+      "status": "fail",
+      "detail": "V001 has no field 'match_confidence'"
+    },
+    {
+      "check": "V5_confirmed_claims_cite_confirmed_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V6_port_wide_figures_not_vessel_facts",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V7_inferences_have_a_basis",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V8_suspicious_content_disclosed",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V9_no_inferences_on_non_answers",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V10_figures_are_cited",
+      "status": "warn",
+      "detail": "001 in 'The vessel table lists MV Ocean Star (V001) with I'"
+    }
+  ]
+}
