@@ -69,8 +69,8 @@ MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.v
 | `kg load`, `kg extract`, `kg verify` | Built |
 | Data profile notebook | Built |
 | Agent machinery: answer format, validator, tool framework, loop, transcripts, `kg ask` | Built; unit-tested, and the live smoke test passes |
-| Agent tools | Only `find_vessel`, `find_port` and `source_coverage` so far |
-| Question tools (voyages, delays, incidents, bookings, congestion) | Not built |
+| Tools for explaining a delay (User Story 1): `current_voyage`, `incidents`, `port_calls`, `congestion`, `message_claims` | Built and tested against the graph; not yet tried on the real question with Claude |
+| Tools for the other stories (bookings, voyage history, arrivals, guarded Cypher) | Not built |
 | Evaluation, `kg run`, and one-command `docker compose up` | Not built |
 
 The sections below describe the full design. Parts not built yet are described as planned.
@@ -96,6 +96,18 @@ The sections below describe the full design. Parts not built yet are described a
 
 1. Claude Sonnet gets the question, a system prompt ([`agent/prompts.py`](src/knowledge_graph_agent/agent/prompts.py)) with the graph schema and the rules, and a list of tools.
 2. It calls tools ([`agent/tools.py`](src/knowledge_graph_agent/agent/tools.py)). Each tool runs a fixed, read-only Cypher query and returns rows, each with its `evidence_id` and `source_ref`, plus what was searched and whether the result was cut short. Claude never writes Cypher itself.
+
+   Each row is a node's graph fields, which Claude may cite. Anything the tool works out itself, such as elapsed hours between two times or links to other nodes, sits under the row's `computed` key: Claude can reason with it, but cites the graph fields it came from. The tools so far:
+
+   | Tool | What it returns |
+   |---|---|
+   | `find_vessel`, `find_port` | The vessel or port matching a name, variant, code or IMO; suggestions if nothing matches |
+   | `current_voyage` | The voyage in progress at the snapshot, its delay in elapsed hours, and the next voyage |
+   | `incidents` | Incidents on given voyages or vessels, with status, hours (blank stays null), and the messages that report or correct them |
+   | `port_calls` | Port calls, with hours from anchoring to berthing (the scheduled berth if not berthed yet) |
+   | `congestion` | Daily port-wide congestion, the last date with data, and dates missing |
+   | `message_claims` | Facts from messages with exact quotes, marked untrusted, with conflicts, corrections and suspicious messages flagged |
+   | `source_coverage` | Which tables and message folders were loaded |
 3. It repeats until it has enough. After 5 tool steps it is reminded to wrap up. At 10 it must answer with what it has, and the answer is marked incomplete.
 4. It returns a structured answer ([`agent/answer.py`](src/knowledge_graph_agent/agent/answer.py)): a headline, then confirmed facts, unverified reports, inferences, exclusions, data gaps, suspicious content and recommended checks. Every claim lists the evidence IDs behind it.
 5. Code checks the answer ([`agent/validate.py`](src/knowledge_graph_agent/agent/validate.py), checks V1 to V10). For example: every cited ID exists and was actually returned by a tool in this run, every cited value matches the graph, nothing unverified is presented as confirmed, and nothing from a suspicious message is repeated as fact. A failed check doesn't hide the answer, but it is flagged in red and `kg ask` exits with code 3.

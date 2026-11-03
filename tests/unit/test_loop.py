@@ -120,7 +120,7 @@ def test_request_settings():
     assert sent["thinking"] == {"type": "adaptive", "display": "summarized"}
     assert sent["output_config"]["format"]["type"] == "json_schema"
     assert sent["system"][-1]["cache_control"] == {"type": "ephemeral"}
-    assert all(t["strict"] for t in sent["tools"])
+    assert all("strict" not in t for t in sent["tools"])  # the answer format is strict; tools are checked locally
     assert sent["fallbacks"] == "default"
     assert "tool_choice" not in sent
 

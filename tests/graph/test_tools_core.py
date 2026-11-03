@@ -68,7 +68,7 @@ def test_every_row_has_evidence_id_and_source_ref(ctx):
 
 def test_bad_parameters_are_an_error_result(ctx):
     result, is_error = tools.execute(ctx, "find_vessel", {"name": "x"})
-    assert is_error and "takes exactly" in result["error"]
+    assert is_error and "unknown ['name']" in result["error"]
 
 
 def test_lookup_returns_labels_and_message_details(ctx):
