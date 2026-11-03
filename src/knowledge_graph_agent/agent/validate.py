@@ -119,7 +119,8 @@ def _is_confirmed(node: dict[str, Any]) -> bool:
 _NOT_FIGURES = re.compile(
     r"\b[A-Z]{1,5}[-:][\w-]+(?:#\d+)?|\b\d{4}-\d{2}-\d{2}(?:T[\d:]+Z?)?|\b\d{1,2}:\d{2}\b"
 )
-_FIGURE = re.compile(r"\d+(?:\.\d+)?")
+# A number on its own, not digits inside an ID such as V001
+_FIGURE = re.compile(r"(?<![A-Za-z\d.])\d+(?:\.\d+)?")
 
 
 def validate(

@@ -31,7 +31,8 @@ def call(ctx, name, **params):
 def test_find_vessel_by_name_variant(ctx):
     result = call(ctx, "find_vessel", query="M/V OCEAN STAR")
     assert result["evidence_ids"] == ["V001"]
-    assert result["rows"][0]["match_method"] == "name"
+    assert result["match"]["method"] == "name"
+    assert "match_method" not in result["rows"][0]  # rows hold graph fields only
 
 
 def test_find_vessel_by_imo(ctx):

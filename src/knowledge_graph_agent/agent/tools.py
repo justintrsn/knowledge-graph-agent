@@ -38,7 +38,7 @@ class ToolContext:
 
 @dataclass
 class ToolResult:
-    rows: list[dict[str, Any]] = field(default_factory=list)
+    rows: list[dict[str, Any]] = field(default_factory=list)  # graph properties only, so every field is citable
     searched: list[str] = field(default_factory=list)
     truncated: bool = False
     note: str | None = None
@@ -152,10 +152,15 @@ def close_names(written: str, names: list[str], n: int = 3) -> list[str]:
 # --- Tools --------------------------------------------------------------------
 
 
+def _match_info(match) -> dict[str, Any]:
+    """How a name was matched. Kept out of the rows: it is not a graph field."""
+    return {"match": {"method": match.method, "confidence": match.confidence}}
+
+
 @tool(
     "find_vessel",
     "Find a vessel by name, a variant of its name, an abbreviation, or its IMO number. "
-    "Returns the match with how it was matched and how confident that is. If nothing "
+    "Returns the vessel's row, and in `match` how it was matched and how confident that is (not citable). If nothing "
     "matches, rows are empty and `suggestions` lists similar names: these are NOT matches.",
     query={"type": "string", "description": "The vessel as the user wrote it, e.g. 'MV Ocean Star' or 'IMO 9876543'."},
 )
@@ -163,8 +168,7 @@ def find_vessel(ctx: ToolContext, query: str) -> ToolResult:
     match = resolve_vessel(query, ctx.ref, context=query)
     if match.resolved:
         vessel = node(ctx, "Vessel", match.entity_id)
-        row = vessel | {"match_method": match.method, "match_confidence": match.confidence}
-        return ToolResult(rows=[row], searched=["FILE:vessels.csv"])
+        return ToolResult(rows=[vessel], searched=["FILE:vessels.csv"], extra=_match_info(match))
     names = [v.name for v in ctx.ref.vessels.values()]
     return ToolResult(
         searched=["FILE:vessels.csv"],
@@ -183,8 +187,7 @@ def find_port(ctx: ToolContext, query: str) -> ToolResult:
     match = resolve_port(query, ctx.ref)
     if match.resolved:
         port = node(ctx, "Port", match.entity_id)
-        row = port | {"match_method": match.method, "match_confidence": match.confidence}
-        return ToolResult(rows=[row], searched=["FILE:ports.csv"])
+        return ToolResult(rows=[port], searched=["FILE:ports.csv"], extra=_match_info(match))
     names = [p.name for p in ctx.ref.ports.values()]
     return ToolResult(
         searched=["FILE:ports.csv"],

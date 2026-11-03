@@ -16,6 +16,7 @@ from knowledge_graph_agent.agent.answer import Answer
 from knowledge_graph_agent.agent.loop import run_agent
 from knowledge_graph_agent.agent.prompts import system_prompt
 from knowledge_graph_agent.agent.tools import ToolContext
+from knowledge_graph_agent.agent.validate import Neo4jLookup, passed, validate
 from knowledge_graph_agent.config import has_api_key, load_config
 from knowledge_graph_agent.extract.resolve import ReferenceData
 from knowledge_graph_agent.graph.load_facts import load_facts
@@ -45,5 +46,8 @@ def test_question_calls_a_tool_then_returns_a_valid_answer(driver):
     assert run.tool_steps >= 1, "the answer must come from a tool"
     assert isinstance(run.answer, Answer)
     assert "V001" in run.retrieved_ids
+    names = [v.name for v in ctx.ref.vessels.values()]
+    results = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), names)
+    assert passed(results), [r for r in results if r.status == "fail"]
     # The second call reuses the cached tools and system prompt
     assert run.steps[1].usage["cache_read_input_tokens"] > 0

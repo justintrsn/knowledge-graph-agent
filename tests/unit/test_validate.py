@@ -140,3 +140,8 @@ def test_v10_uncited_figure_is_only_a_warning():
     results = validate(a, set(GRAPH), FakeLookup(), VESSELS)
     assert {r.check.split("_")[0]: r.status for r in results}["V10"] == "warn"
     assert passed(results)
+
+
+def test_v10_ignores_digits_inside_ids():
+    a = answer(confirmed_facts=[claim("MV Ocean Star (V001) is on VG1042.", "INC-201")])
+    assert check(a)["V10"] == "pass"
