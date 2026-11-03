@@ -69,8 +69,9 @@ MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.v
 | `kg load`, `kg extract`, `kg verify` | Built |
 | Data profile notebook | Built |
 | Agent machinery: answer format, validator, tool framework, loop, transcripts, `kg ask` | Built; unit-tested, and the live smoke test passes |
-| Tools for explaining a delay (User Story 1): `current_voyage`, `incidents`, `port_calls`, `congestion`, `message_claims` | Built and tested against the graph; not yet tried on the real question with Claude |
-| Tools for the other stories (bookings, voyage history, arrivals, guarded Cypher) | Not built |
+| Tools for explaining a delay (User Story 1): `current_voyage`, `incidents`, `port_calls`, `congestion`, `message_claims` | Built; Q1 answered correctly with Claude |
+| Tools for rejecting a false premise (User Story 2): `vessel_voyages`, and port and date filters on `port_calls` | Built; Q3 (false premise) and an unknown-vessel question answered correctly with Claude |
+| Tools for the other stories (bookings, arrivals, guarded Cypher) | Not built |
 | Evaluation, `kg run`, and one-command `docker compose up` | Not built |
 
 The sections below describe the full design. Parts not built yet are described as planned.
@@ -104,7 +105,8 @@ The sections below describe the full design. Parts not built yet are described a
    | `find_vessel`, `find_port` | The vessel or port matching a name, variant, code or IMO; suggestions if nothing matches |
    | `current_voyage` | The voyage in progress at the snapshot, its delay in elapsed hours, and the next voyage |
    | `incidents` | Incidents on given voyages or vessels, with status, hours (blank stays null), and the messages that report or correct them |
-   | `port_calls` | Port calls, with hours from anchoring to berthing (the scheduled berth if not berthed yet) |
+   | `vessel_voyages` | All of a vessel's voyages, each marked completed, in progress or future |
+   | `port_calls` | Port calls by voyage, vessel, port or dates, with hours from anchoring to berthing (the scheduled berth if not berthed yet). An empty result is evidence that a call didn't happen. |
    | `congestion` | Daily port-wide congestion, the last date with data, and dates missing |
    | `message_claims` | Facts from messages with exact quotes, marked untrusted, with conflicts, corrections and suspicious messages flagged |
    | `source_coverage` | Which tables and message folders were loaded |

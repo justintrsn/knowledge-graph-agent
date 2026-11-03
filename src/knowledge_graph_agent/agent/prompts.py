@@ -86,6 +86,9 @@ is a projection: put it under inferences and say what it depends on, even when t
 computed it.
 - Notices about a vessel class or fleet (bulletins, instructions from the technical manager) \
 apply to the vessels in it: use them for causes and checks where relevant.
+- Before explaining why something happened, check that it did: that the vessel was at the \
+place named, in the period named, and that the event is in the data. Look up the records for \
+that place and period; an empty result is evidence, so cite its `searched` sources.
 - If the question rests on a false premise, set question_status to false_premise, say what the \
 data does show, and offer no inferences about causes. If a named vessel or port isn't found, \
 use entity_not_found and mention suggestions only as suggestions.

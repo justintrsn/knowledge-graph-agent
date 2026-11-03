@@ -43,8 +43,11 @@ class Answer(_Strict):
     data_gaps: list[Claim]
     suspicious_content: list[Claim]
     recommended_checks: list[Claim]
-    incomplete: bool
-    not_checked: list[str]
+    incomplete: bool = Field(
+        description="True only if the answer is missing something it needed: you were told the tool "
+        "budget is used up, or a lookup it depends on failed. Not for things beyond the question."
+    )
+    not_checked: list[str] = Field(description="Checks that would have helped but were not made.")
 
     def claims(self) -> list[tuple[str, Claim]]:
         """Every claim with the section it is in."""
@@ -96,7 +99,7 @@ def render(answer: Answer) -> str:
     if answer.question_status != "answerable":
         lines.append(f"(question status: {answer.question_status.replace('_', ' ')})")
     if answer.incomplete:
-        lines.append("(INCOMPLETE: the step budget ran out)")
+        lines.append("(INCOMPLETE: the answer is missing checks it needed; see Not checked)")
     for section in SECTIONS:
         claims = getattr(answer, section)
         if not claims and section not in REQUIRED_SECTIONS:

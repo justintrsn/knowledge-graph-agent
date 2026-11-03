@@ -374,28 +374,50 @@ PORT_CALL_FIELDS = ["anchorage_arrival_utc", "berth_scheduled_utc", "berthing_ut
 
 @tool(
     "port_calls",
-    "Port calls for the given voyages and/or vessels (give at least one list). Blank times are "
-    "null: the event has not happened or does not apply. computed.anchor_to_berth_hours is "
-    "elapsed hours from anchorage arrival to berthing, using the scheduled berth time when the "
-    "vessel has not berthed yet (computed.berth_basis says which); null if either is unknown. "
-    "A scheduled berth is a plan, not a confirmed berthing.",
+    "Port calls, filtered by voyages and/or vessels, a port, and dates (give at least one of "
+    "voyage_ids, vessel_ids or port). The dates keep calls with any time (anchoring, scheduled or "
+    "actual berthing, departure) in the range. Blank times are null: the event has not happened "
+    "or does not apply. computed.anchor_to_berth_hours is elapsed hours from anchorage arrival to "
+    "berthing, using the scheduled berth time when the vessel has not berthed yet "
+    "(computed.berth_basis says which); null if either is unknown. A scheduled berth is a plan, "
+    "not a confirmed berthing. An empty result is evidence of absence: cite `searched`.",
     voyage_ids=NULLABLE_IDS,
     vessel_ids=NULLABLE_IDS,
+    port={"type": ["string", "null"], "description": "UN/LOCODE or port name, or null."},
+    from_date={**NULLABLE_DATE, "description": "On or after this date (YYYY-MM-DD, UTC), or null."},
+    to_date={**NULLABLE_DATE, "description": "On or before this date (YYYY-MM-DD, UTC), or null."},
 )
-def port_calls(ctx: ToolContext, voyage_ids: list[str] | None, vessel_ids: list[str] | None) -> ToolResult:
-    if not voyage_ids and not vessel_ids:
-        raise ToolInputError("Give voyage_ids, vessel_ids or both.")
+def port_calls(
+    ctx: ToolContext,
+    voyage_ids: list[str] | None,
+    vessel_ids: list[str] | None,
+    port: str | None,
+    from_date: str | None,
+    to_date: str | None,
+) -> ToolResult:
+    if not voyage_ids and not vessel_ids and not port:
+        raise ToolInputError("Give voyage_ids, vessel_ids or port.")
     check_vessel_ids(ctx, vessel_ids)
     rows = query(
         ctx,
-        "MATCH (c:PortCall) WHERE c.voyage_id IN $voyage_ids OR c.vessel_id IN $vessel_ids "
+        "MATCH (c:PortCall) "
+        "WHERE ($any_vessel OR c.voyage_id IN $voyage_ids OR c.vessel_id IN $vessel_ids) "
+        "AND ($port IS NULL OR c.port = $port) "
+        "WITH c, [t IN [c.anchorage_arrival_utc, c.berth_scheduled_utc, c.berthing_utc, c.departure_utc] "
+        "WHERE t IS NOT NULL] AS times "
+        "WHERE ($start IS NULL OR any(t IN times WHERE t >= $start)) "
+        "AND ($end IS NULL OR any(t IN times WHERE t < $end)) "
         "WITH c, coalesce(c.berthing_utc, c.berth_scheduled_utc) AS berth "
         "RETURN properties(c) AS call, "
         "CASE WHEN c.berthing_utc IS NOT NULL THEN 'actual' WHEN c.berth_scheduled_utc IS NOT NULL "
         "THEN 'scheduled' END AS basis, "
         f"{hours_between('c.anchorage_arrival_utc', 'berth')} AS hours "
         "ORDER BY coalesce(c.anchorage_arrival_utc, c.departure_utc)",
+        any_vessel=not voyage_ids and not vessel_ids,
         voyage_ids=voyage_ids or [], vessel_ids=vessel_ids or [],
+        port=port_code(ctx, port) if port else None,
+        start=_day_start(parse_date(from_date, "from_date")),
+        end=_day_start(parse_date(to_date, "to_date"), plus_days=1),
     )
     return ToolResult(
         rows=[
@@ -404,6 +426,36 @@ def port_calls(ctx: ToolContext, voyage_ids: list[str] | None, vessel_ids: list[
             for r in rows
         ],
         searched=["FILE:port_calls.csv"],
+    )
+
+
+@tool(
+    "vessel_voyages",
+    "All of a vessel's voyages, oldest first, each with computed.phase relative to the snapshot: "
+    "'completed', 'in_progress' or 'future'. The dates keep voyages that overlap the range "
+    "(departure to revised ETA). Use it to check where a vessel was, or will be, and when.",
+    vessel_id={"type": "string", "description": "A vessel ID from find_vessel, e.g. V001."},
+    from_date={**NULLABLE_DATE, "description": "Overlapping on or after this date (YYYY-MM-DD), or null."},
+    to_date={**NULLABLE_DATE, "description": "Overlapping on or before this date (YYYY-MM-DD), or null."},
+)
+def vessel_voyages(ctx: ToolContext, vessel_id: str, from_date: str | None, to_date: str | None) -> ToolResult:
+    check_vessel_ids(ctx, [vessel_id])
+    rows = query(
+        ctx,
+        "MATCH (v:Voyage {vessel_id: $vessel_id}) "
+        "WITH v, coalesce(v.revised_eta_utc, v.original_eta_utc) AS arrives "
+        "WHERE ($start IS NULL OR arrives >= $start) AND ($end IS NULL OR v.departure_utc < $end) "
+        "RETURN properties(v) AS voyage, "
+        "CASE WHEN v.status = 'Completed' THEN 'completed' WHEN v.departure_utc <= $now THEN 'in_progress' "
+        "ELSE 'future' END AS phase "
+        "ORDER BY v.departure_utc",
+        vessel_id=vessel_id, now=ctx.config.snapshot_now,
+        start=_day_start(parse_date(from_date, "from_date")),
+        end=_day_start(parse_date(to_date, "to_date"), plus_days=1),
+    )
+    return ToolResult(
+        rows=[r["voyage"] | {"computed": {"phase": r["phase"]}} for r in rows],
+        searched=["FILE:voyages.csv"],
     )
 
 
