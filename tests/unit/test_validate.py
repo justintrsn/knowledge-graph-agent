@@ -154,7 +154,7 @@ def test_v4_a_cited_null_matches_a_field_neo4j_left_out():
 
 
 def test_v4_checks_computed_values_against_what_the_tool_returned():
-    computed = {"VG-1042": {"hours_past_window_end": 23.0}}
+    computed = {"VG-1042": {"hours_past_window_end": [23.0]}}
 
     def v4(value):
         a = answer(confirmed_facts=[claim("23 h late.", "VG-1042", values=[("VG-1042", "hours_past_window_end", value)])])
@@ -165,3 +165,27 @@ def test_v4_checks_computed_values_against_what_the_tool_returned():
     # Without the tool's values, the field is unknown
     a = answer(confirmed_facts=[claim("23 h late.", "VG-1042", values=[("VG-1042", "hours_past_window_end", 23)])])
     assert check(a)["V4"] == "fail"
+
+
+def test_v4_lists_match_an_item_or_a_summary_of_items():
+    computed = {"FILE:congestion.csv": {
+        "missing_dates": [["2026-10-20", "2026-10-21", "2026-10-26"], []],  # two calls
+        "searched": [["FILE:congestion.csv"]],
+    }}
+
+    def v4(field, value):
+        a = answer(data_gaps=[claim("Gap.", "FILE:congestion.csv", values=[("FILE:congestion.csv", field, value)])])
+        return {r.check.split("_")[0]: r.status for r in validate(a, set(GRAPH) | {"FILE:congestion.csv"},
+                                                                  FakeLookupWithFile(), VESSELS, computed)}["V4"]
+
+    assert v4("missing_dates", "2026-10-20 to 2026-10-26") == "pass"
+    assert v4("missing_dates", "2026-10-21") == "pass"
+    assert v4("missing_dates", "2026-10-20 to 2026-10-27") == "fail"  # 27 isn't missing
+    assert v4("searched", "FILE:congestion.csv") == "pass"
+
+
+class FakeLookupWithFile(FakeLookup):
+    def get(self, evidence_id):
+        if evidence_id == "FILE:congestion.csv":
+            return {"labels": ["Evidence", "SourceFile"], "path": "congestion.csv"}
+        return super().get(evidence_id)

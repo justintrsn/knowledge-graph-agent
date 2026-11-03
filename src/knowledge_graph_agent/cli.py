@@ -16,7 +16,10 @@ from knowledge_graph_agent.agent.prompts import system_prompt
 from knowledge_graph_agent.agent.tools import ToolContext, source_coverage
 from knowledge_graph_agent.agent.transcript import new_run_dir, save_transcript
 from knowledge_graph_agent.agent.validate import Neo4jLookup, validate
+from knowledge_graph_agent.agent.transcript import DEFAULT_RUNS_DIR
 from knowledge_graph_agent.config import has_api_key, load_config, load_env, neo4j_settings
+from knowledge_graph_agent.evaluate.run import run_evaluation, select
+from knowledge_graph_agent.evaluate.score import load_questions, questions_for, score_run
 from knowledge_graph_agent.extract.llm import ExtractionError, MissingExtractionsError, extract_messages
 from knowledge_graph_agent.extract.messages import load_messages
 from knowledge_graph_agent.extract.resolve import ReferenceData
@@ -24,6 +27,7 @@ from knowledge_graph_agent.graph.db import connect
 from knowledge_graph_agent.graph.load_facts import collections_for, load_facts
 from knowledge_graph_agent.graph.load_tables import load_tables
 from knowledge_graph_agent.graph.verify import all_passed, verify
+from knowledge_graph_agent.pipeline import run_pipeline
 
 app = typer.Typer(no_args_is_help=True, add_completion=False, help="Ship delay operations assistant.")
 
@@ -137,6 +141,75 @@ def ask(
     typer.echo(f"\n[{status}] {run.tool_steps} tool steps, {tokens} tokens. Transcript: {run_dir / 'ask.md'}", err=True)
     if status == "failed_validation":
         raise typer.Exit(EXIT_ANSWER_INVALID)
+
+
+def _report_summary(run_dir) -> int:
+    """Print the report's headline; return the exit code (2 if any question's run failed)."""
+    report = score_run(run_dir, questions_for(run_dir))
+    overall = report["overall"]
+    typer.echo(f"Passed {overall['passed']} of {overall['total']} questions. Report: {run_dir / 'report.md'}")
+    failed_runs = [q["id"] for q in report["questions"] if q["run_failed"]]
+    if failed_runs:
+        typer.secho(f"Runs that failed (recorded, not retried): {', '.join(failed_runs)}", fg=typer.colors.RED, err=True)
+        return EXIT_SERVICE
+    return 0
+
+
+@app.command("run")
+def run_command() -> None:
+    """The whole pipeline: load, verify, then the evaluation if a key is set.
+
+    With a key, calls Claude for every question. Without one, prints a notice
+    naming the delivered run instead.
+    """
+    config = load_config()
+    driver = _driver()
+    try:
+        result = run_pipeline(driver, config, echo=typer.echo)
+    except MissingExtractionsError as e:
+        raise _fail(f"Facts were not loaded: {e}", EXIT_VERIFY_OR_CACHE)
+    except Neo4jError as e:
+        raise _fail(f"Database error: {e}", EXIT_SERVICE)
+    finally:
+        driver.close()
+    if not result.verified:
+        raise typer.Exit(EXIT_VERIFY_OR_CACHE)
+    if result.run_dir:
+        raise typer.Exit(_report_summary(result.run_dir))
+
+
+@app.command("eval")
+def eval_command(
+    ids: str = typer.Option("", "--ids", help="Only these questions, e.g. Q1,Q3."),
+    rescore: str = typer.Option("", "--rescore", help="Recompute the report of a saved run. No key or Neo4j needed."),
+) -> None:
+    """Run the evaluation set as a new run, or rescore a saved one.
+
+    A new run calls Claude for each question and judge item. --rescore uses only
+    the saved answers and verdicts.
+    """
+    if rescore:
+        run_dir = DEFAULT_RUNS_DIR / rescore
+        if not (run_dir / "manifest.json").exists():
+            raise _fail(f"No saved run at {run_dir}", EXIT_VERIFY_OR_CACHE)
+        raise typer.Exit(_report_summary(run_dir))
+
+    if not has_api_key():
+        raise _fail("kg eval needs ANTHROPIC_API_KEY. To rescore a saved run, use --rescore <run_id>.", EXIT_VERIFY_OR_CACHE)
+    try:
+        questions = select(load_questions(), [i.strip() for i in ids.split(",") if i.strip()])
+    except ValueError as e:
+        raise _fail(str(e), EXIT_VERIFY_OR_CACHE)
+    config = load_config()
+    driver = _driver()
+    try:
+        ctx = ToolContext(driver, ReferenceData.from_data(), config)
+        run_dir = run_evaluation(questions, ctx, anthropic.Anthropic(), config, echo=typer.echo)
+    except Neo4jError as e:
+        raise _fail(f"Database error: {e}", EXIT_SERVICE)
+    finally:
+        driver.close()
+    raise typer.Exit(_report_summary(run_dir))
 
 
 @app.command("verify")

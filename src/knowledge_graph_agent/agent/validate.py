@@ -91,7 +91,12 @@ def _as_utc(value: Any) -> datetime | None:
 
 def _value_matches(stored: Any, cited: Any) -> bool:
     """Numbers compare by value (55 equals 55.0), times after converting to
-    UTC, and everything else exactly."""
+    UTC, and everything else exactly. A list matches one of its items, or a
+    summary of them such as '2026-10-20 to 2026-10-26' whose values are all in it."""
+    if isinstance(stored, list):
+        items = {str(x) for x in stored}
+        values = [t for t in re.findall(r"[\w:./#-]+", str(cited)) if re.search(r"\d", t)]
+        return str(cited) in items or (bool(values) and all(v in items for v in values))
     if isinstance(stored, bool) or isinstance(cited, bool):
         return stored == cited
     if isinstance(stored, int | float):
@@ -128,10 +133,11 @@ def validate(
     retrieved_ids: set[str],
     lookup: GraphLookup,
     vessel_names: list[str],
-    computed: dict[str, dict[str, Any]] | None = None,
+    computed: dict[str, dict[str, list[Any]]] | None = None,
 ) -> list[ValidationResult]:
     """Run V1 to V10. `retrieved_ids` are the IDs seen in this run's tool results,
-    and `computed` the values tools worked out for each ID (AgentRun.computed)."""
+    and `computed` every value tools returned for each ID and field beyond the
+    stored node fields (AgentRun.computed)."""
     computed = computed or {}
     claims = answer.claims()
     cited = sorted({i for _, c in claims for i in _cited_ids(c)})
@@ -157,8 +163,8 @@ def validate(
                     continue  # Neo4j doesn't store nulls: a blank field is absent
                 if cv.field not in worked_out:
                     v4.append(f"{cv.evidence_id} has no field {cv.field!r}")
-                elif not _value_matches(worked_out[cv.field], cv.value):
-                    v4.append(f"{cv.evidence_id}.{cv.field} was computed as {worked_out[cv.field]!r}, cited as {cv.value!r}")
+                elif not any(_value_matches(seen, cv.value) for seen in worked_out[cv.field]):
+                    v4.append(f"{cv.evidence_id}.{cv.field} was returned as {worked_out[cv.field]!r}, cited as {cv.value!r}")
             elif not _value_matches(node[cv.field], cv.value):
                 v4.append(f"{cv.evidence_id}.{cv.field} is {node[cv.field]!r}, cited as {cv.value!r}")
 

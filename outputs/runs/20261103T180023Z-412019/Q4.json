@@ -1,0 +1,768 @@
+{
+  "question": "Which customers are affected by Ocean Star's delay, and how many containers does each have on board?",
+  "status": "ok",
+  "error": null,
+  "steps": [
+    {
+      "index": 1,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_01R4LJsqXBHFo76taC1DkCiE",
+          "name": "find_vessel",
+          "input": {
+            "query": "Ocean Star"
+          },
+          "output": {
+            "rows": [
+              {
+                "technical_manager": "Harbourline Ship Management",
+                "name": "MV Ocean Star",
+                "vessel_id": "V001",
+                "source_ref": "vessels.csv:2",
+                "imo": "9876543",
+                "name_normalized": "ocean star",
+                "evidence_id": "V001",
+                "type": "Container ship",
+                "vessel_class": "Meridian 8500"
+              }
+            ],
+            "evidence_ids": [
+              "V001"
+            ],
+            "searched": [
+              "FILE:vessels.csv"
+            ],
+            "truncated": false,
+            "note": null,
+            "match": {
+              "method": "name",
+              "confidence": 0.95
+            }
+          },
+          "is_error": false,
+          "duration_ms": 3
+        }
+      ],
+      "usage": {
+        "input_tokens": 104,
+        "output_tokens": 54,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 2,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_01T6x3vKrNs46xpeHHFp16nY",
+          "name": "current_voyage",
+          "input": {
+            "vessel_id": "V001"
+          },
+          "output": {
+            "rows": [
+              {
+                "revised_eta_utc": "2026-10-27T01:00:00+00:00",
+                "berth_window_start_utc": "2026-10-24T16:00:00+00:00",
+                "origin": "SGSIN",
+                "destination": "NLRTM",
+                "original_eta_local": "2026-10-24 20:00",
+                "vessel_id": "V001",
+                "source_ref": "voyages.csv:3",
+                "evidence_id": "VG-1042",
+                "revised_eta_local": "2026-10-27 02:00",
+                "berth_window_start_local": "2026-10-24 18:00",
+                "berth_window_end_utc": "2026-10-25T04:00:00+00:00",
+                "recorded_delay_hours": 55,
+                "original_eta_utc": "2026-10-24T18:00:00+00:00",
+                "berth_window_end_local": "2026-10-25 05:00",
+                "voyage_id": "VG-1042",
+                "departure_local": "2026-09-30 06:00",
+                "departure_utc": "2026-09-29T22:00:00+00:00",
+                "status": "Delayed",
+                "computed": {
+                  "phase": "current",
+                  "delay_hours": 55.0
+                }
+              },
+              {
+                "revised_eta_utc": "2026-10-31T06:00:00+00:00",
+                "berth_window_start_utc": "2026-10-31T04:00:00+00:00",
+                "origin": "NLRTM",
+                "destination": "DEHAM",
+                "original_eta_local": "2026-10-31 07:00",
+                "vessel_id": "V001",
+                "source_ref": "voyages.csv:4",
+                "evidence_id": "VG-1107",
+                "revised_eta_local": "2026-10-31 07:00",
+                "berth_window_start_local": "2026-10-31 05:00",
+                "berth_window_end_utc": "2026-10-31T16:00:00+00:00",
+                "recorded_delay_hours": 0,
+                "original_eta_utc": "2026-10-31T06:00:00+00:00",
+                "berth_window_end_local": "2026-10-31 17:00",
+                "voyage_id": "VG-1107",
+                "departure_local": "2026-10-29 21:00",
+                "departure_utc": "2026-10-29T20:00:00+00:00",
+                "status": "Scheduled",
+                "computed": {
+                  "phase": "next",
+                  "delay_hours": 0.0
+                }
+              }
+            ],
+            "evidence_ids": [
+              "VG-1042",
+              "VG-1107"
+            ],
+            "searched": [
+              "FILE:voyages.csv"
+            ],
+            "truncated": false,
+            "note": null
+          },
+          "is_error": false,
+          "duration_ms": 7
+        },
+        {
+          "id": "toolu_017RNpeGEBFhnxtro4LccDwb",
+          "name": "source_coverage",
+          "input": {},
+          "output": {
+            "rows": [
+              {
+                "evidence_id": "FILE:bookings.csv",
+                "source_ref": "bookings.csv",
+                "path": "bookings.csv",
+                "loaded": true,
+                "count": 400
+              },
+              {
+                "evidence_id": "FILE:congestion.csv",
+                "source_ref": "congestion.csv",
+                "path": "congestion.csv",
+                "loaded": true,
+                "count": 578
+              },
+              {
+                "evidence_id": "FILE:incidents.csv",
+                "source_ref": "incidents.csv",
+                "path": "incidents.csv",
+                "loaded": true,
+                "count": 90
+              },
+              {
+                "evidence_id": "FILE:messages/core",
+                "source_ref": "messages/core",
+                "path": "messages/core",
+                "loaded": true,
+                "count": 15
+              },
+              {
+                "evidence_id": "FILE:messages/extra",
+                "source_ref": "messages/extra",
+                "path": "messages/extra",
+                "loaded": false,
+                "count": 45
+              },
+              {
+                "evidence_id": "FILE:port_calls.csv",
+                "source_ref": "port_calls.csv",
+                "path": "port_calls.csv",
+                "loaded": true,
+                "count": 231
+              },
+              {
+                "evidence_id": "FILE:ports.csv",
+                "source_ref": "ports.csv",
+                "path": "ports.csv",
+                "loaded": true,
+                "count": 15
+              },
+              {
+                "evidence_id": "FILE:vessels.csv",
+                "source_ref": "vessels.csv",
+                "path": "vessels.csv",
+                "loaded": true,
+                "count": 40
+              },
+              {
+                "evidence_id": "FILE:voyages.csv",
+                "source_ref": "voyages.csv",
+                "path": "voyages.csv",
+                "loaded": true,
+                "count": 121
+              }
+            ],
+            "evidence_ids": [
+              "FILE:bookings.csv",
+              "FILE:congestion.csv",
+              "FILE:incidents.csv",
+              "FILE:messages/core",
+              "FILE:messages/extra",
+              "FILE:port_calls.csv",
+              "FILE:ports.csv",
+              "FILE:vessels.csv",
+              "FILE:voyages.csv"
+            ],
+            "searched": [
+              "FILE:bookings.csv",
+              "FILE:congestion.csv",
+              "FILE:incidents.csv",
+              "FILE:messages/core",
+              "FILE:messages/extra",
+              "FILE:port_calls.csv",
+              "FILE:ports.csv",
+              "FILE:vessels.csv",
+              "FILE:voyages.csv"
+            ],
+            "truncated": false,
+            "note": "Not loaded: messages/extra."
+          },
+          "is_error": false,
+          "duration_ms": 4
+        }
+      ],
+      "usage": {
+        "input_tokens": 354,
+        "output_tokens": 79,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 3,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_01B991CCx1bKsEbr5WSPbZJc",
+          "name": "run_read_cypher",
+          "input": {
+            "query": "MATCH (c:Customer)-[:HOLDS]->(b:Booking)-[:ON_VOYAGE]->(v:Voyage {voyage_id:'VG-1042'}) RETURN c.name AS customer, c.evidence_id AS cid, b.evidence_id AS evidence_id, b.containers AS containers, b.status_raw AS status_raw, b.status_normalized AS status_normalized, b.promised_delivery_date AS promised",
+            "reason": "No typed tool lists bookings by voyage."
+          },
+          "output": {
+            "rows": [
+              {
+                "customer": "Halden Retail",
+                "cid": "CUST-halden-retail",
+                "evidence_id": "BK-50009",
+                "containers": 15,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Petra Chemicals",
+                "cid": "CUST-petra-chemicals",
+                "evidence_id": "BK-50006",
+                "containers": 45,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Kaimon Electronics",
+                "cid": "CUST-kaimon-electronics",
+                "evidence_id": "BK-50007",
+                "containers": 30,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Kaimon Electronics",
+                "cid": "CUST-kaimon-electronics",
+                "evidence_id": "BK-50002",
+                "containers": 60,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Northgate Auto",
+                "cid": "CUST-northgate-auto",
+                "evidence_id": "BK-50008",
+                "containers": 50,
+                "status_raw": "Rolled to VG-1107",
+                "status_normalized": "rolled",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Lumio Home",
+                "cid": "CUST-lumio-home",
+                "evidence_id": "BK-50005",
+                "containers": 18,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Lumio Home",
+                "cid": "CUST-lumio-home",
+                "evidence_id": "BK-50010",
+                "containers": 12,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Halden Retail",
+                "cid": "CUST-halden-retail",
+                "evidence_id": "BK-50004",
+                "containers": 25,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Brightline Apparel",
+                "cid": "CUST-brightline-apparel",
+                "evidence_id": "BK-50011",
+                "containers": 20,
+                "status_raw": "Cancelled",
+                "status_normalized": "cancelled",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Halden Retail",
+                "cid": "CUST-halden-retail",
+                "evidence_id": "BK-50001",
+                "containers": 40,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              },
+              {
+                "customer": "Verdant Foods",
+                "cid": "CUST-verdant-foods",
+                "evidence_id": "BK-50003",
+                "containers": 22,
+                "status_raw": "Confirmed",
+                "status_normalized": "confirmed",
+                "promised": "2026-10-28"
+              }
+            ],
+            "evidence_ids": [
+              "BK-50009",
+              "BK-50006",
+              "BK-50007",
+              "BK-50002",
+              "BK-50008",
+              "BK-50005",
+              "BK-50010",
+              "BK-50004",
+              "BK-50011",
+              "BK-50001",
+              "BK-50003"
+            ],
+            "searched": [],
+            "truncated": false,
+            "note": null
+          },
+          "is_error": false,
+          "duration_ms": 305
+        }
+      ],
+      "usage": {
+        "input_tokens": 2068,
+        "output_tokens": 241,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 4,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "end_turn",
+      "thinking": [
+        "I'm adding up each passenger's totals: Halden comes to 80 from 15, 25 and 40, Petra is 45, Kaimon is 90, Lumio is 30, and Verdant is 22. Northgate's 50 doesn't count since they aren't on board this voyage, and Brightline is excluded because it was cancelled.\n\n"
+      ],
+      "text": [
+        "{\"question_status\":\"answerable\",\"headline\":{\"text\":\"MV Ocean Star's current voyage VG-1042 (SGSIN to NLRTM) is delayed 55 hours. Five customers have confirmed containers on it: Halden Retail 80, Kaimon Electronics 90, Petra Chemicals 45, Lumio Home 30 and Verdant Foods 22.\",\"evidence_ids\":[\"VG-1042\",\"BK-50001\",\"BK-50004\",\"BK-50009\",\"BK-50002\",\"BK-50007\",\"BK-50006\",\"BK-50005\",\"BK-50010\",\"BK-50003\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"recorded_delay_hours\",\"value\":55}]},\"interpretation\":[{\"text\":\"I read 'Ocean Star's delay' as the in-progress voyage VG-1042 (status Delayed, revised ETA 2026-10-27 01:00 UTC against an original ETA of 2026-10-24 18:00 UTC). 'On board' means bookings still on VG-1042 with status Confirmed. The per-customer totals are my sums of the booking rows.\",\"evidence_ids\":[\"VG-1042\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"revised_eta_utc\",\"value\":\"2026-10-27T01:00:00+00:00\"},{\"evidence_id\":\"VG-1042\",\"field\":\"original_eta_utc\",\"value\":\"2026-10-24T18:00:00+00:00\"}]}],\"confirmed_facts\":[{\"text\":\"Halden Retail has 80 containers on VG-1042, from three bookings of 40, 25 and 15.\",\"evidence_ids\":[\"BK-50001\",\"BK-50004\",\"BK-50009\"],\"cited_values\":[{\"evidence_id\":\"BK-50001\",\"field\":\"containers\",\"value\":40},{\"evidence_id\":\"BK-50004\",\"field\":\"containers\",\"value\":25},{\"evidence_id\":\"BK-50009\",\"field\":\"containers\",\"value\":15}]},{\"text\":\"Kaimon Electronics has 90 containers, from two bookings of 60 and 30.\",\"evidence_ids\":[\"BK-50002\",\"BK-50007\"],\"cited_values\":[{\"evidence_id\":\"BK-50002\",\"field\":\"containers\",\"value\":60},{\"evidence_id\":\"BK-50007\",\"field\":\"containers\",\"value\":30}]},{\"text\":\"Petra Chemicals has 45 containers.\",\"evidence_ids\":[\"BK-50006\"],\"cited_values\":[{\"evidence_id\":\"BK-50006\",\"field\":\"containers\",\"value\":45}]},{\"text\":\"Lumio Home has 30 containers, from two bookings of 18 and 12.\",\"evidence_ids\":[\"BK-50005\",\"BK-50010\"],\"cited_values\":[{\"evidence_id\":\"BK-50005\",\"field\":\"containers\",\"value\":18},{\"evidence_id\":\"BK-50010\",\"field\":\"containers\",\"value\":12}]},{\"text\":\"Verdant Foods has 22 containers.\",\"evidence_ids\":[\"BK-50003\"],\"cited_values\":[{\"evidence_id\":\"BK-50003\",\"field\":\"containers\",\"value\":22}]},{\"text\":\"All of these bookings carry a promised delivery date of 2026-10-28.\",\"evidence_ids\":[\"BK-50001\"],\"cited_values\":[{\"evidence_id\":\"BK-50001\",\"field\":\"promised_delivery_date\",\"value\":\"2026-10-28\"}]}],\"unverified_reports\":[],\"inferences\":[{\"text\":\"The 2026-10-28 promise looks tight for every confirmed booking. The vessel is not due at Rotterdam until 2026-10-27 01:00 UTC, and the berth window closed on 2026-10-25 04:00 UTC. This depends on actual arrival and discharge timing.\",\"evidence_ids\":[\"VG-1042\",\"BK-50001\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"revised_eta_utc\",\"value\":\"2026-10-27T01:00:00+00:00\"},{\"evidence_id\":\"VG-1042\",\"field\":\"berth_window_end_utc\",\"value\":\"2026-10-25T04:00:00+00:00\"}],\"based_on\":\"The revised ETA, the berth window and the promised delivery dates. The ETA is a projection.\"}],\"exclusions\":[{\"text\":\"Northgate Auto's 50-container booking is marked 'Rolled to VG-1107', so I left it out of the on-board count. It is still affected, because it now depends on the next voyage, which is scheduled to depart on 2026-10-29.\",\"evidence_ids\":[\"BK-50008\",\"VG-1107\"],\"cited_values\":[{\"evidence_id\":\"BK-50008\",\"field\":\"status_raw\",\"value\":\"Rolled to VG-1107\"},{\"evidence_id\":\"BK-50008\",\"field\":\"containers\",\"value\":50}]},{\"text\":\"Brightline Apparel's 20-container booking is Cancelled, so I excluded it.\",\"evidence_ids\":[\"BK-50011\"],\"cited_values\":[{\"evidence_id\":\"BK-50011\",\"field\":\"status_raw\",\"value\":\"Cancelled\"},{\"evidence_id\":\"BK-50011\",\"field\":\"containers\",\"value\":20}]}],\"data_gaps\":[{\"text\":\"The messages/extra folder (45 files) was not loaded, so any notes in it about this voyage or its bookings are missing. I did not look up incidents or the cause of the delay, because the question didn't ask for them.\",\"evidence_ids\":[\"FILE:messages/extra\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Confirm with Northgate Auto that the roll to VG-1107 is acceptable. VG-1107 is scheduled for Rotterdam to Hamburg, but the booking sits on a voyage whose origin is Singapore. Also check which port the cargo is destined for.\",\"evidence_ids\":[\"BK-50008\",\"VG-1107\"],\"cited_values\":[]},{\"text\":\"Check actual arrival and discharge at Rotterdam against the 2026-10-28 promised delivery dates.\",\"evidence_ids\":[\"VG-1042\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[\"Incidents and causes of the VG-1042 delay\",\"Whether other bookings were rolled onto VG-1107\"]}"
+      ],
+      "tool_calls": [],
+      "usage": {
+        "input_tokens": 3432,
+        "output_tokens": 2152,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    }
+  ],
+  "answer": {
+    "question_status": "answerable",
+    "headline": {
+      "text": "MV Ocean Star's current voyage VG-1042 (SGSIN to NLRTM) is delayed 55 hours. Five customers have confirmed containers on it: Halden Retail 80, Kaimon Electronics 90, Petra Chemicals 45, Lumio Home 30 and Verdant Foods 22.",
+      "evidence_ids": [
+        "VG-1042",
+        "BK-50001",
+        "BK-50004",
+        "BK-50009",
+        "BK-50002",
+        "BK-50007",
+        "BK-50006",
+        "BK-50005",
+        "BK-50010",
+        "BK-50003"
+      ],
+      "cited_values": [
+        {
+          "evidence_id": "VG-1042",
+          "field": "recorded_delay_hours",
+          "value": 55.0
+        }
+      ]
+    },
+    "interpretation": [
+      {
+        "text": "I read 'Ocean Star's delay' as the in-progress voyage VG-1042 (status Delayed, revised ETA 2026-10-27 01:00 UTC against an original ETA of 2026-10-24 18:00 UTC). 'On board' means bookings still on VG-1042 with status Confirmed. The per-customer totals are my sums of the booking rows.",
+        "evidence_ids": [
+          "VG-1042"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "VG-1042",
+            "field": "revised_eta_utc",
+            "value": "2026-10-27T01:00:00+00:00"
+          },
+          {
+            "evidence_id": "VG-1042",
+            "field": "original_eta_utc",
+            "value": "2026-10-24T18:00:00+00:00"
+          }
+        ]
+      }
+    ],
+    "confirmed_facts": [
+      {
+        "text": "Halden Retail has 80 containers on VG-1042, from three bookings of 40, 25 and 15.",
+        "evidence_ids": [
+          "BK-50001",
+          "BK-50004",
+          "BK-50009"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50001",
+            "field": "containers",
+            "value": 40.0
+          },
+          {
+            "evidence_id": "BK-50004",
+            "field": "containers",
+            "value": 25.0
+          },
+          {
+            "evidence_id": "BK-50009",
+            "field": "containers",
+            "value": 15.0
+          }
+        ]
+      },
+      {
+        "text": "Kaimon Electronics has 90 containers, from two bookings of 60 and 30.",
+        "evidence_ids": [
+          "BK-50002",
+          "BK-50007"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50002",
+            "field": "containers",
+            "value": 60.0
+          },
+          {
+            "evidence_id": "BK-50007",
+            "field": "containers",
+            "value": 30.0
+          }
+        ]
+      },
+      {
+        "text": "Petra Chemicals has 45 containers.",
+        "evidence_ids": [
+          "BK-50006"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50006",
+            "field": "containers",
+            "value": 45.0
+          }
+        ]
+      },
+      {
+        "text": "Lumio Home has 30 containers, from two bookings of 18 and 12.",
+        "evidence_ids": [
+          "BK-50005",
+          "BK-50010"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50005",
+            "field": "containers",
+            "value": 18.0
+          },
+          {
+            "evidence_id": "BK-50010",
+            "field": "containers",
+            "value": 12.0
+          }
+        ]
+      },
+      {
+        "text": "Verdant Foods has 22 containers.",
+        "evidence_ids": [
+          "BK-50003"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50003",
+            "field": "containers",
+            "value": 22.0
+          }
+        ]
+      },
+      {
+        "text": "All of these bookings carry a promised delivery date of 2026-10-28.",
+        "evidence_ids": [
+          "BK-50001"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50001",
+            "field": "promised_delivery_date",
+            "value": "2026-10-28"
+          }
+        ]
+      }
+    ],
+    "unverified_reports": [],
+    "inferences": [
+      {
+        "text": "The 2026-10-28 promise looks tight for every confirmed booking. The vessel is not due at Rotterdam until 2026-10-27 01:00 UTC, and the berth window closed on 2026-10-25 04:00 UTC. This depends on actual arrival and discharge timing.",
+        "evidence_ids": [
+          "VG-1042",
+          "BK-50001"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "VG-1042",
+            "field": "revised_eta_utc",
+            "value": "2026-10-27T01:00:00+00:00"
+          },
+          {
+            "evidence_id": "VG-1042",
+            "field": "berth_window_end_utc",
+            "value": "2026-10-25T04:00:00+00:00"
+          }
+        ],
+        "based_on": "The revised ETA, the berth window and the promised delivery dates. The ETA is a projection."
+      }
+    ],
+    "exclusions": [
+      {
+        "text": "Northgate Auto's 50-container booking is marked 'Rolled to VG-1107', so I left it out of the on-board count. It is still affected, because it now depends on the next voyage, which is scheduled to depart on 2026-10-29.",
+        "evidence_ids": [
+          "BK-50008",
+          "VG-1107"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50008",
+            "field": "status_raw",
+            "value": "Rolled to VG-1107"
+          },
+          {
+            "evidence_id": "BK-50008",
+            "field": "containers",
+            "value": 50.0
+          }
+        ]
+      },
+      {
+        "text": "Brightline Apparel's 20-container booking is Cancelled, so I excluded it.",
+        "evidence_ids": [
+          "BK-50011"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "BK-50011",
+            "field": "status_raw",
+            "value": "Cancelled"
+          },
+          {
+            "evidence_id": "BK-50011",
+            "field": "containers",
+            "value": 20.0
+          }
+        ]
+      }
+    ],
+    "data_gaps": [
+      {
+        "text": "The messages/extra folder (45 files) was not loaded, so any notes in it about this voyage or its bookings are missing. I did not look up incidents or the cause of the delay, because the question didn't ask for them.",
+        "evidence_ids": [
+          "FILE:messages/extra"
+        ],
+        "cited_values": []
+      }
+    ],
+    "suspicious_content": [],
+    "recommended_checks": [
+      {
+        "text": "Confirm with Northgate Auto that the roll to VG-1107 is acceptable. VG-1107 is scheduled for Rotterdam to Hamburg, but the booking sits on a voyage whose origin is Singapore. Also check which port the cargo is destined for.",
+        "evidence_ids": [
+          "BK-50008",
+          "VG-1107"
+        ],
+        "cited_values": []
+      },
+      {
+        "text": "Check actual arrival and discharge at Rotterdam against the 2026-10-28 promised delivery dates.",
+        "evidence_ids": [
+          "VG-1042"
+        ],
+        "cited_values": []
+      }
+    ],
+    "incomplete": false,
+    "not_checked": [
+      "Incidents and causes of the VG-1042 delay",
+      "Whether other bookings were rolled onto VG-1107"
+    ]
+  },
+  "raw_answer": "{\"question_status\":\"answerable\",\"headline\":{\"text\":\"MV Ocean Star's current voyage VG-1042 (SGSIN to NLRTM) is delayed 55 hours. Five customers have confirmed containers on it: Halden Retail 80, Kaimon Electronics 90, Petra Chemicals 45, Lumio Home 30 and Verdant Foods 22.\",\"evidence_ids\":[\"VG-1042\",\"BK-50001\",\"BK-50004\",\"BK-50009\",\"BK-50002\",\"BK-50007\",\"BK-50006\",\"BK-50005\",\"BK-50010\",\"BK-50003\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"recorded_delay_hours\",\"value\":55}]},\"interpretation\":[{\"text\":\"I read 'Ocean Star's delay' as the in-progress voyage VG-1042 (status Delayed, revised ETA 2026-10-27 01:00 UTC against an original ETA of 2026-10-24 18:00 UTC). 'On board' means bookings still on VG-1042 with status Confirmed. The per-customer totals are my sums of the booking rows.\",\"evidence_ids\":[\"VG-1042\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"revised_eta_utc\",\"value\":\"2026-10-27T01:00:00+00:00\"},{\"evidence_id\":\"VG-1042\",\"field\":\"original_eta_utc\",\"value\":\"2026-10-24T18:00:00+00:00\"}]}],\"confirmed_facts\":[{\"text\":\"Halden Retail has 80 containers on VG-1042, from three bookings of 40, 25 and 15.\",\"evidence_ids\":[\"BK-50001\",\"BK-50004\",\"BK-50009\"],\"cited_values\":[{\"evidence_id\":\"BK-50001\",\"field\":\"containers\",\"value\":40},{\"evidence_id\":\"BK-50004\",\"field\":\"containers\",\"value\":25},{\"evidence_id\":\"BK-50009\",\"field\":\"containers\",\"value\":15}]},{\"text\":\"Kaimon Electronics has 90 containers, from two bookings of 60 and 30.\",\"evidence_ids\":[\"BK-50002\",\"BK-50007\"],\"cited_values\":[{\"evidence_id\":\"BK-50002\",\"field\":\"containers\",\"value\":60},{\"evidence_id\":\"BK-50007\",\"field\":\"containers\",\"value\":30}]},{\"text\":\"Petra Chemicals has 45 containers.\",\"evidence_ids\":[\"BK-50006\"],\"cited_values\":[{\"evidence_id\":\"BK-50006\",\"field\":\"containers\",\"value\":45}]},{\"text\":\"Lumio Home has 30 containers, from two bookings of 18 and 12.\",\"evidence_ids\":[\"BK-50005\",\"BK-50010\"],\"cited_values\":[{\"evidence_id\":\"BK-50005\",\"field\":\"containers\",\"value\":18},{\"evidence_id\":\"BK-50010\",\"field\":\"containers\",\"value\":12}]},{\"text\":\"Verdant Foods has 22 containers.\",\"evidence_ids\":[\"BK-50003\"],\"cited_values\":[{\"evidence_id\":\"BK-50003\",\"field\":\"containers\",\"value\":22}]},{\"text\":\"All of these bookings carry a promised delivery date of 2026-10-28.\",\"evidence_ids\":[\"BK-50001\"],\"cited_values\":[{\"evidence_id\":\"BK-50001\",\"field\":\"promised_delivery_date\",\"value\":\"2026-10-28\"}]}],\"unverified_reports\":[],\"inferences\":[{\"text\":\"The 2026-10-28 promise looks tight for every confirmed booking. The vessel is not due at Rotterdam until 2026-10-27 01:00 UTC, and the berth window closed on 2026-10-25 04:00 UTC. This depends on actual arrival and discharge timing.\",\"evidence_ids\":[\"VG-1042\",\"BK-50001\"],\"cited_values\":[{\"evidence_id\":\"VG-1042\",\"field\":\"revised_eta_utc\",\"value\":\"2026-10-27T01:00:00+00:00\"},{\"evidence_id\":\"VG-1042\",\"field\":\"berth_window_end_utc\",\"value\":\"2026-10-25T04:00:00+00:00\"}],\"based_on\":\"The revised ETA, the berth window and the promised delivery dates. The ETA is a projection.\"}],\"exclusions\":[{\"text\":\"Northgate Auto's 50-container booking is marked 'Rolled to VG-1107', so I left it out of the on-board count. It is still affected, because it now depends on the next voyage, which is scheduled to depart on 2026-10-29.\",\"evidence_ids\":[\"BK-50008\",\"VG-1107\"],\"cited_values\":[{\"evidence_id\":\"BK-50008\",\"field\":\"status_raw\",\"value\":\"Rolled to VG-1107\"},{\"evidence_id\":\"BK-50008\",\"field\":\"containers\",\"value\":50}]},{\"text\":\"Brightline Apparel's 20-container booking is Cancelled, so I excluded it.\",\"evidence_ids\":[\"BK-50011\"],\"cited_values\":[{\"evidence_id\":\"BK-50011\",\"field\":\"status_raw\",\"value\":\"Cancelled\"},{\"evidence_id\":\"BK-50011\",\"field\":\"containers\",\"value\":20}]}],\"data_gaps\":[{\"text\":\"The messages/extra folder (45 files) was not loaded, so any notes in it about this voyage or its bookings are missing. I did not look up incidents or the cause of the delay, because the question didn't ask for them.\",\"evidence_ids\":[\"FILE:messages/extra\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Confirm with Northgate Auto that the roll to VG-1107 is acceptable. VG-1107 is scheduled for Rotterdam to Hamburg, but the booking sits on a voyage whose origin is Singapore. Also check which port the cargo is destined for.\",\"evidence_ids\":[\"BK-50008\",\"VG-1107\"],\"cited_values\":[]},{\"text\":\"Check actual arrival and discharge at Rotterdam against the 2026-10-28 promised delivery dates.\",\"evidence_ids\":[\"VG-1042\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[\"Incidents and causes of the VG-1042 delay\",\"Whether other bookings were rolled onto VG-1107\"]}",
+  "retrieved_ids": [
+    "BK-50001",
+    "BK-50002",
+    "BK-50003",
+    "BK-50004",
+    "BK-50005",
+    "BK-50006",
+    "BK-50007",
+    "BK-50008",
+    "BK-50009",
+    "BK-50010",
+    "BK-50011",
+    "FILE:bookings.csv",
+    "FILE:congestion.csv",
+    "FILE:incidents.csv",
+    "FILE:messages/core",
+    "FILE:messages/extra",
+    "FILE:port_calls.csv",
+    "FILE:ports.csv",
+    "FILE:vessels.csv",
+    "FILE:voyages.csv",
+    "V001",
+    "VG-1042",
+    "VG-1107"
+  ],
+  "computed": {
+    "VG-1042": {
+      "phase": "current",
+      "delay_hours": 55.0
+    },
+    "VG-1107": {
+      "phase": "next",
+      "delay_hours": 0.0
+    }
+  },
+  "question_id": "Q4",
+  "config": {
+    "snapshot_now": "2026-10-26T12:00:00Z",
+    "models": {
+      "extraction": "claude-haiku-5-5",
+      "agent": "claude-sonnet-5-5",
+      "judge": "claude-sonnet-5-5"
+    },
+    "agent": {
+      "effort": "medium",
+      "fallbacks": true,
+      "step_budget": {
+        "soft": 5,
+        "hard": 10
+      }
+    },
+    "cypher": {
+      "max_rows": 200,
+      "timeout_seconds": 10,
+      "max_path_length": 6
+    },
+    "messages": {
+      "include_extra": false,
+      "use_cache": true
+    }
+  },
+  "validation": [
+    {
+      "check": "V1_every_claim_has_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V2_cited_ids_exist",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V3_cited_ids_were_retrieved",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V4_cited_values_match",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V5_confirmed_claims_cite_confirmed_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V6_port_wide_figures_not_vessel_facts",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V7_inferences_have_a_basis",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V8_suspicious_content_disclosed",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V9_no_inferences_on_non_answers",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V10_figures_are_cited",
+      "status": "warn",
+      "detail": "80 in 'Halden Retail has 80 containers on VG-1042, from t'; 90 in 'Kaimon Electronics has 90 containers, from two boo'; 30 in 'Lumio Home has 30 containers, from two bookings of'"
+    }
+  ]
+}

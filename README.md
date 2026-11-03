@@ -9,6 +9,16 @@ Prerequisites:
 - Docker with Compose 2.24 or later
 - [uv](https://docs.astral.sh/uv/), for running tests and the notebook outside containers
 
+**One command**, from a fresh clone, with no `.env` needed:
+
+```bash
+docker compose up --build --abort-on-container-exit --exit-code-from app
+```
+
+This starts Neo4j, builds the graph from the CSVs and cached message facts, and runs the checks. With an API key in `.env` it then runs the evaluation; without one, it says live answering was skipped and names the saved evaluation run instead (never presenting it as new output).
+
+**Working locally:**
+
 ```bash
 uv sync                      # install dependencies
 docker compose up -d neo4j   # start the graph database
@@ -29,10 +39,13 @@ Then open the Neo4j browser at <http://localhost:7474> (user `neo4j`, password `
 | `uv run kg extract --include-extra` | Also processes the 45 messages in `messages/extra`. | API key |
 | `uv run kg ask "<question>"` | Answers one question from the graph with Claude Sonnet, citing evidence, and saves a transcript to `outputs/runs/`. Add `--json` for the raw answer. **Costs money** (a few cents per question). | Neo4j, API key |
 | `uv run pytest` | Runs all tests. Tests that need Neo4j are skipped if it isn't running. **Graph tests wipe and reload the graph.** Never calls Claude. | Neo4j, for `tests/graph` |
+| `uv run kg run` | The whole pipeline: load, verify, then the evaluation if a key is set. Without a key, a notice names the saved evaluation run. | Neo4j; API key for the evaluation |
+| `uv run kg eval [--ids Q1,Q3]` | Runs the 12 evaluation questions (or some of them) as a new run in `outputs/runs/`, judges them and writes `report.md`. **Costs money** (roughly $2–4 for all 12). | Neo4j, API key |
+| `uv run kg eval --rescore <run_id>` | Recomputes a saved run's report from its saved answers and judge verdicts. | Nothing |
 | `KG_LIVE_TESTS=1 uv run pytest tests/live` | One real question through the agent, to check the live API. Skipped unless you set `KG_LIVE_TESTS=1`. **Costs money.** | Neo4j, API key |
 | `uv run jupyter lab notebooks/data_profile.ipynb` | Opens the data profile. | Nothing |
 
-`kg` exit codes: `0` success, `1` a check failed, an extraction is missing, or there is no key, `2` a database or Claude API failure (for `kg ask`: no answer came back), `3` `kg ask` printed an answer but it failed validation, so don't rely on it.
+`kg` exit codes: `0` success, `1` a check failed, an extraction is missing, or there is no key, `2` a database or Claude API failure (for `kg ask`: no answer came back; for `kg eval` and `kg run`: at least one question's run failed, which is still recorded and scored), `3` `kg ask` printed an answer but it failed validation, so don't rely on it.
 
 `kg load` never calls Claude: it only reads the cache. `kg extract` can, but not while `use_cache: true` is set under `messages` in `config.yaml` (the default). With it, no command calls Claude for extraction, and a missing cache entry is reported instead. Set it to `false` only when you want to pay for a new extraction.
 
@@ -75,7 +88,7 @@ MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.v
 | Guarded Cypher fallback (User Story 7, part 1): `run_read_cypher` | Built and tested, including writes refused by Neo4j itself |
 | Extra messages (User Story 7, part 2) | `kg verify` and name matching ready; extraction not run (costs money) |
 | Tools for the other stories (fault history, bookings) | Not built |
-| Evaluation, `kg run`, and one-command `docker compose up` | Not built |
+| Evaluation (User Story 6): 12 questions with rubrics, scorer, judge, `kg eval`, `kg run` | Built and tested offline; checked from a clean clone with Docker. Not yet run live. |
 
 The sections below describe the full design. Parts not built yet are described as planned.
 
@@ -258,6 +271,25 @@ Messages are untrusted text, and one of them contains instructions addressed to 
 3. **Quotes must be exact.** Every fact quotes its message word for word, so the AI can't invent content.
 4. **The answering agent can only read.** Its database session is read-only, enforced by Neo4j rather than by the AI's good behaviour. A blocklist (no `CREATE`, `DELETE`, `CALL` and so on), a time limit and a row limit sit on top.
 
+## Evaluation
+
+[`eval/questions.yaml`](eval/questions.yaml) holds 12 questions: the five from the brief, plus a vessel and a port that don't exist, a similar-name trap, an IMO-only reference, missing data, a question the data can't answer, and an injection combined with a false premise. Each has an expected answer and a rubric. Expected answers live only in this file: a test checks that no agent code reads it.
+
+Each rubric item has a failure type (such as `wrong_entity`, `label_confusion` or `injection_followed`) and a check:
+
+- **Checked by code** from the saved answer: the question status, a pattern in a section (or absent from it), an evidence ID cited in a section, stated totals, and whether the validator passed.
+- **Judged by Claude** (Sonnet), only for what a pattern can't assess, such as "the 35 h at anchor is presented as an inference". Each verdict is saved to `judge.json`.
+
+`kg eval` asks each question once: nothing is re-run until it passes, and a failed run stays in the score as `run_failure`. [`evaluate/score.py`](src/knowledge_graph_agent/evaluate/score.py) then scores the run from its saved files only, so `kg eval --rescore <run_id>` reproduces the report with no key. `report.md` shows:
+
+- the overall pass rate (a question passes only if every rubric item passes)
+- each question's result, status and cache-read tokens, with a link to its transcript
+- the pass rate per failure type
+- every failure, with the rubric items it missed
+- the models, git commit and what was loaded
+
+`outputs/DELIVERED` names the run delivered with the submission.
+
 ## Checks and tests
 
 `kg verify` ([`graph/verify.py`](src/knowledge_graph_agent/graph/verify.py)) checks the graph and returns a pass or fail for each named check. Any failure stops the run. It checks that:
@@ -302,7 +334,12 @@ src/knowledge_graph_agent/
     loop.py               the Claude tool-use loop and step limits
     validate.py           checks V1 to V10 on every answer
     transcript.py         saves each run to outputs/runs/
-  evaluate/               evaluation (planned)
+  evaluate/
+    score.py              the question file, rubric checks and the report
+    judge.py              Claude as judge, for rubric items code can't check
+    run.py                runs the questions as a new evaluation run
+  pipeline.py             kg run: load, verify, then evaluate
+eval/questions.yaml       the evaluation questions, expected answers and rubrics
 tests/                    unit/ (no services), graph/ (needs Neo4j), live/ (calls Claude, opt-in)
 config.yaml               snapshot time, models, limits
 ```

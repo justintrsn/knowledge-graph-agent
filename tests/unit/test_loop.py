@@ -111,7 +111,7 @@ def test_normal_two_step_run():
     assert result.steps[0].thinking == ["Look it up."]
     assert result.steps[0].tool_calls[0].output["evidence_ids"] == ["X-1"]
     assert result.retrieved_ids == {"X-1"}
-    assert result.computed == {"X-1": {"length": 1}}  # kept for the validator
+    assert result.computed == {"X-1": {"length": [1]}}  # kept for the validator
     assert result.steps[0].usage["cache_read_input_tokens"] == 80
 
 
@@ -203,3 +203,25 @@ def test_history_is_append_only():
     # Assistant content is passed back exactly as received
     first_reply = client.sent[1]["messages"][1]
     assert first_reply["role"] == "assistant" and first_reply["content"][1].id == "t1"
+
+
+def test_result_level_and_linked_values_are_kept_for_the_validator():
+    from knowledge_graph_agent.agent.loop import _collect_computed
+
+    into = {}
+    _collect_computed({
+        "rows": [{"evidence_id": "F#1", "computed": {
+            "untrusted": True,
+            "message": {"evidence_id": "M", "suspicious": True, "suspicious_quote": "do X"},
+            "reports": [{"evidence_id": "INC-1"}],  # lists of links are not values
+        }}],
+        "evidence_ids": ["F#1", "M"], "searched": ["FILE:a.csv"], "truncated": False, "note": None,
+        "last_date_available": "2026-10-04",
+    }, into)
+    assert into["M"] == {"suspicious": [True], "suspicious_quote": ["do X"]}
+    assert into["F#1"] == {"untrusted": [True], "suspicious": [True], "suspicious_quote": ["do X"]}
+    assert into["FILE:a.csv"] == {"searched": [["FILE:a.csv"]], "last_date_available": ["2026-10-04"]}
+
+    # A second call with a different value keeps both
+    _collect_computed({"rows": [], "searched": ["FILE:a.csv"], "last_date_available": "2026-10-26"}, into)
+    assert into["FILE:a.csv"]["last_date_available"] == ["2026-10-04", "2026-10-26"]

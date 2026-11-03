@@ -60,9 +60,10 @@ class AgentRun:
     status: RunStatus = "ok"
     error: str | None = None
     retrieved_ids: set[str] = field(default_factory=set)
-    # Values tools worked out per evidence ID (a row's `computed`), so the
-    # validator can check a cited computed figure against what the tool said
-    computed: dict[str, dict[str, Any]] = field(default_factory=dict)
+    # Values tools returned beyond stored node fields, per evidence ID and field,
+    # every value seen (a tool may be called more than once), so the validator
+    # can check a cited figure against what the tool said
+    computed: dict[str, dict[str, list[Any]]] = field(default_factory=dict)
 
     @property
     def tool_steps(self) -> int:
@@ -109,11 +110,40 @@ def _collect_ids(result: dict[str, Any]) -> set[str]:
     return set(result.get("evidence_ids", [])) | set(result.get("searched", []))
 
 
-def _collect_computed(result: dict[str, Any], into: dict[str, dict[str, Any]]) -> None:
+RESULT_SHAPE = {"rows", "evidence_ids", "truncated", "note"}
+
+
+def _seen(into: dict[str, dict[str, list[Any]]], evidence_id: str, key: str, value: Any) -> None:
+    values = into.setdefault(evidence_id, {}).setdefault(key, [])
+    if value not in values:
+        values.append(value)
+
+
+def _collect_computed(result: dict[str, Any], into: dict[str, dict[str, list[Any]]]) -> None:
+    """Record values a tool returned beyond the stored node fields, by evidence ID:
+
+    - a row's `computed` values, under the row's ID
+    - a linked node nested in `computed` (e.g. a fact's message), under its own
+      ID and, for fields the row lacks, under the row's ID too
+    - result-level values (e.g. `last_date_available`, `searched`), under each
+      source the tool searched
+    """
     for row in result.get("rows", []):
-        if isinstance(row, dict) and row.get("evidence_id") and isinstance(row.get("computed"), dict):
-            scalars = {k: v for k, v in row["computed"].items() if not isinstance(v, dict | list)}
-            into.setdefault(row["evidence_id"], {}).update(scalars)
+        if not (isinstance(row, dict) and row.get("evidence_id") and isinstance(row.get("computed"), dict)):
+            continue
+        row_id = row["evidence_id"]
+        for key, value in row["computed"].items():
+            if isinstance(value, dict) and value.get("evidence_id"):
+                for k, v in value.items():
+                    if k != "evidence_id" and not isinstance(v, dict | list):
+                        _seen(into, value["evidence_id"], k, v)
+                        _seen(into, row_id, k, v)
+            elif not isinstance(value, dict | list):
+                _seen(into, row_id, key, value)
+    for source in result.get("searched", []):
+        for key, value in result.items():
+            if key not in RESULT_SHAPE:
+                _seen(into, source, key, value)
 
 
 def run_agent(
