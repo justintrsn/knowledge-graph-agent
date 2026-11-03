@@ -71,7 +71,10 @@ MATCH (a:Fact)-[c:CONFLICTS_WITH]->(b:Fact) RETURN a.statement, b.statement, c.v
 | Agent machinery: answer format, validator, tool framework, loop, transcripts, `kg ask` | Built; unit-tested, and the live smoke test passes |
 | Tools for explaining a delay (User Story 1): `current_voyage`, `incidents`, `port_calls`, `congestion`, `message_claims` | Built; Q1 answered correctly with Claude |
 | Tools for rejecting a false premise (User Story 2): `vessel_voyages`, and port and date filters on `port_calls` | Built; Q3 (false premise) and an unknown-vessel question answered correctly with Claude |
-| Tools for the other stories (bookings, arrivals, guarded Cypher) | Not built |
+| Tools for berth-window risk (User Story 3): `arrivals_at_port` | Built and tested against the graph; not yet tried with Claude |
+| Guarded Cypher fallback (User Story 7, part 1): `run_read_cypher` | Built and tested, including writes refused by Neo4j itself |
+| Extra messages (User Story 7, part 2) | `kg verify` and name matching ready; extraction not run (costs money) |
+| Tools for the other stories (fault history, bookings) | Not built |
 | Evaluation, `kg run`, and one-command `docker compose up` | Not built |
 
 The sections below describe the full design. Parts not built yet are described as planned.
@@ -109,7 +112,9 @@ The sections below describe the full design. Parts not built yet are described a
    | `port_calls` | Port calls by voyage, vessel, port or dates, with hours from anchoring to berthing (the scheduled berth if not berthed yet). An empty result is evidence that a call didn't happen. |
    | `congestion` | Daily port-wide congestion, the last date with data, and dates missing |
    | `message_claims` | Facts from messages with exact quotes, marked untrusted, with conflicts, corrections and suspicious messages flagged |
+   | `arrivals_at_port` | Voyages due at a port in a range of port-local dates, with whether each is already past its berth window |
    | `source_coverage` | Which tables and message folders were loaded |
+   | `run_read_cypher` | A fallback for when no other tool fits: Claude writes its own read-only query (see Prompt-injection safety) |
 3. It repeats until it has enough. After 5 tool steps it is reminded to wrap up. At 10 it must answer with what it has, and the answer is marked incomplete.
 4. It returns a structured answer ([`agent/answer.py`](src/knowledge_graph_agent/agent/answer.py)): a headline, then confirmed facts, unverified reports, inferences, exclusions, data gaps, suspicious content and recommended checks. Every claim lists the evidence IDs behind it.
 5. Code checks the answer ([`agent/validate.py`](src/knowledge_graph_agent/agent/validate.py), checks V1 to V10). For example: every cited ID exists and was actually returned by a tool in this run, every cited value matches the graph, nothing unverified is presented as confirmed, and nothing from a suspicious message is repeated as fact. A failed check doesn't hide the answer, but it is flagged in red and `kg ask` exits with code 3.
@@ -264,7 +269,7 @@ Messages are untrusted text, and one of them contains instructions addressed to 
 - every recorded delay equals the real elapsed hours in UTC
 - look-alike vessels stay separate, and no vessel name as written links to two vessels
 - every fact's quote appears word for word in its message
-- all 15 core messages are loaded
+- every message folder `config.yaml` asks for is fully loaded (the 15 core messages, plus the 45 extra ones if `include_extra` is on), and the others are not
 
 Tests:
 

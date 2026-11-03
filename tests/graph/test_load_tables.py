@@ -134,7 +134,7 @@ def test_table_checks_pass(driver, loaded):
     results = verify(driver, DATA_DIR)
     assert all_passed(results), [r for r in results if r.status == "fail"]
     statuses = {r.name: r.status for r in results}
-    assert statuses["fact_quotes"] == statuses["core_messages"] == "skip"
+    assert statuses["fact_quotes"] == statuses["messages"] == "skip"
 
 
 def test_reload_gives_the_same_graph(driver, loaded):

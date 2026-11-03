@@ -145,3 +145,23 @@ def test_v10_uncited_figure_is_only_a_warning():
 def test_v10_ignores_digits_inside_ids():
     a = answer(confirmed_facts=[claim("MV Ocean Star (V001) is on VG1042.", "INC-201")])
     assert check(a)["V10"] == "pass"
+
+
+def test_v4_a_cited_null_matches_a_field_neo4j_left_out():
+    # Neo4j drops null properties, so the field is simply absent from the node
+    a = answer(unverified_reports=[claim("Hours unknown.", "VG-1042", values=[("VG-1042", "attributed_delay_hours", None)])])
+    assert check(a)["V4"] == "pass"
+
+
+def test_v4_checks_computed_values_against_what_the_tool_returned():
+    computed = {"VG-1042": {"hours_past_window_end": 23.0}}
+
+    def v4(value):
+        a = answer(confirmed_facts=[claim("23 h late.", "VG-1042", values=[("VG-1042", "hours_past_window_end", value)])])
+        return {r.check.split("_")[0]: r.status for r in validate(a, set(GRAPH), FakeLookup(), VESSELS, computed)}["V4"]
+
+    assert v4(23) == "pass"
+    assert v4(24) == "fail"
+    # Without the tool's values, the field is unknown
+    a = answer(confirmed_facts=[claim("23 h late.", "VG-1042", values=[("VG-1042", "hours_past_window_end", 23)])])
+    assert check(a)["V4"] == "fail"

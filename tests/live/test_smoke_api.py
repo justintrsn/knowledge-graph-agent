@@ -47,7 +47,7 @@ def test_question_calls_a_tool_then_returns_a_valid_answer(driver):
     assert isinstance(run.answer, Answer)
     assert "V001" in run.retrieved_ids
     names = [v.name for v in ctx.ref.vessels.values()]
-    results = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), names)
+    results = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), names, run.computed)
     assert passed(results), [r for r in results if r.status == "fail"]
     # The second call reuses the cached tools and system prompt
     assert run.steps[1].usage["cache_read_input_tokens"] > 0

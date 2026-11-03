@@ -60,6 +60,9 @@ class AgentRun:
     status: RunStatus = "ok"
     error: str | None = None
     retrieved_ids: set[str] = field(default_factory=set)
+    # Values tools worked out per evidence ID (a row's `computed`), so the
+    # validator can check a cited computed figure against what the tool said
+    computed: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     @property
     def tool_steps(self) -> int:
@@ -104,6 +107,13 @@ def _record(index: int, response: Any) -> Step:
 
 def _collect_ids(result: dict[str, Any]) -> set[str]:
     return set(result.get("evidence_ids", [])) | set(result.get("searched", []))
+
+
+def _collect_computed(result: dict[str, Any], into: dict[str, dict[str, Any]]) -> None:
+    for row in result.get("rows", []):
+        if isinstance(row, dict) and row.get("evidence_id") and isinstance(row.get("computed"), dict):
+            scalars = {k: v for k, v in row["computed"].items() if not isinstance(v, dict | list)}
+            into.setdefault(row["evidence_id"], {}).update(scalars)
 
 
 def run_agent(
@@ -155,6 +165,7 @@ def run_agent(
                 ))
                 if not is_error:
                     run.retrieved_ids |= _collect_ids(output)
+                    _collect_computed(output, run.computed)
                 results.append({
                     "type": "tool_result",
                     "tool_use_id": block.id,
@@ -219,4 +230,5 @@ def dump(run: AgentRun) -> dict[str, Any]:
         "answer": json.loads(run.answer.model_dump_json()) if run.answer else None,
         "raw_answer": run.raw_answer,
         "retrieved_ids": sorted(run.retrieved_ids),
+        "computed": run.computed,
     }

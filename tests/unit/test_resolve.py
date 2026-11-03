@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from knowledge_graph_agent.extract.messages import sender_identity
 from knowledge_graph_agent.extract.resolve import (
     ReferenceData,
     resolve_class,
@@ -84,3 +85,19 @@ def test_classes_match_exactly(ref):
     assert resolve_class("Meridian 8500", ref) == "Meridian 8500"
     assert resolve_class("Meridian 8500 class", ref) == "Meridian 8500"
     assert resolve_class("Meridian", ref) is None
+
+
+# Forms used in messages/extra (T075)
+
+
+def test_imo_with_a_voyage_number_beside_it(ref):
+    text = "IMO 9743143 (voyage 2033)"
+    assert (resolve_vessel(text, ref).entity_id, resolve_vessel(text, ref).method) == ("V022", "imo")
+    voyage = resolve_voyage("voyage 2033", ref)
+    assert voyage.entity_id == "VG-2033"
+    assert ref.voyages["VG-2033"].vessel_id == "V022"  # the two agree
+
+
+def test_master_named_only_by_imo(ref):
+    assert sender_identity("Master, IMO 9407175", ref) == ("master", "vessel:V024", "V024")
+    assert resolve_vessel("Noon report IMO 9407175", ref).entity_id == "V024"

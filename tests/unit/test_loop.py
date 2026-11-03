@@ -74,7 +74,8 @@ class FakeClient:
 @pytest.fixture(autouse=True)
 def echo_tool(monkeypatch):
     def echo(ctx, value):
-        return tools.ToolResult(rows=[{"evidence_id": "X-1", "source_ref": "test", "value": value}])
+        row = {"evidence_id": "X-1", "source_ref": "test", "value": value, "computed": {"length": len(value)}}
+        return tools.ToolResult(rows=[row])
 
     registry = dict(tools.REGISTRY)
     registry["echo"] = tools.Tool("echo", "Echo.", {
@@ -110,6 +111,7 @@ def test_normal_two_step_run():
     assert result.steps[0].thinking == ["Look it up."]
     assert result.steps[0].tool_calls[0].output["evidence_ids"] == ["X-1"]
     assert result.retrieved_ids == {"X-1"}
+    assert result.computed == {"X-1": {"length": 1}}  # kept for the validator
     assert result.steps[0].usage["cache_read_input_tokens"] == 80
 
 

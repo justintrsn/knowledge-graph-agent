@@ -118,7 +118,7 @@ def ask(
         validation = []
         if run.answer:
             vessel_names = [v.name for v in ctx.ref.vessels.values()]
-            validation = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), vessel_names)
+            validation = validate(run.answer, run.retrieved_ids, Neo4jLookup(driver), vessel_names, run.computed)
         status = save_transcript(run_dir, "ask", run, validation, config)
     except Neo4jError as e:
         raise _fail(f"Database error: {e}", EXIT_SERVICE)
@@ -142,9 +142,10 @@ def ask(
 @app.command("verify")
 def verify_command() -> None:
     """Run the load-time checks. Exits 1 if any check fails."""
+    collections = collections_for(load_config())
     driver = _driver()
     try:
-        results = verify(driver, facts=True)
+        results = verify(driver, facts=True, collections=collections)
     except Neo4jError as e:
         raise _fail(f"Database error: {e}", EXIT_SERVICE)
     finally:

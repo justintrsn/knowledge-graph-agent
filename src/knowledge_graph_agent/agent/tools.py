@@ -25,9 +25,12 @@ from dataclasses import dataclass, field
 from datetime import UTC, date, datetime, time, timedelta
 from typing import Any
 
-from neo4j import Driver
+from neo4j import Driver, Query
 from neo4j.exceptions import Neo4jError
+from neo4j.graph import Node, Path, Relationship
 from neo4j.time import Date, DateTime, Duration, Time
+
+from knowledge_graph_agent.agent.cypher_guard import check as check_cypher
 
 from knowledge_graph_agent.config import Config
 from knowledge_graph_agent.extract.resolve import ReferenceData, resolve_port, resolve_vessel
@@ -54,8 +57,7 @@ class ToolResult:
     extra: dict[str, Any] = field(default_factory=dict)  # tool-specific fields, e.g. suggestions
 
     def to_dict(self) -> dict[str, Any]:
-        ids = [r["evidence_id"] for r in self.rows if r.get("evidence_id")]
-        ids += [i for r in self.rows for i in _linked_ids(r.get("computed", {}))]
+        ids = [i for r in self.rows for i in _ids_in(r)]
         return {
             "rows": self.rows,
             "evidence_ids": list(dict.fromkeys(ids)),
@@ -170,6 +172,12 @@ def to_plain(value: Any) -> Any:
         return value.isoformat()
     if isinstance(value, Duration):
         return str(value)
+    if isinstance(value, Node):
+        return {"labels": sorted(value.labels), **to_plain(dict(value))}
+    if isinstance(value, Relationship):
+        return {"type": value.type, **to_plain(dict(value))}
+    if isinstance(value, Path):
+        return [to_plain(n) for n in value.nodes]
     if isinstance(value, dict):
         return {k: to_plain(v) for k, v in value.items()}
     if isinstance(value, list | tuple):
@@ -187,11 +195,15 @@ def node(ctx: ToolContext, label: str, evidence_id: str) -> dict[str, Any] | Non
     return rows[0]["n"] if rows else None
 
 
-def _linked_ids(computed: dict[str, Any]) -> list[str]:
-    """Evidence IDs of linked nodes under `computed`, e.g. an incident's reports
-    or a fact's message. Each is a dict with an evidence_id, alone or in a list."""
-    items = [v for value in computed.values() for v in (value if isinstance(value, list) else [value])]
-    return [item["evidence_id"] for item in items if isinstance(item, dict) and item.get("evidence_id")]
+def _ids_in(value: Any) -> list[str]:
+    """Every evidence_id in a row: its own, and those of linked nodes nested in it,
+    such as an incident's reports or a fact's message under `computed`."""
+    if isinstance(value, list):
+        return [i for v in value for i in _ids_in(v)]
+    if not isinstance(value, dict):
+        return []
+    own = [value["evidence_id"]] if isinstance(value.get("evidence_id"), str) else []
+    return own + [i for v in value.values() for i in _ids_in(v)]
 
 
 def keep_nulls(props: dict[str, Any], fields: list[str]) -> dict[str, Any]:
@@ -459,6 +471,52 @@ def vessel_voyages(ctx: ToolContext, vessel_id: str, from_date: str | None, to_d
     )
 
 
+MAX_ARRIVAL_DAYS = 31
+
+
+@tool(
+    "arrivals_at_port",
+    "Voyages due at a port in a date range, selected by revised ETA. Dates are in the PORT'S LOCAL "
+    "time and inclusive. Each row is a Voyage (origin, ETAs and berth window, in UTC and local). "
+    "computed.revised_eta_after_window_end says whether the revised ETA is already after the berth "
+    "window closes, and computed.hours_past_window_end is revised ETA minus window end in elapsed "
+    "hours (negative means hours to spare). computed.eta_slip_hours is revised minus original ETA.",
+    port={"type": "string", "description": "UN/LOCODE or port name."},
+    start_date={"type": "string", "description": "First day, port-local, YYYY-MM-DD."},
+    end_date={"type": "string", "description": "Last day, port-local, YYYY-MM-DD (inclusive)."},
+)
+def arrivals_at_port(ctx: ToolContext, port: str, start_date: str, end_date: str) -> ToolResult:
+    code = port_code(ctx, port)
+    start, end = parse_date(start_date, "start_date"), parse_date(end_date, "end_date")
+    if start > end or (end - start).days >= MAX_ARRIVAL_DAYS:
+        raise ToolInputError(f"Give a range of 1 to {MAX_ARRIVAL_DAYS} days, start_date first.")
+    rows = query(
+        ctx,
+        # revised_eta_local is in the destination port's zone, so its date is the port-local day
+        "MATCH (v:Voyage {destination: $port})-[:OPERATED_BY]->(s:Vessel) "
+        "WHERE $start <= date(substring(v.revised_eta_local, 0, 10)) <= $end "
+        "RETURN properties(v) AS voyage, s.name AS vessel_name, "
+        "v.revised_eta_utc > v.berth_window_end_utc AS late, "
+        f"{hours_between('v.berth_window_end_utc', 'v.revised_eta_utc')} AS past, "
+        f"{hours_between('v.original_eta_utc', 'v.revised_eta_utc')} AS slip "
+        "ORDER BY v.revised_eta_utc",
+        port=code, start=start, end=end,
+    )
+    return ToolResult(
+        rows=[
+            r["voyage"] | {"computed": {
+                "vessel_name": r["vessel_name"],
+                "revised_eta_after_window_end": r["late"],
+                "hours_past_window_end": r["past"],
+                "eta_slip_hours": r["slip"],
+            }}
+            for r in rows
+        ],
+        searched=["FILE:voyages.csv"],
+        extra={"port": code},
+    )
+
+
 MAX_CONGESTION_DAYS = 92
 
 
@@ -588,6 +646,33 @@ def _day_start(day: date | None, plus_days: int = 0) -> datetime | None:
 def _loaded_message_sources(ctx: ToolContext) -> list[str]:
     rows = query(ctx, "MATCH (f:SourceFile) WHERE f.path STARTS WITH 'messages/' AND f.loaded RETURN f.evidence_id AS id")
     return sorted(r["id"] for r in rows)
+
+
+# --- Fallback: the model's own query -------------------------------------------
+
+
+@tool(
+    "run_read_cypher",
+    "Run your own read-only Cypher query. Use it ONLY when no other tool fits the question. "
+    "Return `evidence_id` (and `source_ref`) for every node you may cite, and return node fields "
+    "under their own names (e.g. v.status AS status) so they can be cited. Writes, CALL, LOAD and "
+    "unbounded paths are refused; give variable-length paths an upper bound. At most the "
+    "configured number of rows comes back, with `truncated` set if there were more. An empty "
+    "result here is NOT evidence of absence: use a typed tool for that.",
+    query={"type": "string", "description": "One Cypher statement, with values written inline (no $parameters)."},
+    reason={"type": "string", "description": "Why no other tool fits."},
+)
+def run_read_cypher(ctx: ToolContext, query: str, reason: str) -> ToolResult:
+    limits = ctx.config.cypher
+    refused = check_cypher(query, limits.max_path_length)
+    if refused:
+        raise ToolInputError(refused)
+    with read_session(ctx.driver) as session:  # read-only in Neo4j: the real boundary
+        result = session.run(Query(query, timeout=limits.timeout_seconds))
+        records = result.fetch(limits.max_rows + 1)
+        result.consume()
+    rows = [{k: to_plain(r[k]) for k in r.keys()} for r in records[: limits.max_rows]]  # keeps node labels
+    return ToolResult(rows=rows, truncated=len(records) > limits.max_rows)
 
 
 def result_json(result: dict[str, Any]) -> str:

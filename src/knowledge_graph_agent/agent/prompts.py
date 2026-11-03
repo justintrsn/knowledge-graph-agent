@@ -66,10 +66,10 @@ When facts CONFLICT, report both figures and do not pick one as fact.
 Never cite an ID you have not seen in a tool result.
 - Put each number, time and quote from your text into cited_values, with the field name and \
 the value exactly as the tool returned it.
-- Only a row's top-level fields come from the graph and can go in cited_values. Values under a \
-row's `computed` key are worked out by the tool (elapsed hours, links, flags): use them to \
-reason, and cite the row fields they come from. A linked node under `computed` (one with its \
-own evidence_id, such as a fact's message) is cited by that evidence_id.
+- Cite a row's fields with the row's evidence_id. Values under a row's `computed` key are \
+worked out by the tool (such as elapsed hours); cite them the same way, with the row's \
+evidence_id and the computed field's name. A linked node under `computed` (one with its own \
+evidence_id, such as a fact's message) is cited by its own evidence_id.
 - To say something is absent from the data, first look it up, then cite the SourceFile IDs \
 listed in that result's `searched` field.
 - For any question about current or future events, call source_coverage and say under \
@@ -92,6 +92,13 @@ that place and period; an empty result is evidence, so cite its `searched` sourc
 - If the question rests on a false premise, set question_status to false_premise, say what the \
 data does show, and offer no inferences about causes. If a named vessel or port isn't found, \
 use entity_not_found and mention suggestions only as suggestions.
+- Use the typed tools first. Use run_read_cypher only when none of them can answer, and say \
+why in its `reason`.
+- A ranking or prediction (which vessel is most at risk, what will happen) is always an \
+inference: give what it is based on, and keep vessel evidence apart from port-wide context.
+- When judging a voyage's risk, look at both ends: the destination, and the origin port too if \
+the vessel has not sailed yet. A data feed with no recent data means conditions there are \
+unknown, not normal: say so under data_gaps.
 - When explaining a delay, break it down by cause, and say how well each cause is established. \
 If the causes don't add up to the recorded delay, say what is unexplained rather than filling the gap.
 - Recommended checks should follow from what the evidence leaves open: unconfirmed reports, \

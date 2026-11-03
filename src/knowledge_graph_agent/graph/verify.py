@@ -20,7 +20,7 @@ from knowledge_graph_agent.graph.load_tables import DEFAULT_DATA_DIR, TABLE_FILE
 
 Status = Literal["pass", "fail", "skip"]
 
-CORE_MESSAGE_COUNT = 15
+MESSAGE_COUNTS = {"core": 15, "extra": 45}
 LOOKALIKE_VESSELS = ("MV Ocean Star", "MV Ocean Starlight", "MV Ocean Pearl")
 # ABOUT_VESSEL.method for a link made from a name alone. The extraction rules
 # (T021, T024) must write this same value.
@@ -237,27 +237,35 @@ def check_fact_quotes(session: Session) -> CheckResult:
     return _result("fact_quotes", [f"{r['id']} quote not in its message" for r in bad])
 
 
-def check_core_messages(session: Session, data_dir: Path) -> CheckResult:
+def check_messages(session: Session, data_dir: Path, collections: tuple[str, ...]) -> CheckResult:
+    """Each message folder is fully loaded if config includes it, and absent if not."""
     problems = []
-    n = _scalar(session, "MATCH (m:Message {collection: 'core'}) RETURN count(m)")
-    if n != CORE_MESSAGE_COUNT:
-        problems.append(f"{n} core messages loaded, expected {CORE_MESSAGE_COUNT}")
-    record = session.run(
-        "MATCH (f:SourceFile {path: 'messages/core'}) "
-        "RETURN f.row_or_file_count AS count, f.loaded AS loaded, f.sha256 AS sha256"
-    ).single()
-    directory = data_dir / "messages" / "core"
-    if record is None:
-        problems.append("no SourceFile for messages/core")
-    else:
-        if record["loaded"] is not True or record["count"] != CORE_MESSAGE_COUNT:
-            problems.append(f"messages/core SourceFile: count {record['count']}, loaded {record['loaded']}")
+    for collection, expected in MESSAGE_COUNTS.items():
+        path = f"messages/{collection}"
+        directory = data_dir / path
+        n = _scalar(session, "MATCH (m:Message {collection: $c}) RETURN count(m)", c=collection)
+        record = session.run(
+            "MATCH (f:SourceFile {path: $path}) "
+            "RETURN f.row_or_file_count AS count, f.loaded AS loaded, f.sha256 AS sha256",
+            path=path,
+        ).single()
+        if record is None:
+            problems.append(f"no SourceFile for {path}")
+            continue
+        if collection not in collections:
+            if n or record["loaded"] is not False:
+                problems.append(f"{path} is not in config but {n} messages are loaded")
+            continue
+        if n != expected:
+            problems.append(f"{n} {collection} messages loaded, expected {expected}")
+        if record["loaded"] is not True or record["count"] != expected:
+            problems.append(f"{path} SourceFile: count {record['count']}, loaded {record['loaded']}")
         if record["sha256"] != directory_sha256(directory):
-            problems.append("messages/core changed since it was loaded")
-    on_disk = len(list(directory.glob("*.txt")))
-    if on_disk != CORE_MESSAGE_COUNT:
-        problems.append(f"{on_disk} core message files on disk")
-    return _result("core_messages", problems)
+            problems.append(f"{path} changed since it was loaded")
+        on_disk = len(list(directory.glob("*.txt")))
+        if on_disk != expected:
+            problems.append(f"{on_disk} {collection} message files on disk, expected {expected}")
+    return _result("messages", problems)
 
 
 def _skipped(name: str) -> CheckResult:
@@ -267,8 +275,14 @@ def _skipped(name: str) -> CheckResult:
 # --- Entry point ------------------------------------------------------------
 
 
-def verify(driver: Driver, data_dir: Path = DEFAULT_DATA_DIR, facts: bool = False) -> list[CheckResult]:
-    """Run every load-time check. Read-only."""
+def verify(
+    driver: Driver,
+    data_dir: Path = DEFAULT_DATA_DIR,
+    facts: bool = False,
+    collections: tuple[str, ...] = ("core",),
+) -> list[CheckResult]:
+    """Run every load-time check. Read-only. `collections` are the message
+    folders config says to load (collections_for(config))."""
     with read_session(driver) as session:
         results = [
             check_row_counts(session, data_dir),
@@ -280,7 +294,7 @@ def verify(driver: Driver, data_dir: Path = DEFAULT_DATA_DIR, facts: bool = Fals
             check_distinct_vessels(session, facts),
         ]
         if facts:
-            results += [check_fact_quotes(session), check_core_messages(session, data_dir)]
+            results += [check_fact_quotes(session), check_messages(session, data_dir, collections)]
         else:
-            results += [_skipped("fact_quotes"), _skipped("core_messages")]
+            results += [_skipped("fact_quotes"), _skipped("messages")]
     return results

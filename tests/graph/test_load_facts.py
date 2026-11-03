@@ -116,3 +116,9 @@ def test_all_verify_checks_pass(driver, loaded):
     results = verify(driver, DATA_DIR, facts=True)
     assert all_passed(results), [r for r in results if r.status != "pass"]
     assert all(r.status == "pass" for r in results)
+
+
+def test_verify_expects_the_message_folders_config_asks_for(driver, loaded):
+    # The graph has core only. If config also asked for extra, the check must fail.
+    by_name = {r.name: r for r in verify(driver, DATA_DIR, facts=True, collections=("core", "extra"))}
+    assert by_name["messages"].status == "fail" and "0 extra messages loaded" in by_name["messages"].detail

@@ -128,8 +128,11 @@ def validate(
     retrieved_ids: set[str],
     lookup: GraphLookup,
     vessel_names: list[str],
+    computed: dict[str, dict[str, Any]] | None = None,
 ) -> list[ValidationResult]:
-    """Run V1 to V10. `retrieved_ids` are the IDs seen in this run's tool results."""
+    """Run V1 to V10. `retrieved_ids` are the IDs seen in this run's tool results,
+    and `computed` the values tools worked out for each ID (AgentRun.computed)."""
+    computed = computed or {}
     claims = answer.claims()
     cited = sorted({i for _, c in claims for i in _cited_ids(c)})
     nodes = {i: lookup.get(i) for i in cited}
@@ -149,7 +152,13 @@ def validate(
                 if not any(isinstance(s, str) and str(cv.value) in s for s in sources):
                     v4.append(f"{cv.evidence_id}: quote not found")
             elif cv.field not in node:
-                v4.append(f"{cv.evidence_id} has no field {cv.field!r}")
+                worked_out = computed.get(cv.evidence_id, {})
+                if cv.value is None:
+                    continue  # Neo4j doesn't store nulls: a blank field is absent
+                if cv.field not in worked_out:
+                    v4.append(f"{cv.evidence_id} has no field {cv.field!r}")
+                elif not _value_matches(worked_out[cv.field], cv.value):
+                    v4.append(f"{cv.evidence_id}.{cv.field} was computed as {worked_out[cv.field]!r}, cited as {cv.value!r}")
             elif not _value_matches(node[cv.field], cv.value):
                 v4.append(f"{cv.evidence_id}.{cv.field} is {node[cv.field]!r}, cited as {cv.value!r}")
 
