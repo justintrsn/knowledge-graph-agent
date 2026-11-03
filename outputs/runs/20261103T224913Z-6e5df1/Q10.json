@@ -1,0 +1,707 @@
+{
+  "question": "What is the current congestion at Santos?",
+  "status": "ok",
+  "error": null,
+  "steps": [
+    {
+      "index": 1,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_017uhTWkDepNBkorawMoyihT",
+          "name": "find_port",
+          "input": {
+            "query": "Santos"
+          },
+          "output": {
+            "rows": [
+              {
+                "country": "Brazil",
+                "timezone": "America/Sao_Paulo",
+                "name": "Port of Santos",
+                "source_ref": "ports.csv:11",
+                "evidence_id": "BRSSZ",
+                "port_code": "BRSSZ"
+              }
+            ],
+            "evidence_ids": [
+              "BRSSZ"
+            ],
+            "searched": [
+              "FILE:ports.csv"
+            ],
+            "truncated": false,
+            "note": null,
+            "match": {
+              "method": "port_name",
+              "confidence": 0.95
+            }
+          },
+          "is_error": false,
+          "duration_ms": 4
+        },
+        {
+          "id": "toolu_012t45LLBC6UDprmWtUa5TCu",
+          "name": "source_coverage",
+          "input": {},
+          "output": {
+            "rows": [
+              {
+                "evidence_id": "FILE:bookings.csv",
+                "source_ref": "bookings.csv",
+                "path": "bookings.csv",
+                "loaded": true,
+                "count": 400
+              },
+              {
+                "evidence_id": "FILE:congestion.csv",
+                "source_ref": "congestion.csv",
+                "path": "congestion.csv",
+                "loaded": true,
+                "count": 578
+              },
+              {
+                "evidence_id": "FILE:incidents.csv",
+                "source_ref": "incidents.csv",
+                "path": "incidents.csv",
+                "loaded": true,
+                "count": 90
+              },
+              {
+                "evidence_id": "FILE:messages/core",
+                "source_ref": "messages/core",
+                "path": "messages/core",
+                "loaded": true,
+                "count": 15
+              },
+              {
+                "evidence_id": "FILE:messages/extra",
+                "source_ref": "messages/extra",
+                "path": "messages/extra",
+                "loaded": false,
+                "count": 45
+              },
+              {
+                "evidence_id": "FILE:port_calls.csv",
+                "source_ref": "port_calls.csv",
+                "path": "port_calls.csv",
+                "loaded": true,
+                "count": 231
+              },
+              {
+                "evidence_id": "FILE:ports.csv",
+                "source_ref": "ports.csv",
+                "path": "ports.csv",
+                "loaded": true,
+                "count": 15
+              },
+              {
+                "evidence_id": "FILE:vessels.csv",
+                "source_ref": "vessels.csv",
+                "path": "vessels.csv",
+                "loaded": true,
+                "count": 40
+              },
+              {
+                "evidence_id": "FILE:voyages.csv",
+                "source_ref": "voyages.csv",
+                "path": "voyages.csv",
+                "loaded": true,
+                "count": 121
+              }
+            ],
+            "evidence_ids": [
+              "FILE:bookings.csv",
+              "FILE:congestion.csv",
+              "FILE:incidents.csv",
+              "FILE:messages/core",
+              "FILE:messages/extra",
+              "FILE:port_calls.csv",
+              "FILE:ports.csv",
+              "FILE:vessels.csv",
+              "FILE:voyages.csv"
+            ],
+            "searched": [
+              "FILE:bookings.csv",
+              "FILE:congestion.csv",
+              "FILE:incidents.csv",
+              "FILE:messages/core",
+              "FILE:messages/extra",
+              "FILE:port_calls.csv",
+              "FILE:ports.csv",
+              "FILE:vessels.csv",
+              "FILE:voyages.csv"
+            ],
+            "truncated": false,
+            "note": "Not loaded: messages/extra."
+          },
+          "is_error": false,
+          "duration_ms": 4
+        }
+      ],
+      "usage": {
+        "input_tokens": 87,
+        "output_tokens": 74,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 2,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_012fRAtXvYZeCDvKfbgKKK3d",
+          "name": "congestion",
+          "input": {
+            "port": "BRSSZ",
+            "from_date": "2026-10-19",
+            "to_date": "2026-10-26"
+          },
+          "output": {
+            "rows": [],
+            "evidence_ids": [],
+            "searched": [
+              "FILE:congestion.csv"
+            ],
+            "truncated": false,
+            "note": null,
+            "scope": "port_wide",
+            "port": "BRSSZ",
+            "last_date_available": "2026-10-04",
+            "missing_dates": [
+              "2026-10-19",
+              "2026-10-20",
+              "2026-10-21",
+              "2026-10-22",
+              "2026-10-23",
+              "2026-10-24",
+              "2026-10-25",
+              "2026-10-26"
+            ]
+          },
+          "is_error": false,
+          "duration_ms": 10
+        }
+      ],
+      "usage": {
+        "input_tokens": 1156,
+        "output_tokens": 108,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 3,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [
+        "I'm checking the reference to the latest available date, October 4, 2026, so I can pull up that information for context.\n\n"
+      ],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_01Q789rGe17UGwy8W5BQx6a2",
+          "name": "congestion",
+          "input": {
+            "port": "BRSSZ",
+            "from_date": "2026-09-28",
+            "to_date": "2026-10-04"
+          },
+          "output": {
+            "rows": [
+              {
+                "date": "2026-09-28",
+                "avg_wait_hours": 18,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:373",
+                "evidence_id": "CONG-BRSSZ-2026-09-28",
+                "vessels_at_anchor": 11,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-09-29",
+                "avg_wait_hours": 16,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:374",
+                "evidence_id": "CONG-BRSSZ-2026-09-29",
+                "vessels_at_anchor": 13,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-09-30",
+                "avg_wait_hours": 17,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:375",
+                "evidence_id": "CONG-BRSSZ-2026-09-30",
+                "vessels_at_anchor": 9,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-10-01",
+                "avg_wait_hours": 15,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:376",
+                "evidence_id": "CONG-BRSSZ-2026-10-01",
+                "vessels_at_anchor": 10,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-10-02",
+                "avg_wait_hours": 18,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:377",
+                "evidence_id": "CONG-BRSSZ-2026-10-02",
+                "vessels_at_anchor": 14,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-10-03",
+                "avg_wait_hours": 21,
+                "congestion_level": "High",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:378",
+                "evidence_id": "CONG-BRSSZ-2026-10-03",
+                "vessels_at_anchor": 15,
+                "source": "Port authority feed"
+              },
+              {
+                "date": "2026-10-04",
+                "avg_wait_hours": 17,
+                "congestion_level": "Moderate",
+                "port": "BRSSZ",
+                "source_ref": "congestion.csv:379",
+                "evidence_id": "CONG-BRSSZ-2026-10-04",
+                "vessels_at_anchor": 13,
+                "source": "Port authority feed"
+              }
+            ],
+            "evidence_ids": [
+              "CONG-BRSSZ-2026-09-28",
+              "CONG-BRSSZ-2026-09-29",
+              "CONG-BRSSZ-2026-09-30",
+              "CONG-BRSSZ-2026-10-01",
+              "CONG-BRSSZ-2026-10-02",
+              "CONG-BRSSZ-2026-10-03",
+              "CONG-BRSSZ-2026-10-04"
+            ],
+            "searched": [
+              "FILE:congestion.csv"
+            ],
+            "truncated": false,
+            "note": null,
+            "scope": "port_wide",
+            "port": "BRSSZ",
+            "last_date_available": "2026-10-04",
+            "missing_dates": []
+          },
+          "is_error": false,
+          "duration_ms": 13
+        }
+      ],
+      "usage": {
+        "input_tokens": 1426,
+        "output_tokens": 130,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 4,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "end_turn",
+      "thinking": [],
+      "text": [
+        "{\"question_status\":\"cannot_answer\",\"headline\":{\"text\":\"I can't give current congestion at Santos. The congestion feed has nothing after 2026-10-04, and the snapshot is 2026-10-26. Current conditions there are unknown.\",\"evidence_ids\":[\"BRSSZ\"],\"cited_values\":[{\"evidence_id\":\"BRSSZ\",\"field\":\"port_code\",\"value\":\"BRSSZ\"}]},\"interpretation\":[{\"text\":\"'Current' means the snapshot date, 2026-10-26. I searched 2026-10-19 to 2026-10-26 and found no rows. All 8 dates were missing. The last date available is 2026-10-04.\",\"evidence_ids\":[\"FILE:congestion.csv\"],\"cited_values\":[]}],\"confirmed_facts\":[{\"text\":\"The last recorded Santos reading is 2026-10-04: Moderate, average wait 17 h, 13 vessels at anchor. These are port-wide figures and are 22 days old.\",\"evidence_ids\":[\"CONG-BRSSZ-2026-10-04\"],\"cited_values\":[{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"congestion_level\",\"value\":\"Moderate\"},{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"avg_wait_hours\",\"value\":17},{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"vessels_at_anchor\",\"value\":13}]},{\"text\":\"The peak in the last week of data was 2026-10-03: High, average wait 21 h, 15 vessels at anchor. The other days from 2026-09-28 to 2026-10-04 were Moderate, with average waits of 15 to 18 h.\",\"evidence_ids\":[\"CONG-BRSSZ-2026-10-03\"],\"cited_values\":[{\"evidence_id\":\"CONG-BRSSZ-2026-10-03\",\"field\":\"congestion_level\",\"value\":\"High\"},{\"evidence_id\":\"CONG-BRSSZ-2026-10-03\",\"field\":\"avg_wait_hours\",\"value\":21}]}],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[{\"text\":\"The Santos congestion feed has no data from 2026-10-05 onward. That means conditions are unknown, not normal. The messages/extra folder was also not loaded.\",\"evidence_ids\":[\"FILE:congestion.csv\",\"FILE:messages/extra\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Get a current Santos anchorage count and average wait from the port authority or an agent. Do this before relying on Santos ETAs or berth windows.\",\"evidence_ids\":[\"FILE:congestion.csv\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[]}"
+      ],
+      "tool_calls": [],
+      "usage": {
+        "input_tokens": 2608,
+        "output_tokens": 955,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    }
+  ],
+  "answer": {
+    "question_status": "cannot_answer",
+    "headline": {
+      "text": "I can't give current congestion at Santos. The congestion feed has nothing after 2026-10-04, and the snapshot is 2026-10-26. Current conditions there are unknown.",
+      "evidence_ids": [
+        "BRSSZ"
+      ],
+      "cited_values": [
+        {
+          "evidence_id": "BRSSZ",
+          "field": "port_code",
+          "value": "BRSSZ"
+        }
+      ]
+    },
+    "interpretation": [
+      {
+        "text": "'Current' means the snapshot date, 2026-10-26. I searched 2026-10-19 to 2026-10-26 and found no rows. All 8 dates were missing. The last date available is 2026-10-04.",
+        "evidence_ids": [
+          "FILE:congestion.csv"
+        ],
+        "cited_values": []
+      }
+    ],
+    "confirmed_facts": [
+      {
+        "text": "The last recorded Santos reading is 2026-10-04: Moderate, average wait 17 h, 13 vessels at anchor. These are port-wide figures and are 22 days old.",
+        "evidence_ids": [
+          "CONG-BRSSZ-2026-10-04"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "CONG-BRSSZ-2026-10-04",
+            "field": "congestion_level",
+            "value": "Moderate"
+          },
+          {
+            "evidence_id": "CONG-BRSSZ-2026-10-04",
+            "field": "avg_wait_hours",
+            "value": 17.0
+          },
+          {
+            "evidence_id": "CONG-BRSSZ-2026-10-04",
+            "field": "vessels_at_anchor",
+            "value": 13.0
+          }
+        ]
+      },
+      {
+        "text": "The peak in the last week of data was 2026-10-03: High, average wait 21 h, 15 vessels at anchor. The other days from 2026-09-28 to 2026-10-04 were Moderate, with average waits of 15 to 18 h.",
+        "evidence_ids": [
+          "CONG-BRSSZ-2026-10-03"
+        ],
+        "cited_values": [
+          {
+            "evidence_id": "CONG-BRSSZ-2026-10-03",
+            "field": "congestion_level",
+            "value": "High"
+          },
+          {
+            "evidence_id": "CONG-BRSSZ-2026-10-03",
+            "field": "avg_wait_hours",
+            "value": 21.0
+          }
+        ]
+      }
+    ],
+    "unverified_reports": [],
+    "inferences": [],
+    "exclusions": [],
+    "data_gaps": [
+      {
+        "text": "The Santos congestion feed has no data from 2026-10-05 onward. That means conditions are unknown, not normal. The messages/extra folder was also not loaded.",
+        "evidence_ids": [
+          "FILE:congestion.csv",
+          "FILE:messages/extra"
+        ],
+        "cited_values": []
+      }
+    ],
+    "suspicious_content": [],
+    "recommended_checks": [
+      {
+        "text": "Get a current Santos anchorage count and average wait from the port authority or an agent. Do this before relying on Santos ETAs or berth windows.",
+        "evidence_ids": [
+          "FILE:congestion.csv"
+        ],
+        "cited_values": []
+      }
+    ],
+    "incomplete": false,
+    "not_checked": []
+  },
+  "raw_answer": "{\"question_status\":\"cannot_answer\",\"headline\":{\"text\":\"I can't give current congestion at Santos. The congestion feed has nothing after 2026-10-04, and the snapshot is 2026-10-26. Current conditions there are unknown.\",\"evidence_ids\":[\"BRSSZ\"],\"cited_values\":[{\"evidence_id\":\"BRSSZ\",\"field\":\"port_code\",\"value\":\"BRSSZ\"}]},\"interpretation\":[{\"text\":\"'Current' means the snapshot date, 2026-10-26. I searched 2026-10-19 to 2026-10-26 and found no rows. All 8 dates were missing. The last date available is 2026-10-04.\",\"evidence_ids\":[\"FILE:congestion.csv\"],\"cited_values\":[]}],\"confirmed_facts\":[{\"text\":\"The last recorded Santos reading is 2026-10-04: Moderate, average wait 17 h, 13 vessels at anchor. These are port-wide figures and are 22 days old.\",\"evidence_ids\":[\"CONG-BRSSZ-2026-10-04\"],\"cited_values\":[{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"congestion_level\",\"value\":\"Moderate\"},{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"avg_wait_hours\",\"value\":17},{\"evidence_id\":\"CONG-BRSSZ-2026-10-04\",\"field\":\"vessels_at_anchor\",\"value\":13}]},{\"text\":\"The peak in the last week of data was 2026-10-03: High, average wait 21 h, 15 vessels at anchor. The other days from 2026-09-28 to 2026-10-04 were Moderate, with average waits of 15 to 18 h.\",\"evidence_ids\":[\"CONG-BRSSZ-2026-10-03\"],\"cited_values\":[{\"evidence_id\":\"CONG-BRSSZ-2026-10-03\",\"field\":\"congestion_level\",\"value\":\"High\"},{\"evidence_id\":\"CONG-BRSSZ-2026-10-03\",\"field\":\"avg_wait_hours\",\"value\":21}]}],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[{\"text\":\"The Santos congestion feed has no data from 2026-10-05 onward. That means conditions are unknown, not normal. The messages/extra folder was also not loaded.\",\"evidence_ids\":[\"FILE:congestion.csv\",\"FILE:messages/extra\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Get a current Santos anchorage count and average wait from the port authority or an agent. Do this before relying on Santos ETAs or berth windows.\",\"evidence_ids\":[\"FILE:congestion.csv\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[]}",
+  "retrieved_ids": [
+    "BRSSZ",
+    "CONG-BRSSZ-2026-09-28",
+    "CONG-BRSSZ-2026-09-29",
+    "CONG-BRSSZ-2026-09-30",
+    "CONG-BRSSZ-2026-10-01",
+    "CONG-BRSSZ-2026-10-02",
+    "CONG-BRSSZ-2026-10-03",
+    "CONG-BRSSZ-2026-10-04",
+    "FILE:bookings.csv",
+    "FILE:congestion.csv",
+    "FILE:incidents.csv",
+    "FILE:messages/core",
+    "FILE:messages/extra",
+    "FILE:port_calls.csv",
+    "FILE:ports.csv",
+    "FILE:vessels.csv",
+    "FILE:voyages.csv"
+  ],
+  "computed": {
+    "FILE:ports.csv": {
+      "searched": [
+        [
+          "FILE:ports.csv"
+        ],
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ],
+      "match": [
+        {
+          "method": "port_name",
+          "confidence": 0.95
+        }
+      ]
+    },
+    "FILE:bookings.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:congestion.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ],
+        [
+          "FILE:congestion.csv"
+        ]
+      ],
+      "scope": [
+        "port_wide"
+      ],
+      "port": [
+        "BRSSZ"
+      ],
+      "last_date_available": [
+        "2026-10-04"
+      ],
+      "missing_dates": [
+        [
+          "2026-10-19",
+          "2026-10-20",
+          "2026-10-21",
+          "2026-10-22",
+          "2026-10-23",
+          "2026-10-24",
+          "2026-10-25",
+          "2026-10-26"
+        ],
+        []
+      ]
+    },
+    "FILE:incidents.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:messages/core": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:messages/extra": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:port_calls.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:vessels.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    },
+    "FILE:voyages.csv": {
+      "searched": [
+        [
+          "FILE:bookings.csv",
+          "FILE:congestion.csv",
+          "FILE:incidents.csv",
+          "FILE:messages/core",
+          "FILE:messages/extra",
+          "FILE:port_calls.csv",
+          "FILE:ports.csv",
+          "FILE:vessels.csv",
+          "FILE:voyages.csv"
+        ]
+      ]
+    }
+  },
+  "question_id": "Q10",
+  "config": {
+    "snapshot_now": "2026-10-26T12:00:00Z",
+    "models": {
+      "extraction": "claude-haiku-5-5",
+      "agent": "claude-sonnet-5-5",
+      "judge": "claude-sonnet-5-5"
+    },
+    "agent": {
+      "effort": "medium",
+      "fallbacks": true,
+      "step_budget": {
+        "soft": 5,
+        "hard": 10
+      }
+    },
+    "cypher": {
+      "max_rows": 200,
+      "timeout_seconds": 10,
+      "max_path_length": 6
+    },
+    "messages": {
+      "include_extra": false,
+      "use_cache": true
+    }
+  },
+  "validation": [
+    {
+      "check": "V1_every_claim_has_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V2_cited_ids_exist",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V3_cited_ids_were_retrieved",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V4_cited_values_match",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V5_confirmed_claims_cite_confirmed_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V6_port_wide_figures_not_vessel_facts",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V7_inferences_have_a_basis",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V8_suspicious_content_disclosed",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V9_no_inferences_on_non_answers",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V10_figures_are_cited",
+      "status": "warn",
+      "detail": "22 in 'The last recorded Santos reading is 2026-10-04: Mo'; 15 in 'The peak in the last week of data was 2026-10-03: '; 15 in 'The peak in the last week of data was 2026-10-03: '; 18 in 'The peak in the last week of data was 2026-10-03: '"
+    }
+  ]
+}
