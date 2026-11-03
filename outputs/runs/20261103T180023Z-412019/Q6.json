@@ -1,0 +1,184 @@
+{
+  "question": "Why is MV Ocean Stark delayed?",
+  "status": "ok",
+  "error": null,
+  "steps": [
+    {
+      "index": 1,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "tool_use",
+      "thinking": [],
+      "text": [],
+      "tool_calls": [
+        {
+          "id": "toolu_011SbtTXfTipF8V5TRnGZXXm",
+          "name": "find_vessel",
+          "input": {
+            "query": "MV Ocean Stark"
+          },
+          "output": {
+            "rows": [],
+            "evidence_ids": [],
+            "searched": [
+              "FILE:vessels.csv"
+            ],
+            "truncated": false,
+            "note": "No vessel matches 'MV Ocean Stark' (no vessel matches).",
+            "suggestions": [
+              "MV Ocean Star",
+              "MV Ocean Starlight",
+              "MV Ocean Pearl"
+            ]
+          },
+          "is_error": false,
+          "duration_ms": 2
+        }
+      ],
+      "usage": {
+        "input_tokens": 91,
+        "output_tokens": 57,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    },
+    {
+      "index": 2,
+      "model": "claude-sonnet-5-5",
+      "stop_reason": "end_turn",
+      "thinking": [],
+      "text": [
+        "{\"question_status\":\"entity_not_found\",\"headline\":{\"text\":\"No vessel named 'MV Ocean Stark' was found in the data, so I can't say why it is delayed.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]},\"interpretation\":[],\"confirmed_facts\":[],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[{\"text\":\"The search of vessels.csv returned no match for 'MV Ocean Stark'. The lookup suggested MV Ocean Star, MV Ocean Starlight and MV Ocean Pearl. These are suggestions only, not matches.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Confirm which vessel you mean: MV Ocean Star, MV Ocean Starlight or MV Ocean Pearl. You could also give the IMO number. Then I can look up its delay.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[]}"
+      ],
+      "tool_calls": [],
+      "usage": {
+        "input_tokens": 269,
+        "output_tokens": 389,
+        "cache_read_input_tokens": 7659,
+        "cache_creation_input_tokens": 0
+      },
+      "fallbacks": [],
+      "notice": null
+    }
+  ],
+  "answer": {
+    "question_status": "entity_not_found",
+    "headline": {
+      "text": "No vessel named 'MV Ocean Stark' was found in the data, so I can't say why it is delayed.",
+      "evidence_ids": [
+        "FILE:vessels.csv"
+      ],
+      "cited_values": []
+    },
+    "interpretation": [],
+    "confirmed_facts": [],
+    "unverified_reports": [],
+    "inferences": [],
+    "exclusions": [],
+    "data_gaps": [
+      {
+        "text": "The search of vessels.csv returned no match for 'MV Ocean Stark'. The lookup suggested MV Ocean Star, MV Ocean Starlight and MV Ocean Pearl. These are suggestions only, not matches.",
+        "evidence_ids": [
+          "FILE:vessels.csv"
+        ],
+        "cited_values": []
+      }
+    ],
+    "suspicious_content": [],
+    "recommended_checks": [
+      {
+        "text": "Confirm which vessel you mean: MV Ocean Star, MV Ocean Starlight or MV Ocean Pearl. You could also give the IMO number. Then I can look up its delay.",
+        "evidence_ids": [
+          "FILE:vessels.csv"
+        ],
+        "cited_values": []
+      }
+    ],
+    "incomplete": false,
+    "not_checked": []
+  },
+  "raw_answer": "{\"question_status\":\"entity_not_found\",\"headline\":{\"text\":\"No vessel named 'MV Ocean Stark' was found in the data, so I can't say why it is delayed.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]},\"interpretation\":[],\"confirmed_facts\":[],\"unverified_reports\":[],\"inferences\":[],\"exclusions\":[],\"data_gaps\":[{\"text\":\"The search of vessels.csv returned no match for 'MV Ocean Stark'. The lookup suggested MV Ocean Star, MV Ocean Starlight and MV Ocean Pearl. These are suggestions only, not matches.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]}],\"suspicious_content\":[],\"recommended_checks\":[{\"text\":\"Confirm which vessel you mean: MV Ocean Star, MV Ocean Starlight or MV Ocean Pearl. You could also give the IMO number. Then I can look up its delay.\",\"evidence_ids\":[\"FILE:vessels.csv\"],\"cited_values\":[]}],\"incomplete\":false,\"not_checked\":[]}",
+  "retrieved_ids": [
+    "FILE:vessels.csv"
+  ],
+  "computed": {},
+  "question_id": "Q6",
+  "config": {
+    "snapshot_now": "2026-10-26T12:00:00Z",
+    "models": {
+      "extraction": "claude-haiku-5-5",
+      "agent": "claude-sonnet-5-5",
+      "judge": "claude-sonnet-5-5"
+    },
+    "agent": {
+      "effort": "medium",
+      "fallbacks": true,
+      "step_budget": {
+        "soft": 5,
+        "hard": 10
+      }
+    },
+    "cypher": {
+      "max_rows": 200,
+      "timeout_seconds": 10,
+      "max_path_length": 6
+    },
+    "messages": {
+      "include_extra": false,
+      "use_cache": true
+    }
+  },
+  "validation": [
+    {
+      "check": "V1_every_claim_has_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V2_cited_ids_exist",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V3_cited_ids_were_retrieved",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V4_cited_values_match",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V5_confirmed_claims_cite_confirmed_evidence",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V6_port_wide_figures_not_vessel_facts",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V7_inferences_have_a_basis",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V8_suspicious_content_disclosed",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V9_no_inferences_on_non_answers",
+      "status": "pass",
+      "detail": ""
+    },
+    {
+      "check": "V10_figures_are_cited",
+      "status": "pass",
+      "detail": ""
+    }
+  ]
+}

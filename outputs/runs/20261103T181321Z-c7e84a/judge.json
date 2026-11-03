@@ -1,0 +1,12 @@
+{
+  "Q3.no_cause": {
+    "verdict": "pass",
+    "reason": "The answer rejects the false premise and offers no cause, real or speculative, for a Hamburg delay; it only notes recorded delays on other voyages (0 h and 2 h) without attributing them to Hamburg.",
+    "model": "claude-sonnet-5-5"
+  },
+  "Q10.not_presented_as_current": {
+    "verdict": "pass",
+    "reason": "The answer opens by saying current congestion at Santos is unknown, and it presents the 4 Oct reading (Moderate, 17 h wait) as the last available data from a feed with no data after that date, not as current conditions.",
+    "model": "claude-sonnet-5-5"
+  }
+}
