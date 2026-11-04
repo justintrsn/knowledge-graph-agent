@@ -402,16 +402,7 @@ All input is in `data/`. The data is a snapshot taken **26 Oct 2026, 12:00 UTC**
 
 ## Knowledge graph
 
-### Why a graph
-
-The questions follow chains of links, and a graph stores those links directly. Each question becomes a walk along them, instead of a pile of table joins:
-
-- *"Which customers are affected by this delay?"* goes from voyage → bookings → customers.
-- *"Has this fault happened before on the same class of ship?"* goes from incident → voyage → vessel → other vessels of that class.
-
-The second reason is **evidence**. Every node has an `evidence_id`, such as `INC-201` or `VG-1042`, and a `source_ref` saying exactly where it came from, such as `incidents.csv:2`. An answer can only cite IDs that exist, so every claim traces back to a row or a message.
-
-**Neo4j** was chosen because its community edition is free, and it gives a hard safety boundary: the agent's queries run in a read-only session that the database itself enforces.
+This section is a reference to the graph's contents. Why it is a graph, and the reasoning behind the schema, time handling and verification rules, are in the [write-up](docs/WRITEUP.md#design).
 
 ### What's in it
 
@@ -424,6 +415,8 @@ PortCall -ON_VOYAGE->   Voyage           Customer           -HOLDS->     Booking
 PortCall -AT_PORT->     Port             CongestionSnapshot -AT_PORT->   Port
 Booking  -ROLLED_TO->   Voyage   (only when the status names the voyage)
 ```
+
+Customers have no table of their own, so a `Customer` node is made for each distinct name in the bookings. Congestion links only to its port, never to a vessel.
 
 The rule for what becomes a node is **something with its own identity that sources refer to**. Vessels, voyages and incidents are nodes. A vessel's class and technical manager are properties of the vessel, because questions only compare them ("same class?").
 
@@ -463,16 +456,7 @@ Every node also carries the label **`Evidence`** next to its type (for example `
 
 ### Time
 
-- **Times are stored in UTC** as Neo4j `datetime` values, with the original local text kept beside them. This matters for VG-1042, whose ETA moved across the night Rotterdam's clocks went back. Subtracting the local times gives 54 hours, but the real delay is **55 hours**.
-- **"Now" is fixed** at the snapshot time in `config.yaml`. The system prompt states how "last month", "next week" and "current" are read, and every answer says how it read them.
-- **Dates "at a port"** (such as "due at Rotterdam next week") are compared as port-local dates.
-- **Message times** keep their precision (an exact time, a day, or only "this morning"), so a vague time is never treated as exact.
-
-### Other design choices
-
-- **Customers** have no table of their own, so a `Customer` node is made for each distinct name in the bookings.
-- **Congestion links only to its port**, never to a vessel. It is a port-wide daily average, so it can't be mistaken for a fact about one ship.
-- **Every load starts from an empty graph** and rebuilds everything from the files. The graph can never drift from the data, and loading twice gives the same result.
+Times are stored in UTC as Neo4j `datetime` values (`*_utc`), with the original local text beside them (`*_local`, `*_raw`). "Now" is the snapshot time in `config.yaml`. The [write-up](docs/WRITEUP.md#design) explains why, using VG-1042's clock-change case.
 
 ### Seeing the graph
 
